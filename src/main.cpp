@@ -1,16 +1,19 @@
 #include <iostream>
-#include "curl/curl.h"
-#include <string>
+#include <Windows.h>
+#include <fstream>
 #include "api/api.h"
 
 using namespace std;
 
 int main()
 {
-    //for testing CURL
-    CURL *req = curl_easy_init();
-    CURLcode res;
-    curl_easy_cleanup(req);
+    SetConsoleTitle("SPTrade");
+
+    if (!ifstream("libcurl.dll"))
+	{
+		MessageBox(NULL, "Error 0xFF01\nPlease make sure you have the libcurl.dll file locate within the lib folder.", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+		exit(0);
+	}
 
     printf("Test\nTest2\n");
 
