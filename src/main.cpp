@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <fstream>
+#include <conio.h>
 #include "api/api.h"
 
 using namespace std;
@@ -26,4 +27,6 @@ int main()
     printf("Test\nTest2\n");
 
     api* test = new api();
+
+    _getch();
 }
