@@ -1,5 +1,7 @@
 #include <iostream>
 #include "curl/curl.h"
+#include <string>
+#include "api/api.h"
 
 using namespace std;
 
@@ -11,4 +13,6 @@ int main()
     curl_easy_cleanup(req);
 
     printf("Test\nTest2\n");
+
+    api* test = new api();
 }
