@@ -5,13 +5,21 @@
 
 using namespace std;
 
+string ApplicationPath() 
+{
+	char buffer[MAX_PATH];
+	GetModuleFileName(NULL, buffer, MAX_PATH);
+	int pos = string(buffer).find_last_of("\\/");
+	return string(buffer).substr(0, pos);
+}
+
 int main()
 {
     SetConsoleTitle("SPTrade");
 
-    if (!ifstream("libcurl.dll"))
+    if (!ifstream(ApplicationPath() + "/libcurl.dll"))
 	{
-		MessageBox(NULL, "Error 0xFF01\nPlease make sure you have the libcurl.dll file locate within the lib folder.", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+		MessageBox(NULL, "Error 0xFF01\nPlease make sure you have the libcurl.dll file.", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 	}
 
