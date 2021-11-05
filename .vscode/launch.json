@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Bebug active file",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\client\\bin\\InventoryManagement.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}\\client\\debug\\",
+            "environment": [],
+            "console": "externalTerminal"
+        }
+    ]
+}
