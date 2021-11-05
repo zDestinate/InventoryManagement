@@ -16,7 +16,7 @@ string ApplicationPath()
 
 int main()
 {
-    SetConsoleTitle("SPTrade");
+    SetConsoleTitle("InventoryManagement");
 
     if (!ifstream(ApplicationPath() + "/libcurl.dll"))
 	{

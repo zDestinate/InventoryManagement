@@ -1,4 +1,4 @@
-bin
+client/bin
+client/debug
 build
-debug
 .vscode
