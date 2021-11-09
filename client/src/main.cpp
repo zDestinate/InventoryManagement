@@ -3,6 +3,7 @@
 #include <fstream>
 #include <conio.h>
 #include "api/api.h"
+#include "ui/form.h"
 
 using namespace std;
 
@@ -16,17 +17,25 @@ string ApplicationPath()
 
 int main()
 {
-    SetConsoleTitle("InventoryManagement");
+	HWND hwndConsole = GetConsoleWindow();
+	DWORD dwProcessId;
+    GetWindowThreadProcessId(hwndConsole, &dwProcessId);
+	if (GetCurrentProcessId() == dwProcessId)
+	{
+		SetConsoleTitle("InventoryManagement");
+	}
+    else
+	{
+		ShowWindow(hwndConsole, SW_HIDE);
+	}
 
     if (!ifstream(ApplicationPath() + "/libcurl.dll"))
 	{
-		MessageBox(NULL, "Error 0xFF01\nPlease make sure you have the libcurl.dll file.", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+		MessageBox(NULL, "Error 0x1001\nPlease make sure you have the libcurl.dll file.", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
+		return 1;
 	}
 
-    printf("Test\nTest2\n");
-
-    api* test = new api();
-
-    _getch();
+	Form* MainWindow = new Form();
+	return MainWindow->CreateForm();
 }
