@@ -19,17 +19,17 @@ int main()
 {
 	HWND hwndConsole = GetConsoleWindow();
 	DWORD dwProcessId;
-    GetWindowThreadProcessId(hwndConsole, &dwProcessId);
+	GetWindowThreadProcessId(hwndConsole, &dwProcessId);
 	if (GetCurrentProcessId() == dwProcessId)
 	{
 		SetConsoleTitle("InventoryManagement");
 	}
-    else
+	else
 	{
 		ShowWindow(hwndConsole, SW_HIDE);
 	}
 
-    if (!ifstream(ApplicationPath() + "/libcurl.dll"))
+	if (!ifstream(ApplicationPath() + "/libcurl.dll"))
 	{
 		MessageBox(NULL, "Error 0x1001\nPlease make sure you have the libcurl.dll file.", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
