@@ -1,11 +1,27 @@
 const express = require('express'),
 	app = express(),
 	serv = require('http').Server(app);
+const session = require('express-session')
 const path = require('path');
 const bodyParser = require("body-parser");
 	
 //Server start
 console.log("[SERVER] Server started");
+
+
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+	name: '370',
+	secret: ' asjdfhioq23 qkjdwr 723iawfhsfdfsdf hahdk',
+	resave: false,
+	saveUninitialized: true,
+	cookie:
+	{ 
+		secure: false,
+		maxAge: 3600000
+	}
+}))
+
 
 //Set server default path
 app.use(express.static( __dirname + '/../client'));
@@ -45,25 +61,43 @@ app.get('/', function(req, res)
 	res.type('json').send(prettydata);
 });
 
-app.get('/user/', function(req, res)
+app.get('/user/login/:username/:password', function(req, res)
 {
-	var data = {};
-	data['username'] = 'something';
-	data['firstname'] = 'something2';
-	data['lastname'] = 'something2';
-	
-	var prettydata = JSON.stringify(data, null, 2);
-	res.type('json').send(prettydata);
+	//if auth is false or auth doesn't exist
+	if(!req.session.auth)
+	{
+		if(req.params.username == 'abc' && req.params.password == '123')
+		{
+			req.session.auth = true;
+			res.send('you login');
+			return;
+		}
+		
+		//if username or password is wrong
+		res.send('invalid username password');
+		return;
+	}
+	//if auth is true
+	else
+	{
+		res.send('you already login');
+	}
 });
 
-app.get('/inventory/', function(req, res)
+app.get('/inventory', function(req, res)
 {
-	var data = {};
-	data['test'] = 'something';
-	data['test2'] = 'something2';
+	if(req.session.auth)
+	{
+		var data = {};
+		data['test'] = 'something';
+		data['test2'] = 'something2';
+		
+		var prettydata = JSON.stringify(data, null, 2);
+		res.type('json').send(prettydata);
+		return;
+	}
 	
-	var prettydata = JSON.stringify(data, null, 2);
-	res.type('json').send(prettydata);
+	res.send('you are not login');
 });
 
 //Set page 404
