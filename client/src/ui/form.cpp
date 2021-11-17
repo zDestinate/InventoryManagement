@@ -1,5 +1,8 @@
+#include <iostream>
 #include <Windows.h>
 #include "ui/form.h"
+
+using namespace std;
 
 bool Form::CenterWindow(HWND hwndWindow)
 {
@@ -95,18 +98,25 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             int nMainWidth = rectWindow.right - rectWindow.left;
             int nMainHeight = rectWindow.bottom - rectWindow.top;
 
-            int ntxtboxUsernameWidth = 250;
-            int ntxtboxUsernameHeight = 25;
+            int ntxtboxWidth = 250;
+            int ntxtboxHeight = 25;
 
-            int nCenterLoc = (nMainWidth / 2) - (ntxtboxUsernameWidth / 2);
+            int nCenterLoc = (nMainWidth / 2) - (ntxtboxWidth / 2);
 
-            HFONT hFont = CreateFont(16, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
+            HFONT hFont = CreateFont(18, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
                 OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
                 DEFAULT_PITCH | FF_DONTCARE, TEXT("Arial"));
 
-            txtboxUsername = CreateWindow("EDIT", "", ES_CENTER | WS_BORDER | WS_CHILD | WS_VISIBLE, nCenterLoc, 200, ntxtboxUsernameWidth, ntxtboxUsernameHeight, hwnd, NULL, NULL, NULL);
-            SendMessage(txtboxUsername, WM_SETFONT, (WPARAM)hFont, TRUE);
+            txtboxUsername = new form_underlinetxtbox(hwnd, TXT_USERNAME, nCenterLoc - 10, 100, ntxtboxWidth, ntxtboxHeight);
+            txtboxUsername->SetFont(hFont);
+            txtboxUsername->PlaceHolder = "USERNAME";
+
+            txtboxUsername = new form_underlinetxtbox(hwnd, TXT_PASSWORD, nCenterLoc - 10, 170, ntxtboxWidth, ntxtboxHeight, true);
+            txtboxUsername->SetFont(hFont);
+            txtboxUsername->PlaceHolder = "PASSWORD";
         }
+        break;
+    case WM_MOUSEHOVER:
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
