@@ -110,9 +110,9 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             txtboxUsername->SetFont(hFont);
             txtboxUsername->PlaceHolder = "USERNAME";
 
-            txtboxUsername = new form_underlinetxtbox(hwnd, TXT_PASSWORD, nCenterLoc - 10, 170, ntxtboxWidth, ntxtboxHeight, true);
-            txtboxUsername->SetFont(hFont);
-            txtboxUsername->PlaceHolder = "PASSWORD";
+            txtboxPassword = new form_underlinetxtbox(hwnd, TXT_PASSWORD, nCenterLoc - 10, 170, ntxtboxWidth, ntxtboxHeight, true);
+            txtboxPassword->SetFont(hFont);
+            txtboxPassword->PlaceHolder = "PASSWORD";
         }
         break;
     case WM_MOUSEHOVER:
