@@ -1,9 +1,9 @@
-#include <Windows.h>
+#include <iostream>
 #include "ui/form.h"
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+using namespace std;
 
-bool CenterWindow(HWND hwndWindow)
+bool Form::CenterWindow(HWND hwndWindow)
 {
     RECT rectWindow;
 
@@ -28,7 +28,7 @@ int Form::CreateForm()
 
     wcex.cbSize = sizeof(WNDCLASSEX);
     wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = WndProc;
+    wcex.lpfnWndProc = this->WndProc;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = NULL;
@@ -45,7 +45,9 @@ int Form::CreateForm()
         return 1;
     }
 
-    HWND hwndMain = CreateWindow("IMForm", "Inventory Management", WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 500, 500, NULL, NULL, NULL, NULL);
+    hInstMainWin = wcex.hInstance;
+
+    hwndMain = CreateWindow("IMForm", "Inventory Management", WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 500, 500, NULL, NULL, hInstMainWin, this);
     CenterWindow(hwndMain);
     ShowWindow(hwndMain, SW_RESTORE);
     UpdateWindow(hwndMain);
@@ -60,12 +62,60 @@ int Form::CreateForm()
     return (int)msg.wParam;
 }
 
+LRESULT CALLBACK Form::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    Form* pThis;
+    if (message == WM_NCCREATE)
+    {
+        LPCREATESTRUCT lpcs = reinterpret_cast<LPCREATESTRUCT>(lParam);
+        pThis = static_cast<Form*>(lpcs->lpCreateParams);
+        SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pThis));
+    }
+    else
+    {
+        pThis = reinterpret_cast<Form*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+    }
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+    if(pThis)
+    {
+        return pThis->RealWndProc(hwnd, message, wParam, lParam);
+    }
+
+    return DefWindowProc(hwnd, message, wParam, lParam);
+}
+
+LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-    case WM_PAINT:
+    case WM_CREATE:
+        {
+            RECT rectWindow;
+
+            GetWindowRect(hwnd, &rectWindow);
+
+            int nMainWidth = rectWindow.right - rectWindow.left;
+            int nMainHeight = rectWindow.bottom - rectWindow.top;
+
+            int ntxtboxWidth = 250;
+            int ntxtboxHeight = 25;
+
+            int nCenterLoc = (nMainWidth / 2) - (ntxtboxWidth / 2);
+
+            HFONT hFont = CreateFont(18, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
+                OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
+                DEFAULT_PITCH | FF_DONTCARE, TEXT("Arial"));
+
+            txtboxUsername = new form_underlinetxtbox(hwnd, TXT_USERNAME, nCenterLoc - 10, 100, ntxtboxWidth, ntxtboxHeight);
+            txtboxUsername->SetFont(hFont);
+            txtboxUsername->PlaceHolder = "USERNAME";
+
+            txtboxUsername = new form_underlinetxtbox(hwnd, TXT_PASSWORD, nCenterLoc - 10, 170, ntxtboxWidth, ntxtboxHeight, true);
+            txtboxUsername->SetFont(hFont);
+            txtboxUsername->PlaceHolder = "PASSWORD";
+        }
+        break;
+    case WM_MOUSEHOVER:
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
