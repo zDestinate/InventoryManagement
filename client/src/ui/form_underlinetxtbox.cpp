@@ -103,6 +103,5 @@ void form_underlinetxtbox::SetPlaceHolder(string strPlaceHolder)
     {
         wstring wstrPlaceHolder = wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(strPlaceHolder);
         SendMessage(hwndTxtbox, EM_SETCUEBANNER, FALSE, (LPARAM)wstrPlaceHolder.c_str());
-        //Edit_SetCueBannerText(hwndTxtbox, lpcstrPlaceHolder);
     }
 }
