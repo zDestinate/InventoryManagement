@@ -2,8 +2,10 @@
 #include <Windows.h>
 #include <string>
 #include "datahandler/test.h"
-
+#include "lib/json.hpp"
 using namespace std;
+
+using json = nlohmann::json;
 
 string MyClass::ApplicationPath() 
 {
