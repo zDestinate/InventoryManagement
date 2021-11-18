@@ -24,7 +24,7 @@ int main()
 	HWND hwndConsole = GetConsoleWindow();
 	DWORD dwProcessId;
 	GetWindowThreadProcessId(hwndConsole, &dwProcessId);
-	if (GetCurrentProcessId() == dwProcessId)
+	if (GetCurrentProcessId() != dwProcessId)
 	{
 		SetConsoleTitle("InventoryManagement");
 	}
