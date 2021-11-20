@@ -8,7 +8,7 @@ using namespace std;
 mainClass::mainClass()
 {
     //For login
-    LogIn = new MyClass;
+    LogIn = new UserLogIn;
 
     //For getting the data
     DataGrabber = new getData(URL);

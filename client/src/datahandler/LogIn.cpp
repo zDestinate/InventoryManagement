@@ -1,13 +1,13 @@
 #include <iostream>
 #include <Windows.h>
 #include <string>
-#include "datahandler/test.h"
+#include "datahandler/LogIn.h"
 #include "lib/json.hpp"
 using namespace std;
 
 using json = nlohmann::json;
 
-bool MyClass::searchUser(string username)
+bool UserLogIn::searchUser(string username)
 {
      char temp;
 
@@ -27,7 +27,7 @@ bool MyClass::searchUser(string username)
             return false;
 }
 
-bool MyClass::LoginUser(string username)
+bool UserLogIn::LoginUser(string username)
 {
     int invalid = 5; //log in attempts variable
     
@@ -49,7 +49,7 @@ bool MyClass::LoginUser(string username)
    }
 }
 
-bool MyClass::LoginPass(string password)
+bool UserLogIn::LoginPass(string password)
 {
     int SpecChar = 0; //special character variable counter
     int Upper = 0;  //upper case letter variable counter
@@ -82,7 +82,7 @@ bool MyClass::LoginPass(string password)
     return true;
 }
 
-string MyClass::MemberID(string memID)
+string UserLogIn::MemberID(string memID)
 {
 
 

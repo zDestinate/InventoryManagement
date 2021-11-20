@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-class MyClass {    
+class UserLogIn {    
   private:
     bool searchUser(std::string username);
   
