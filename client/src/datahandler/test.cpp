@@ -7,49 +7,13 @@ using namespace std;
 
 using json = nlohmann::json;
 
-string MyClass::ApplicationPath() 
-{
-	char buffer[MAX_PATH];
-	GetModuleFileName(NULL, buffer, MAX_PATH);
-	int pos = string(buffer).find_last_of("\\/");
-	return string(buffer).substr(0, pos);
-}
-
-size_t WriteCallback(char *contents, size_t size, size_t nmemb, void *userp)
-{
-    ((std::string*)userp)->append((char*)contents, size * nmemb);
-    return size * nmemb;
-}
-
-void MyClass::EstablishConnection()
-{
-    curlObj = curl_easy_init();
-}
-
-string MyClass::ConnectTo(string link)
-{
-    string strPath = URL + link;
-    string strData;
-
-    //convert URL string into C string
-    curl_easy_setopt(curlObj, CURLOPT_URL, strPath.c_str());
-    curl_easy_setopt(curlObj, CURLOPT_COOKIEFILE, ApplicationPath() + "/cookie.txt");
-    curl_easy_setopt(curlObj, CURLOPT_COOKIEJAR, ApplicationPath() + "/cookie.txt");
-    curl_easy_setopt(curlObj, CURLOPT_WRITEFUNCTION, WriteCallback);
-    curl_easy_setopt(curlObj, CURLOPT_WRITEDATA, &strData);
-
-    curl_easy_perform(curlObj);
-
-    return strData;
-}
-
-int MyClass::searchUser(string username)
+bool MyClass::searchUser(string username)
 {
      char temp;
 
         if(isdigit(username[username.length()-2] == false) &&isdigit(username[username.length()-1] == false))
         {
-           return 0;
+           return false;
         }
 
         for(int i = 0; i <= username.length()-2; i++)
@@ -57,33 +21,69 @@ int MyClass::searchUser(string username)
                temp = username[i];
                if((temp >= 65 && temp < 90) || (temp >= 97 && temp <= 122) || (temp >= 48 && temp <= 57))
                {
-                   return 1;
+                   return true;
                }
            }
-            return 0;
+            return false;
 }
 
-bool MyClass::Login(string username, string password)
+bool MyClass::LoginUser(string username)
 {
-    int invalid = 5;
+    int invalid = 5; //log in attempts variable
     
    while(invalid != 0)
    {    
-        cout << "Enter UserName: ";
-        cin >> username;
-
-        if(username.length() < 8 || searchUser(username) == 0)
+        if(username.length() < 8 || !searchUser(username)) //if length less than 8 or username there a special character invalid
         {
-            invalid--;
+            invalid--; // deduct remaining attempts
             cout << "Invalid Login\n" << "Attempts left:" << invalid;
 
-                if(invalid == 0)
+                if(invalid == 0)//if attemps = 0 exit
                 {
                   return false;
                 }
         }
-        return true;
+
+        strUsername = username;
+        return true; 
    }
-   return true;
 }
 
+bool MyClass::LoginPass(string password)
+{
+    int SpecChar = 0; //special character variable counter
+    int Upper = 0;  //upper case letter variable counter
+    char c; //letter holder
+
+    for(int i = 0; i <= password.length(); i++)
+    {
+         c = password[i];
+        
+            //if c is special character counter++
+            if((c >= 33 && c <= 47)||(c >= 58 && c <= 64) 
+            || ( c>= 91 && c<= 96) || (c >= 123 && c >=126)) 
+            {
+             SpecChar++;
+            }
+
+            //if c is a upper case letter upper++
+            if(isupper(c))
+            {
+                Upper++;
+            }
+    }
+    //if length less than 8 or no upper case character or no special character invalid password 
+    if(password.length() < 8 || Upper == 0 || SpecChar == 0)
+    {
+        return false; 
+    }
+
+    strPassword = password;
+    return true;
+}
+
+string MyClass::MemberID(string memID)
+{
+
+
+}
