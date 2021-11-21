@@ -7,11 +7,6 @@
 class Form
 {
     private:
-        const int TXT_USERNAME = 1000;
-        const int TXT_PASSWORD = 1001;
-        const int LBL_TITLE = 2000;
-
-    private:
         HINSTANCE hInstMainWin;
         HWND hwndMain;
         form_staticlabel* lblTitle;

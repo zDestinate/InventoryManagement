@@ -53,5 +53,5 @@ string getData::getUserData()
     EstablishConnection();
 	string data = ConnectTo("/gvhjgvjhgvjhg");
 	json datajson = json::parse(data);
-
+    return "NOTHING";
 }

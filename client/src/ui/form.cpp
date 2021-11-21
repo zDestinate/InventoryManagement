@@ -1,4 +1,5 @@
 #include <iostream>
+#include "ui/objects.h"
 #include "ui/form.h"
 
 using namespace std;
@@ -110,15 +111,15 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                 OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
                 DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
-            lblTitle = new form_staticlabel(hwnd, LBL_TITLE, -10, 80, nMainWidth, 30);
+            lblTitle = new form_staticlabel(hwnd, FormObjects::LBL_TITLE, -10, 80, nMainWidth, 30);
             lblTitle->SetFont(hFontTitle);
             lblTitle->StaticText = "COMPANYNAME";
 
-            txtboxUsername = new form_underlinetxtbox(hwnd, TXT_USERNAME, nCenterLoc - 10, 170, ntxtboxWidth, ntxtboxHeight);
+            txtboxUsername = new form_underlinetxtbox(hwnd, FormObjects::TXT_USERNAME, nCenterLoc - 10, 170, ntxtboxWidth, ntxtboxHeight);
             txtboxUsername->SetFont(hFont);
             txtboxUsername->PlaceHolder = "USERNAME";
 
-            txtboxPassword = new form_underlinetxtbox(hwnd, TXT_PASSWORD, nCenterLoc - 10, 240, ntxtboxWidth, ntxtboxHeight, true);
+            txtboxPassword = new form_underlinetxtbox(hwnd, FormObjects::TXT_PASSWORD, nCenterLoc - 10, 240, ntxtboxWidth, ntxtboxHeight, true);
             txtboxPassword->SetFont(hFont);
             txtboxPassword->PlaceHolder = "PASSWORD";
         }
