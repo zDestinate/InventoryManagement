@@ -62,7 +62,7 @@ int Form::CreateForm()
     return (int)msg.wParam;
 }
 
-LRESULT CALLBACK Form::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT Form::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     Form* pThis;
     if (message == WM_NCCREATE)
@@ -102,20 +102,26 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             int nCenterLoc = (nMainWidth / 2) - (ntxtboxWidth / 2);
 
+            HFONT hFontTitle = CreateFont(30, 0, 0, 0, FW_THIN, FALSE, FALSE, FALSE, ANSI_CHARSET, 
+                OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
+                DEFAULT_PITCH | FF_MODERN , TEXT("Arial"));
+
             HFONT hFont = CreateFont(18, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
                 OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
-                DEFAULT_PITCH | FF_DONTCARE, TEXT("Arial"));
+                DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
-            txtboxUsername = new form_underlinetxtbox(hwnd, TXT_USERNAME, nCenterLoc - 10, 100, ntxtboxWidth, ntxtboxHeight);
+            lblTitle = new form_staticlabel(hwnd, LBL_TITLE, -10, 80, nMainWidth, 30);
+            lblTitle->SetFont(hFontTitle);
+            lblTitle->StaticText = "COMPANYNAME";
+
+            txtboxUsername = new form_underlinetxtbox(hwnd, TXT_USERNAME, nCenterLoc - 10, 170, ntxtboxWidth, ntxtboxHeight);
             txtboxUsername->SetFont(hFont);
             txtboxUsername->PlaceHolder = "USERNAME";
 
-            txtboxPassword = new form_underlinetxtbox(hwnd, TXT_PASSWORD, nCenterLoc - 10, 170, ntxtboxWidth, ntxtboxHeight, true);
+            txtboxPassword = new form_underlinetxtbox(hwnd, TXT_PASSWORD, nCenterLoc - 10, 240, ntxtboxWidth, ntxtboxHeight, true);
             txtboxPassword->SetFont(hFont);
             txtboxPassword->PlaceHolder = "PASSWORD";
         }
-        break;
-    case WM_MOUSEHOVER:
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
