@@ -1,4 +1,5 @@
 #include <iostream>
+#include "global.h"
 #include "ui/objects.h"
 #include "ui/form.h"
 
@@ -111,6 +112,14 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                 OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
                 DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
+            HFONT hFontButton = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
+                OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
+                DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
+
+            HFONT hFontVersion = CreateFont(15, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
+                OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
+                DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
+
             lblTitle = new form_staticlabel(hwnd, FormObjects::LBL_TITLE, -10, 80, nMainWidth, 30);
             lblTitle->SetFont(hFontTitle);
             lblTitle->StaticText = "COMPANYNAME";
@@ -122,6 +131,41 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             txtboxPassword = new form_underlinetxtbox(hwnd, FormObjects::TXT_PASSWORD, nCenterLoc - 10, 240, ntxtboxWidth, ntxtboxHeight, true);
             txtboxPassword->SetFont(hFont);
             txtboxPassword->PlaceHolder = "PASSWORD";
+
+            btnLogin = new form_button(hwnd, FormObjects::BTN_LOGIN, nCenterLoc - 10, 320, (ntxtboxWidth / 2) - 10, 32);
+            btnLogin->SetFont(hFontButton);
+            btnLogin->ButtonText = "Login";
+            btnLogin->ButtonColorRGB = RGB(43, 185, 255);
+            btnLogin->ButtonColorRGB_Hover = RGB(0, 154, 229);
+
+            btnExit = new form_button(hwnd, FormObjects::BTN_EXIT, (nCenterLoc) + (ntxtboxWidth / 2), 320, (ntxtboxWidth / 2) - 10, 32);
+            btnExit->SetFont(hFontButton);
+            btnExit->ButtonText = "Exit";
+            btnExit->ButtonColorRGB = RGB(43, 185, 255);
+            btnExit->ButtonColorRGB_Hover = RGB(0, 154, 229);
+
+            lblVersion = new form_staticlabel(hwnd, FormObjects::LBL_VERSION, nMainWidth - 115, nMainHeight - 65, 100, 20);
+            lblVersion->SetFont(hFontVersion);
+            lblVersion->StaticText = ProgramVersion;
+            lblVersion->TextColorRGB = RGB(115, 115, 115);
+        }
+        break;
+    case WM_COMMAND:
+        {
+            switch(LOWORD(wParam))
+            {
+                case FormObjects::BTN_LOGIN:
+                    {
+                        printf("Login button clicked!\n");
+                    }
+                    break;
+                case FormObjects::BTN_EXIT:
+                    {
+                        printf("Exit button clicked!\n");
+                        exit(0);
+                    }
+                    break;
+            }
         }
         break;
     case WM_DESTROY:

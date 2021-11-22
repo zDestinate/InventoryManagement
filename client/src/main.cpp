@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <fstream>
 #include <conio.h>
+#include "global.h"
 #include "api/api.h"
 #include "ui/form.h"
 
@@ -10,6 +11,8 @@ name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 using namespace std;
+
+string ProgramVersion = "Version 1.0.12";
 
 string ApplicationPath() 
 {
@@ -21,6 +24,7 @@ string ApplicationPath()
 
 int main()
 {
+
 	HWND hwndConsole = GetConsoleWindow();
 	DWORD dwProcessId;
 	GetWindowThreadProcessId(hwndConsole, &dwProcessId);

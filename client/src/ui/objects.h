@@ -2,5 +2,8 @@ enum FormObjects
 {
     LBL_TITLE = 1000,
     TXT_USERNAME = 1001,
-    TXT_PASSWORD = 1002
+    TXT_PASSWORD = 1002,
+    BTN_LOGIN = 1003,
+    BTN_EXIT = 1004,
+    LBL_VERSION = 1005
 };

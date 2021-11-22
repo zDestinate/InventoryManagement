@@ -4,8 +4,6 @@
 
 #pragma comment(lib, "comctl32.lib")
 
-LRESULT CALLBACK Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-
 form_staticlabel::form_staticlabel(HWND hwndParent, int lpParam, int x, int y, int width, int height)
 {
     hwndstatic = CreateWindow("STATIC", "", ES_CENTER | WS_CHILD | WS_VISIBLE, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
@@ -25,6 +23,11 @@ LRESULT form_staticlabel::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPA
             RECT rc;
             GetClientRect(hwnd, &rc);
 
+            //Clear all the painting and update the hwnd
+            InvalidateRect(hwnd, &rc, TRUE);
+            UpdateWindow(hwnd);
+            RedrawWindow(hwnd, 0, 0, RDW_ERASE | RDW_UPDATENOW);
+
             PAINTSTRUCT ps;
             HDC hdc;
 
@@ -36,12 +39,12 @@ LRESULT form_staticlabel::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPA
             HFONT hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 
             //Set specific font and draw the text
+            SetTextColor(hdc, pThis->TextColorRGB);
             SelectObject(hdc, pThis->hFont);
             DrawText(hdc, (LPCSTR)pThis->StaticText.c_str(), pThis->StaticText.length(), &rc, DT_CENTER | DT_VCENTER);
 
             //Restore the font and end painting
             SelectObject(hdc, hFont);
-            DeleteObject(pThis->hFont);
             EndPaint(hwnd, &ps);
         }
         break;
