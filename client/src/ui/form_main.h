@@ -5,15 +5,12 @@
 #include "ui/form_staticlabel.h"
 #include "ui/form_button.h"
 
-class Form
+class form_main
 {
     private:
-        HINSTANCE hInstLoginWin;
+        HINSTANCE hInstMainWin;
         HWND hwndLogin;
-        form_staticlabel* lblTitle, *lblVersion;
-        form_underlinetxtbox* txtboxUsername, *txtboxPassword;
-        form_button* btnLogin, *btnExit;
-
+        HWND hwndMain;
 
         bool CenterWindow(HWND hwndWindow);
 

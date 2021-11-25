@@ -47,12 +47,12 @@ int Form::CreateForm()
         return 1;
     }
 
-    hInstMainWin = wcex.hInstance;
+    hInstLoginWin = wcex.hInstance;
 
-    hwndMain = CreateWindow("IMForm", "Inventory Management", WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 500, 500, NULL, NULL, hInstMainWin, this);
-    CenterWindow(hwndMain);
-    ShowWindow(hwndMain, SW_RESTORE);
-    UpdateWindow(hwndMain);
+    hwndLogin = CreateWindow("IMForm", "Inventory Management", WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 500, 500, NULL, NULL, hInstLoginWin, this);
+    CenterWindow(hwndLogin);
+    ShowWindow(hwndLogin, SW_RESTORE);
+    UpdateWindow(hwndLogin);
 
     MSG msg;
     while (GetMessage(&msg, NULL, 0, 0))
