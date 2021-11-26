@@ -57,3 +57,15 @@ void form_staticlabel::SetFont(HFONT hFont)
 {
     this->hFont = hFont;
 }
+
+void form_staticlabel::Show(bool bShow)
+{
+    if(bShow)
+    {
+        ShowWindow(hwndstatic, SW_SHOW);
+    }
+    else
+    {
+        ShowWindow(hwndstatic, SW_HIDE);
+    }
+}

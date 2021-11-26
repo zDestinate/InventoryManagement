@@ -4,6 +4,7 @@
 #include "ui/form_underlinetxtbox.h"
 #include "ui/form_staticlabel.h"
 #include "ui/form_button.h"
+#include "ui/form_main.h"
 
 class Form
 {
@@ -13,6 +14,7 @@ class Form
         form_staticlabel* lblTitle, *lblVersion;
         form_underlinetxtbox* txtboxUsername, *txtboxPassword;
         form_button* btnLogin, *btnExit;
+        form_main* formMain;
 
 
         bool CenterWindow(HWND hwndWindow);

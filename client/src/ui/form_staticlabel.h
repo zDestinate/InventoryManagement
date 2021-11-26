@@ -21,4 +21,5 @@ class form_staticlabel
 
         void SetFont(HFONT hFont);
         void SetColor(int Color[3]);
+        void Show(bool bShow = true);
 };

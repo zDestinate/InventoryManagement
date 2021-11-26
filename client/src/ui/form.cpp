@@ -49,7 +49,7 @@ int Form::CreateForm()
 
     hInstLoginWin = wcex.hInstance;
 
-    hwndLogin = CreateWindow("IMForm", "Inventory Management", WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 500, 500, NULL, NULL, hInstLoginWin, this);
+    hwndLogin = CreateWindowEx(WS_EX_TOPMOST, "IMForm", "Inventory Management", WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 500, 500, NULL, NULL, hInstLoginWin, this);
     CenterWindow(hwndLogin);
     ShowWindow(hwndLogin, SW_RESTORE);
     UpdateWindow(hwndLogin);
@@ -157,15 +157,33 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                 case FormObjects::BTN_LOGIN:
                     {
                         printf("Login button clicked!\n");
+                        ShowWindow(hwnd, SW_HIDE);
+                        SendMessage(txtboxUsername->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                        SendMessage(txtboxPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+
+                        if(formMain == nullptr)
+                        {
+                            formMain = new form_main(hwnd);
+                            formMain->CreateFormMain();
+                        }
+                        else
+                        {
+                            ShowWindow(formMain->hwndMain, SW_SHOW);
+                        }
                     }
                     break;
                 case FormObjects::BTN_EXIT:
                     {
                         printf("Exit button clicked!\n");
-                        exit(0);
+                        SendMessage(hwnd, WM_CLOSE, 0, NULL);
                     }
                     break;
             }
+        }
+        break;
+    case WM_CLOSE:
+        {
+            DestroyWindow(hwnd);
         }
         break;
     case WM_DESTROY:

@@ -12,7 +12,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 using namespace std;
 
-string ProgramVersion = "Version 1.0.12";
+string ProgramVersion = "Version 1.0.0.12";
 
 string ApplicationPath() 
 {
@@ -30,7 +30,7 @@ int main()
 	GetWindowThreadProcessId(hwndConsole, &dwProcessId);
 	if (GetCurrentProcessId() != dwProcessId)
 	{
-		SetConsoleTitle("InventoryManagement");
+		SetConsoleTitle("InventoryManagement - Debug Console");
 	}
 	else
 	{

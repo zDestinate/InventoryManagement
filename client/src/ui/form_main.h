@@ -10,7 +10,6 @@ class form_main
     private:
         HINSTANCE hInstMainWin;
         HWND hwndLogin;
-        HWND hwndMain;
 
         bool CenterWindow(HWND hwndWindow);
 
@@ -18,6 +17,9 @@ class form_main
         LRESULT CALLBACK RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     public:
-        int CreateForm();
+        HWND hwndMain;
+
+        form_main(HWND hwndLogin);
+        int CreateFormMain();
         
 };
