@@ -14,7 +14,7 @@ class form_staticlabel
 
     public:
         HWND hwndstatic;
-        string StaticText;
+        wstring StaticText;
         COLORREF TextColorRGB = RGB(0, 0 ,0);
 
         form_staticlabel(HWND hwndParent, int lpParam, int x, int y, int width, int height);

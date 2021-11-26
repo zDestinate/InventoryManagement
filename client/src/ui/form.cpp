@@ -1,4 +1,5 @@
 #include <iostream>
+#include <codecvt>
 #include "global.h"
 #include "ui/objects.h"
 #include "ui/form.h"
@@ -104,25 +105,25 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             int nCenterLoc = (nMainWidth / 2) - (ntxtboxWidth / 2);
 
-            HFONT hFontTitle = CreateFont(30, 0, 0, 0, FW_THIN, FALSE, FALSE, FALSE, ANSI_CHARSET, 
+            HFONT hFontTitle = CreateFont(30, 0, 0, 0, FW_THIN, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
                 OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
-                DEFAULT_PITCH | FF_MODERN , TEXT("Arial"));
+                DEFAULT_PITCH | FF_MODERN , TEXT("Font Awesome 5 Pro Regular"));
 
-            HFONT hFont = CreateFont(18, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
-                OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
-                DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
-
-            HFONT hFontButton = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
+            HFONT hFont = CreateFont(18, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
                 OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
                 DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
-            HFONT hFontVersion = CreateFont(15, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
+            HFONT hFontButton = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
                 OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
                 DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
-            lblTitle = new form_staticlabel(hwnd, FormObjects::LBL_TITLE, -10, 80, nMainWidth, 30);
+            HFONT hFontVersion = CreateFont(15, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
+                OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
+                DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
+
+            lblTitle = new form_staticlabel(hwnd, FormObjects::LBL_TITLE, -10, 80, nMainWidth, 30); 
             lblTitle->SetFont(hFontTitle);
-            lblTitle->StaticText = "COMPANYNAME";
+            lblTitle->StaticText = L"\uf368TESTT";
 
             txtboxUsername = new form_underlinetxtbox(hwnd, FormObjects::TXT_USERNAME, nCenterLoc - 10, 170, ntxtboxWidth, ntxtboxHeight);
             txtboxUsername->SetFont(hFont);
@@ -144,9 +145,10 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             btnExit->ButtonColorRGB = RGB(43, 185, 255);
             btnExit->ButtonColorRGB_Hover = RGB(0, 154, 229);
 
-            lblVersion = new form_staticlabel(hwnd, FormObjects::LBL_VERSION, nMainWidth - 115, nMainHeight - 65, 100, 20);
+            lblVersion = new form_staticlabel(hwnd, FormObjects::LBL_VERSION, nMainWidth - 120, nMainHeight - 65, 100, 20);
             lblVersion->SetFont(hFontVersion);
-            lblVersion->StaticText = ProgramVersion;
+            wstring wstrProgramVersion = wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(ProgramVersion);
+            lblVersion->StaticText = wstrProgramVersion;
             lblVersion->TextColorRGB = RGB(115, 115, 115);
         }
         break;

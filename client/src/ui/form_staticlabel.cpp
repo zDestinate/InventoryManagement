@@ -41,7 +41,7 @@ LRESULT form_staticlabel::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPA
             //Set specific font and draw the text
             SetTextColor(hdc, pThis->TextColorRGB);
             SelectObject(hdc, pThis->hFont);
-            DrawText(hdc, (LPCSTR)pThis->StaticText.c_str(), pThis->StaticText.length(), &rc, DT_CENTER | DT_VCENTER);
+            DrawTextW(hdc, (LPCWSTR)pThis->StaticText.c_str(), pThis->StaticText.length(), &rc, DT_CENTER | DT_VCENTER);
 
             //Restore the font and end painting
             SelectObject(hdc, hFont);

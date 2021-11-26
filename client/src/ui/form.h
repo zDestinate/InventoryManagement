@@ -16,7 +16,6 @@ class Form
         form_button* btnLogin, *btnExit;
         form_main* formMain;
 
-
         bool CenterWindow(HWND hwndWindow);
 
         static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);

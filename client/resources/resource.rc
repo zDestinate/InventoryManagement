@@ -1,0 +1,16 @@
+#include "resource.h"
+
+#ifndef RESOURCE_RC
+#define RESOURCE_RC
+
+#include "winres.h"
+
+IDR_FONTFA_LIGHT_300    BINARY  "fonts/fa-light-300.ttf"
+IDR_FONTFA_BRANDS_400   BINARY  "fonts/fa-brands-400.ttf"
+IDR_FONTFA_REGULAR_400  BINARY  "fonts/fa-regular-400.ttf"
+IDR_FONTFA_SOLID_900    BINARY  "fonts/fa-solid-900.ttf"
+IDR_FONTFA_DUOTONE_900  BINARY  "fonts/fa-duotone-900.ttf"
+
+IDB_APPICON             PNG     "icon.png"
+
+#endif
