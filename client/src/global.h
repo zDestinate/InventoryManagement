@@ -3,5 +3,5 @@
 #include <string>
 
 extern std::string ProgramVersion;
-extern LPCTSTR FontNames[5];
-extern std::string FontPaths[5];
+extern LPCTSTR FontNames[];
+extern std::string FontPaths[];

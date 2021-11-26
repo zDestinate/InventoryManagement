@@ -15,8 +15,8 @@ using namespace std;
 
 
 string ProgramVersion = "Version 1.0.0.12";
-LPCTSTR FontNames[5];
-string FontPaths[5];
+LPCTSTR FontNames[6];
+string FontPaths[6];
 
 string ApplicationPath() 
 {
@@ -73,41 +73,49 @@ int main()
 	}
 
 	//Check fonts
-	if (!ifstream(ApplicationPath() + "/res/fonts/fa-brands-400.ttf"))
+	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Brands-Regular-400.otf"))
 	{
 		MessageBox(NULL, "Error 0x1002\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}
 
-	if (!ifstream(ApplicationPath() + "/res/fonts/fa-duotone-900.ttf"))
+	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Duotone-Solid-900.otf"))
 	{
 		MessageBox(NULL, "Error 0x1003\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}
 
-	if (!ifstream(ApplicationPath() + "/res/fonts/fa-light-300.ttf"))
+	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Pro-Light-300.otf"))
 	{
 		MessageBox(NULL, "Error 0x1004\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}
 
-	if (!ifstream(ApplicationPath() + "/res/fonts/fa-regular-400.ttf"))
+	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Pro-Regular-400.otf"))
 	{
 		MessageBox(NULL, "Error 0x1004\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}
 
-	if (!ifstream(ApplicationPath() + "/res/fonts/fa-solid-900.ttf"))
+	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Pro-Solid-900.otf"))
 	{
 		MessageBox(NULL, "Error 0x1004\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}
 
+	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Pro-Thin-100.otf"))
+	{
+		MessageBox(NULL, "Error 0x1005\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+		exit(0);
+		return 1;
+	}
+
+	/*
 	FontPaths[0] = (ApplicationPath() + "\\res\\fonts\\fa-brands-400.ttf");
 	FontPaths[1] = (ApplicationPath() + "\\res\\fonts\\fa-duotone-900.ttf");
 	FontPaths[2] = (ApplicationPath() + "\\res\\fonts\\fa-light-300.ttf");
@@ -119,7 +127,23 @@ int main()
 	FontNames[2] = "Font Awesome 5 Pro Light (TrueType)";
 	FontNames[3] = "Font Awesome 5 Pro Regular (TrueType)";
 	FontNames[4] = "Font Awesome 5 Pro Solid (TrueType)";
+	*/
 
+	FontPaths[0] = (ApplicationPath() + "\\res\\fonts\\Font Awesome 6 Brands-Regular-400.otf");
+	FontPaths[1] = (ApplicationPath() + "\\res\\fonts\\Font Awesome 6 Duotone-Solid-900.otf");
+	FontPaths[2] = (ApplicationPath() + "\\res\\fonts\\Font Awesome 6 Pro-Light-300.otf");
+	FontPaths[3] = (ApplicationPath() + "\\res\\fonts\\Font Awesome 6 Pro-Regular-400.otf");
+	FontPaths[4] = (ApplicationPath() + "\\res\\fonts\\Font Awesome 6 Pro-Solid-900.otf");
+	FontPaths[5] = (ApplicationPath() + "\\res\\fonts\\Font Awesome 6 Pro-Thin-100.otf");
+
+	FontNames[0] = "Font Awesome 6 Brands Regular";
+	FontNames[1] = "Font Awesome 6 Duotone Solid";
+	FontNames[2] = "Font Awesome 6 Pro Light";
+	FontNames[3] = "Font Awesome 6 Pro Regular";
+	FontNames[4] = "Font Awesome 6 Pro Solid";
+	FontNames[5] = "Font Awesome 6 Pro Thin";
+
+	/*
 	string FontPathNames[5];
 	FontPathNames[0] = "fa-brands-400.ttf";
 	FontPathNames[1] = "fa-duotone-900.ttf";
@@ -158,6 +182,7 @@ int main()
 			RegSetValueEx(hKey, FontNames[i], 0, REG_SZ, (LPBYTE)(WindowsPath[i].c_str()), WindowsPath[i].length() + 1);
 		}
 	}
+	*/
 
 	//Add fonts (This is just cache for this app)
 	AddFontResourceEx((LPCSTR)FontPaths[0].c_str(), FR_PRIVATE, NULL);
@@ -165,6 +190,7 @@ int main()
 	AddFontResourceEx((LPCSTR)FontPaths[2].c_str(), FR_PRIVATE, NULL);
 	AddFontResourceEx((LPCSTR)FontPaths[3].c_str(), FR_PRIVATE, NULL);
 	AddFontResourceEx((LPCSTR)FontPaths[4].c_str(), FR_PRIVATE, NULL);
+	AddFontResourceEx((LPCSTR)FontPaths[5].c_str(), FR_PRIVATE, NULL);
     SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 
 	Form* MainWindow = new Form();
