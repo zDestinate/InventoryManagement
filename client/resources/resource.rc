@@ -5,11 +5,12 @@
 
 #include "winres.h"
 
-IDR_FONTFA_LIGHT_300    BINARY  "fonts/fa-light-300.ttf"
-IDR_FONTFA_BRANDS_400   BINARY  "fonts/fa-brands-400.ttf"
-IDR_FONTFA_REGULAR_400  BINARY  "fonts/fa-regular-400.ttf"
-IDR_FONTFA_SOLID_900    BINARY  "fonts/fa-solid-900.ttf"
-IDR_FONTFA_DUOTONE_900  BINARY  "fonts/fa-duotone-900.ttf"
+IDR_FONTFA_BRANDS_400           BINARY  "fonts/Font Awesome 6 Brands-Regular-400.otf"
+IDR_FONTFA_DUOTONESOLID_900     BINARY  "fonts/Font Awesome 6 Duotone-Solid-900.otf"
+IDR_FONTFA_LIGHT_300            BINARY  "fonts/Font Awesome 6 Pro-Light-300.otf"
+IDR_FONTFA_REGULAR_400          BINARY  "fonts/Font Awesome 6 Pro-Regular-400.otf"
+IDR_FONTFA_SOLID_900            BINARY  "fonts/Font Awesome 6 Pro-Solid-900.otf"
+IDR_FONTFA_THIN_100             BINARY  "fonts/Font Awesome 6 Pro-Thin-100.otf"
 
 IDB_APPICON             PNG     "icon.png"
 
