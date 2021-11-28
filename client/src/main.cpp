@@ -57,7 +57,7 @@ int main()
 	GetWindowThreadProcessId(hwndConsole, &dwProcessId);
 	if (GetCurrentProcessId() != dwProcessId)
 	{
-		SetConsoleTitle("InventoryManagement - Debug Console");
+		SetConsoleTitle("InventoryManagement - Developer Console");
 	}
 	else
 	{
