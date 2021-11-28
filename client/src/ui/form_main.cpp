@@ -104,11 +104,15 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             int nMainWidth = rectWindow.right - rectWindow.left;
             int nMainHeight = rectWindow.bottom - rectWindow.top;
 
-            int ntxtboxWidth = 250;
-            int ntxtboxHeight = 25;
+            HFONT hFontButton = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
+                OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
+                DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
-            int nCenterLoc = (nMainWidth / 2) - (ntxtboxWidth / 2);
+            int ItemMinWidth = 55;
+            int ItemMaxWidth = 220;
 
+            Menu_Bar = new form_menubar(hwnd, FormObjects::MENU_SIDEBAR, 0, 0, ItemMaxWidth, nMainHeight, ItemMinWidth, ItemMaxWidth);
+            Menu_Bar->BackgroundColorRGB = RGB(0, 0, 0);
         }
         break;
     case WM_GETMINMAXINFO:
@@ -118,11 +122,35 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             lpMMI->ptMinTrackSize.y = 750;
         }
         break;
+    case WM_SIZE:
+        {
+            RECT rectWindow;
+
+            GetWindowRect(hwnd, &rectWindow);
+
+            int nMainWidth = rectWindow.right - rectWindow.left;
+            int nMainHeight = rectWindow.bottom - rectWindow.top;
+
+            if(Menu_Bar->hwndmenubar != nullptr)
+            {
+                if(nMainWidth >= 950)
+                {
+                    Menu_Bar->bItemExtended = true;
+                }
+                else
+                {
+                    Menu_Bar->bItemExtended = false;
+                }
+
+                SetWindowPos(Menu_Bar->hwndmenubar, NULL, 0, 0, nMainWidth, nMainHeight, SWP_NOREPOSITION);
+            }
+        }
+        break;
     case WM_COMMAND:
         {
             switch(LOWORD(wParam))
             {
-                
+
             }
         }
         break;
@@ -131,7 +159,7 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             //DestroyWindow(hwnd);
             ShowWindow(hwnd, SW_HIDE);
             CenterWindow(hwndLogin);
-            ShowWindow(hwndLogin, SW_SHOW);
+            ShowWindow(hwndLogin, SW_RESTORE);
         }
         break;
     case WM_DESTROY:

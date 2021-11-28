@@ -8,6 +8,10 @@ form_staticlabel::form_staticlabel(HWND hwndParent, int lpParam, int x, int y, i
 {
     hwndstatic = CreateWindow("STATIC", "", ES_CENTER | WS_CHILD | WS_VISIBLE, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
     SetWindowSubclass(hwndstatic, StaticProc, lpParam, (DWORD_PTR)this);
+
+    hFont = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
+        OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
+        DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 }
 
 LRESULT form_staticlabel::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
@@ -24,9 +28,9 @@ LRESULT form_staticlabel::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPA
             GetClientRect(hwnd, &rc);
 
             //Clear all the painting and update the hwnd
-            InvalidateRect(hwnd, &rc, TRUE);
-            UpdateWindow(hwnd);
-            RedrawWindow(hwnd, 0, 0, RDW_ERASE | RDW_UPDATENOW);
+            //InvalidateRect(hwnd, &rc, TRUE);
+            //UpdateWindow(hwnd);
+            //RedrawWindow(hwnd, 0, 0, RDW_ERASE | RDW_UPDATENOW);
 
             PAINTSTRUCT ps;
             HDC hdc;
@@ -34,6 +38,13 @@ LRESULT form_staticlabel::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPA
             //Start painting the line base on the focus status
             hdc = BeginPaint(hwnd, &ps);
             SetBkMode(hdc, TRANSPARENT);
+
+            //Paint background
+            HBRUSH hBackgroundColor;
+            hBackgroundColor = CreateSolidBrush(pThis->BackgroundColorRGB); 
+            SelectObject(hdc, hBackgroundColor);
+            FillRect(hdc, &rc, hBackgroundColor);
+            DeleteObject(hBackgroundColor); 
 
             //Grab current font
             HFONT hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);

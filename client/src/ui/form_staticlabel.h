@@ -16,10 +16,10 @@ class form_staticlabel
         HWND hwndstatic;
         wstring StaticText;
         COLORREF TextColorRGB = RGB(0, 0 ,0);
+        COLORREF BackgroundColorRGB = RGB(255, 255, 255);
 
         form_staticlabel(HWND hwndParent, int lpParam, int x, int y, int width, int height);
 
         void SetFont(HFONT hFont);
-        void SetColor(int Color[3]);
         void Show(bool bShow = true);
 };

@@ -24,8 +24,8 @@ LRESULT form_button::ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
             GetClientRect(hwnd, &rc);
 
             //Clear all the painting and update the hwnd
-            InvalidateRect(hwnd, &rc, TRUE);
-            UpdateWindow(hwnd);
+            //InvalidateRect(hwnd, &rc, TRUE);
+            //UpdateWindow(hwnd);
 
             PAINTSTRUCT ps;
             HDC hdc;
@@ -72,13 +72,12 @@ LRESULT form_button::ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
     case WM_MOUSEMOVE:
         {
             pThis->bHover = true;
-            RedrawWindow(hwnd, 0, 0, RDW_ERASE | RDW_UPDATENOW);
+            
         }
         break;
     case WM_MOUSELEAVE:
         {
             pThis->bHover = false;
-            RedrawWindow(hwnd, 0, 0, RDW_ERASE | RDW_UPDATENOW);
         }
         break;
     }

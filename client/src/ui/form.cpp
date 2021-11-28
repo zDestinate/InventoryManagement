@@ -170,7 +170,7 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                         }
                         else
                         {
-                            ShowWindow(formMain->hwndMain, SW_SHOW);
+                            ShowWindow(formMain->hwndMain, SW_RESTORE);
                         }
                     }
                     break;

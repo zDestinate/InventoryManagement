@@ -38,9 +38,9 @@ LRESULT CALLBACK form_underlinetxtbox::UnderLineTxtBoxProc(HWND hwnd, UINT messa
             GetClientRect(hwnd, &rc);
 
             //Clear all the painting and update the hwnd
-            InvalidateRect(hwnd, &rc, TRUE);
-            UpdateWindow(hwnd);
-            RedrawWindow(hwnd, 0, 0, RDW_ERASE | RDW_UPDATENOW);
+            //InvalidateRect(hwnd, &rc, TRUE);
+            //UpdateWindow(hwnd);
+            //RedrawWindow(hwnd, 0, 0, RDW_ERASE | RDW_UPDATENOW);
 
             PAINTSTRUCT ps;
             HDC hdc;
