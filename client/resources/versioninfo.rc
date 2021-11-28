@@ -7,7 +7,7 @@
         BLOCK "040904b0"
         {
             VALUE "CompanyName",        "Unknown"
-            VALUE "FileDescription",    "Allow user to login and manage inventory."
+            VALUE "FileDescription",    "Inventory Management"
             VALUE "FileVersion",        "1.0.0.12"
             VALUE "LegalCopyright",     "Copyright (C) 2021. All Rights Reserved."
             VALUE "LegalTrademarks",    ""
