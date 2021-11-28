@@ -108,10 +108,8 @@ LRESULT form_menubar::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             DeleteObject(hMenuBarColor); 
 
             EndPaint(hwnd, &ps);
-        }
-        break;
-    case WM_SIZE:
-        {
+
+            //Other settings
             if(pThis->bItemExtended)
             {
                 pThis->MenuBarWidth = pThis->ItemMaxWidth;
@@ -127,6 +125,18 @@ LRESULT form_menubar::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             pThis->MenuItem_Promotion->bItemExtended = pThis->bItemExtended;
             pThis->MenuItem_Accounts->bItemExtended = pThis->bItemExtended;
             pThis->MenuItem_Settings->bItemExtended = pThis->bItemExtended;
+
+            pThis->MenuItem_Dashboard->SetMaxWidth(pThis->ItemMaxWidth);
+            pThis->MenuItem_Item->SetMaxWidth(pThis->ItemMaxWidth);
+            pThis->MenuItem_PointOfSale->SetMaxWidth(pThis->ItemMaxWidth);
+            pThis->MenuItem_Promotion->SetMaxWidth(pThis->ItemMaxWidth);
+            pThis->MenuItem_Accounts->SetMaxWidth(pThis->ItemMaxWidth);
+            pThis->MenuItem_Settings->SetMaxWidth(pThis->ItemMaxWidth);
+        }
+        break;
+    case WM_SIZE:
+        {
+            
         }
         break;
     }

@@ -131,9 +131,16 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             int nMainWidth = rectWindow.right - rectWindow.left;
             int nMainHeight = rectWindow.bottom - rectWindow.top;
 
+            int MaxWidth = 220;
+
             if(Menu_Bar->hwndmenubar != nullptr)
             {
-                if(nMainWidth >= 950)
+                if(nMainWidth >= 1200)
+                {
+                    Menu_Bar->bItemExtended = true;
+                    MaxWidth = 300;
+                }
+                else if(nMainWidth >= 950)
                 {
                     Menu_Bar->bItemExtended = true;
                 }
@@ -142,7 +149,8 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
                     Menu_Bar->bItemExtended = false;
                 }
 
-                SetWindowPos(Menu_Bar->hwndmenubar, NULL, 0, 0, nMainWidth, nMainHeight, SWP_NOREPOSITION);
+                Menu_Bar->ItemMaxWidth = MaxWidth;
+                SetWindowPos(Menu_Bar->hwndmenubar, NULL, 0, 0, MaxWidth, nMainHeight, SWP_NOMOVE);
             }
         }
         break;
