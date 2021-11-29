@@ -19,7 +19,7 @@ form_menubar::form_menubar(HWND hwndParent, int lpParam, int x, int y, int width
         OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
         DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
-    MenuItem_Dashboard = new form_menuitem(hwndmenubar, FormObjects::MENU_DASHBOARD, 0, 0, ItemWidth, ItemHeight, 1001);
+    MenuItem_Dashboard = new form_menuitem(hwndmenubar, FormObjects::MENU_DASHBOARD, 0, 0, ItemWidth, ItemHeight, FormTimers::MENU_DASHBOARD_TIMER);
     MenuItem_Dashboard->SetFont(hFontButton);
     MenuItem_Dashboard->IconText = L"\uf62c";
     MenuItem_Dashboard->ButtonText = L"Dashboard";
@@ -27,7 +27,7 @@ form_menubar::form_menubar(HWND hwndParent, int lpParam, int x, int y, int width
     MenuItem_Dashboard->ButtonColorRGB_Hover = RGB(0, 154, 229);
     MenuItem_Dashboard->SetMaxWidth(ItemMaxWidth);
 
-    MenuItem_Item = new form_menuitem(hwndmenubar, FormObjects::MENU_ITEM, 0, ItemWidth * 1, ItemWidth, ItemHeight, 1002);
+    MenuItem_Item = new form_menuitem(hwndmenubar, FormObjects::MENU_ITEM, 0, ItemWidth * 1, ItemWidth, ItemHeight, FormTimers::MENU_ITEM_TIMER);
     MenuItem_Item->SetFont(hFontButton);
     MenuItem_Item->IconText = L"\uf468";
     MenuItem_Item->ButtonText = L"Item";
@@ -35,7 +35,7 @@ form_menubar::form_menubar(HWND hwndParent, int lpParam, int x, int y, int width
     MenuItem_Item->ButtonColorRGB_Hover = RGB(0, 154, 229);
     MenuItem_Item->SetMaxWidth(ItemMaxWidth);
 
-    MenuItem_PointOfSale = new form_menuitem(hwndmenubar, FormObjects::MENU_POINTOFSALE, 0, ItemWidth * 2, ItemWidth, ItemHeight, 1003);
+    MenuItem_PointOfSale = new form_menuitem(hwndmenubar, FormObjects::MENU_POINTOFSALE, 0, ItemWidth * 2, ItemWidth, ItemHeight, FormTimers::MENU_POINTOFSALE_TIMER);
     MenuItem_PointOfSale->SetFont(hFontButton);
     MenuItem_PointOfSale->IconText = L"\uf218";
     MenuItem_PointOfSale->ButtonText = L"Point Of Sale";
@@ -43,7 +43,7 @@ form_menubar::form_menubar(HWND hwndParent, int lpParam, int x, int y, int width
     MenuItem_PointOfSale->ButtonColorRGB_Hover = RGB(0, 154, 229);
     MenuItem_PointOfSale->SetMaxWidth(ItemMaxWidth);
 
-    MenuItem_Promotion = new form_menuitem(hwndmenubar, FormObjects::MENU_PROMOTION, 0, ItemWidth * 3, ItemWidth, ItemHeight, 1004);
+    MenuItem_Promotion = new form_menuitem(hwndmenubar, FormObjects::MENU_PROMOTION, 0, ItemWidth * 3, ItemWidth, ItemHeight, FormTimers::MENU_PROMOTION_TIMER);
     MenuItem_Promotion->SetFont(hFontButton);
     MenuItem_Promotion->IconText = L"\uf641";
     MenuItem_Promotion->ButtonText = L"Promotion";
@@ -51,7 +51,7 @@ form_menubar::form_menubar(HWND hwndParent, int lpParam, int x, int y, int width
     MenuItem_Promotion->ButtonColorRGB_Hover = RGB(0, 154, 229);
     MenuItem_Promotion->SetMaxWidth(ItemMaxWidth);
 
-    MenuItem_Accounts = new form_menuitem(hwndmenubar, FormObjects::MENU_ACCOUNTS, 0, ItemWidth * 4, ItemWidth, ItemHeight, 1005);
+    MenuItem_Accounts = new form_menuitem(hwndmenubar, FormObjects::MENU_ACCOUNTS, 0, ItemWidth * 4, ItemWidth, ItemHeight, FormTimers::MENU_ACCOUNTS_TIMER);
     MenuItem_Accounts->SetFont(hFontButton);
     MenuItem_Accounts->IconText = L"\uf509";
     MenuItem_Accounts->ButtonText = L"Accounts";
@@ -59,7 +59,7 @@ form_menubar::form_menubar(HWND hwndParent, int lpParam, int x, int y, int width
     MenuItem_Accounts->ButtonColorRGB_Hover = RGB(0, 154, 229);
     MenuItem_Accounts->SetMaxWidth(ItemMaxWidth);
 
-    MenuItem_Settings = new form_menuitem(hwndmenubar, FormObjects::MENU_SETTINGS, 0, ItemWidth * 5, ItemWidth, ItemHeight, 1006);
+    MenuItem_Settings = new form_menuitem(hwndmenubar, FormObjects::MENU_SETTINGS, 0, ItemWidth * 5, ItemWidth, ItemHeight, FormTimers::MENU_SETTINGS_TIMER);
     MenuItem_Settings->SetFont(hFontButton);
     MenuItem_Settings->IconText = L"\uf7d9";
     MenuItem_Settings->ButtonText = L"Settings";
@@ -75,6 +75,29 @@ LRESULT form_menubar::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 
     switch (message)
     {
+    case WM_ERASEBKGND:
+        {
+            //Get the current HWND Rect
+            RECT rc;
+            GetClientRect(hwnd, &rc);
+
+            PAINTSTRUCT ps;
+            HDC hdc;
+
+            //Start painting the line base on the focus status
+            hdc = BeginPaint(hwnd, &ps);
+            SetBkMode(hdc, TRANSPARENT);
+
+            //Paint background
+            HBRUSH hBackgroundColor;
+            hBackgroundColor = CreateSolidBrush(RGB(255, 255, 255)); 
+            SelectObject(hdc, hBackgroundColor);
+            FillRect(hdc, &rc, hBackgroundColor);
+            DeleteObject(hBackgroundColor);
+
+            EndPaint(hwnd, &ps);
+        }
+        break;
     case WM_PAINT:
         {
             //Get the current HWND Rect
@@ -91,22 +114,14 @@ LRESULT form_menubar::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 
             //Start painting the line base on the focus status
             hdc = BeginPaint(hwnd, &ps);
-            SetBkMode(hdc, TRANSPARENT);
 
-            //Paint background
-            HBRUSH hBackgroundColor;
-            hBackgroundColor = CreateSolidBrush(RGB(255, 255, 255)); 
-            SelectObject(hdc, hBackgroundColor);
-            FillRect(hdc, &rc, hBackgroundColor);
-            DeleteObject(hBackgroundColor);
-
+            //Paint sidebar
             HBRUSH hMenuBarColor;
             hMenuBarColor = CreateSolidBrush(pThis->BackgroundColorRGB); 
             SelectObject(hdc, hMenuBarColor);
             rc.right = pThis->MenuBarWidth;
             FillRect(hdc, &rc, hMenuBarColor);
-            DeleteObject(hMenuBarColor); 
-
+            DeleteObject(hMenuBarColor);
 
             //Other settings
             if(pThis->bItemExtended)
@@ -134,11 +149,6 @@ LRESULT form_menubar::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 
 
             EndPaint(hwnd, &ps);
-        }
-        break;
-    case WM_SIZE:
-        {
-            
         }
         break;
     }

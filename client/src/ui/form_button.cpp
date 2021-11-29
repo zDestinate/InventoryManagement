@@ -72,7 +72,6 @@ LRESULT form_button::ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
     case WM_MOUSEMOVE:
         {
             pThis->bHover = true;
-            
         }
         break;
     case WM_MOUSELEAVE:

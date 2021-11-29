@@ -1,10 +1,8 @@
 #pragma once
 
 #include <Windows.h>
-#include "ui/form_underlinetxtbox.h"
-#include "ui/form_staticlabel.h"
-#include "ui/form_button.h"
 #include "ui/form_menubar.h"
+#include "ui/form_menutop.h"
 
 class form_main
 {
@@ -12,6 +10,11 @@ class form_main
         HINSTANCE hInstMainWin;
         HWND hwndLogin;
 
+        int MenuTopHeight = 80;
+        form_menutop* Menu_Top;
+
+        int ItemMinWidth = 55;
+        int ItemMaxWidth = 220;
         form_menubar* Menu_Bar;
 
         bool CenterWindow(HWND hwndWindow);

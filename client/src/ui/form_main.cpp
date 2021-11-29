@@ -104,15 +104,16 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             int nMainWidth = rectWindow.right - rectWindow.left;
             int nMainHeight = rectWindow.bottom - rectWindow.top;
 
-            HFONT hFontButton = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
-                OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
-                DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
-
-            int ItemMinWidth = 55;
-            int ItemMaxWidth = 220;
-
-            Menu_Bar = new form_menubar(hwnd, FormObjects::MENU_SIDEBAR, 0, 0, ItemMaxWidth, nMainHeight, ItemMinWidth, ItemMaxWidth);
+            Menu_Bar = new form_menubar(hwnd, FormObjects::MENU_SIDEBAR, 0, MenuTopHeight, ItemMaxWidth, nMainHeight - MenuTopHeight, ItemMinWidth, ItemMaxWidth);
             Menu_Bar->BackgroundColorRGB = RGB(0, 0, 0);
+
+            Menu_Top = new form_menutop(hwnd, FormObjects::MENU_TOP, 0, 0, nMainWidth, MenuTopHeight);
+            Menu_Top->BackgroundColorRGB = RGB(0, 0, 0);
+            Menu_Top->TitleText = L"COMPANYNAME";
+            Menu_Top->nTitleIndent = 60;
+            Menu_Top->nTitleWidth = 250;
+            Menu_Top->SetNameText(L"John Doe");
+            Menu_Top->SetIDText(L"9123058");
         }
         break;
     case WM_GETMINMAXINFO:
@@ -131,7 +132,7 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             int nMainWidth = rectWindow.right - rectWindow.left;
             int nMainHeight = rectWindow.bottom - rectWindow.top;
 
-            int MaxWidth = 220;
+            int MaxWidth = ItemMaxWidth;
 
             if(Menu_Bar->hwndmenubar != nullptr)
             {
@@ -150,7 +151,14 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
                 }
 
                 Menu_Bar->ItemMaxWidth = MaxWidth;
-                SetWindowPos(Menu_Bar->hwndmenubar, NULL, 0, 0, MaxWidth, nMainHeight, SWP_NOMOVE);
+                SetWindowPos(Menu_Bar->hwndmenubar, NULL, 0, 0, MaxWidth, nMainHeight - MenuTopHeight, SWP_NOMOVE | SWP_NOZORDER);
+                //UpdateWindow(Menu_Bar->hwndmenubar);
+            }
+
+            if(Menu_Top->hwndmenutop != nullptr)
+            {
+                SetWindowPos(Menu_Top->hwndmenutop, NULL, 0, 0, nMainWidth, MenuTopHeight, SWP_NOMOVE | SWP_NOZORDER);
+                //UpdateWindow(Menu_Top->hwndmenutop);
             }
         }
         break;
