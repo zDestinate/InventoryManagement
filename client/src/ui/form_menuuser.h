@@ -13,7 +13,6 @@ class form_menuuser
 
         bool bHover = false;
         HFONT hFontIcon;
-        int minx, miny, maxx, currentx, locx, locy;
 
     public:
         HWND hwnd;
@@ -25,8 +24,6 @@ class form_menuuser
         COLORREF NameTextColorRGB_Hover = RGB(255, 255, 255);
         COLORREF IDTextColorRGB = RGB(0, 0, 0);
         COLORREF IDTextColorRGB_Hover = RGB(255, 255, 255);
-        bool bItemExtended = false;
 
         form_menuuser(HWND hwndParent, int lpParam, int x, int y, int width, int height);
-        void SetMaxWidth(int nMaxWidth);
 };

@@ -12,13 +12,6 @@ form_menuuser::form_menuuser(HWND hwndParent, int lpParam, int x, int y, int wid
     hFontIcon = CreateFont(50, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
         OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
         DEFAULT_PITCH | FF_MODERN, TEXT("Font Awesome 6 Pro Solid"));
-
-    minx = width;
-    miny = height;
-    maxx = width;
-    locx = x;
-    locy = y;
-    currentx = width;
 }
 
 LRESULT form_menuuser::ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
@@ -111,12 +104,4 @@ LRESULT form_menuuser::ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
     }
 
     return DefSubclassProc(hwnd, message, wParam, lParam);
-}
-
-void form_menuuser::SetMaxWidth(int nMaxWidth)
-{
-    if(nMaxWidth >= minx)
-    {
-        maxx = nMaxWidth;
-    }
 }
