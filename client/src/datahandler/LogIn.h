@@ -10,5 +10,4 @@ class UserLogIn {
  
     bool LoginUser(std::string username);
     bool LoginPass(std::string password);
-    std::string MemberID(std::string memID);
 };
