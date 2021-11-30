@@ -2,17 +2,19 @@
 
 #include <Windows.h>
 #include "ui/form_underlinetxtbox.h"
+#include "ui/form_staticlabel.h"
+#include "ui/form_button.h"
+#include "ui/form_main.h"
 
 class Form
 {
     private:
-        const int TXT_USERNAME = 1000;
-        const int TXT_PASSWORD = 1001;
-
-    private:
-        HINSTANCE hInstMainWin;
-        HWND hwndMain;
-        form_underlinetxtbox* txtboxUsername,* txtboxPassword;
+        HINSTANCE hInstLoginWin;
+        HWND hwndLogin;
+        form_staticlabel* lblTitle, *lblVersion;
+        form_underlinetxtbox* txtboxUsername, *txtboxPassword;
+        form_button* btnLogin, *btnExit;
+        form_main* formMain;
 
         bool CenterWindow(HWND hwndWindow);
 

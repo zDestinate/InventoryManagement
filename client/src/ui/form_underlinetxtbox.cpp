@@ -6,7 +6,7 @@
 
 form_underlinetxtbox::form_underlinetxtbox(HWND hwndParent, int lpParam, int x, int y, int width, int height)
 {
-    hwndTxtbox = CreateWindow("EDIT", "", ES_CENTER | WS_CHILD | WS_VISIBLE, x, y, width, height, hwndParent, NULL, NULL, (HMENU)lpParam);
+    hwndTxtbox = CreateWindow("EDIT", "", ES_CENTER | WS_CHILD | WS_VISIBLE | WS_TABSTOP, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
     SetWindowSubclass(hwndTxtbox, UnderLineTxtBoxProc, lpParam, (DWORD_PTR)this);
 }
 
@@ -14,11 +14,11 @@ form_underlinetxtbox::form_underlinetxtbox(HWND hwndParent, int lpParam, int x, 
 {
     if(IsPassword)
     {
-        hwndTxtbox = CreateWindow("EDIT", "", ES_CENTER | WS_CHILD | WS_VISIBLE | ES_PASSWORD, x, y, width, height, hwndParent, NULL, NULL, (HMENU)lpParam);
+        hwndTxtbox = CreateWindow("EDIT", "", ES_CENTER | WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_PASSWORD, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
     }
     else
     {
-        hwndTxtbox = CreateWindow("EDIT", "", ES_CENTER | WS_CHILD | WS_VISIBLE, x, y, width, height, hwndParent, NULL, NULL, (HMENU)lpParam);
+        hwndTxtbox = CreateWindow("EDIT", "", ES_CENTER | WS_CHILD | WS_VISIBLE | WS_TABSTOP, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
     }
     
     SetWindowSubclass(hwndTxtbox, UnderLineTxtBoxProc, lpParam, (DWORD_PTR)this);
@@ -38,9 +38,9 @@ LRESULT CALLBACK form_underlinetxtbox::UnderLineTxtBoxProc(HWND hwnd, UINT messa
             GetClientRect(hwnd, &rc);
 
             //Clear all the painting and update the hwnd
-            InvalidateRect(hwnd, &rc, TRUE);
-            UpdateWindow(hwnd);
-            RedrawWindow(hwnd, 0, 0, RDW_ERASE | RDW_UPDATENOW);
+            //InvalidateRect(hwnd, &rc, TRUE);
+            //UpdateWindow(hwnd);
+            //RedrawWindow(hwnd, 0, 0, RDW_ERASE | RDW_UPDATENOW);
 
             PAINTSTRUCT ps;
             HDC hdc;

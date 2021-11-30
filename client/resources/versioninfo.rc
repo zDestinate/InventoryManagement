@@ -1,0 +1,23 @@
+1 VERSIONINFO
+    FILEVERSION    1,0,0,12
+    PRODUCTVERSION 1,0,0,12
+{
+    BLOCK "StringFileInfo"
+    {
+        BLOCK "040904b0"
+        {
+            VALUE "CompanyName",        "Unknown"
+            VALUE "FileDescription",    "Inventory Management"
+            VALUE "FileVersion",        "1.0.0.12"
+            VALUE "LegalCopyright",     "Copyright (C) 2021. All Rights Reserved."
+            VALUE "LegalTrademarks",    ""
+            VALUE "OriginalFilename",   "InventoryManagement.exe"
+            VALUE "ProductName",        "Inventory Management"
+            VALUE "ProductVersion",     "1.0.0.12"
+        }
+    }
+    BLOCK "VarFileInfo"
+    {
+        VALUE "Translation", 0x409, 1200
+    }
+}
