@@ -8,21 +8,30 @@ using namespace std;
 mainClass::mainClass()
 {
     //For login
-    LogIn = new UserLogIn;
+    estabLogIn = new UserLogIn();
 
     //For getting the data
     DataGrabber = new getData(URL);
     DataGrabber->EstablishConnection();
 }
 
-void mainClass::test()
+bool mainClass::LogIn(string username, string password)
 {
-    bool username = LogIn->LoginUser("kajdslfkjasdf");
-    bool password = LogIn->LoginPass("kajdslfkjasdf");
+    bool busername = estabLogIn->LoginUser(username);
+    bool bpassword = estabLogIn->LoginPass(password);
 
-    if(username && password)
+    //string product = getData -> getProductData("sagasgsa");
+
+    if(busername && bpassword)
     {
         //Response from the site
-        string strResult = DataGrabber->ConnectTo("/user/login" + LogIn->strUsername + "/" + LogIn->strPassword);
+        string strResult = DataGrabber->ConnectTo("/user/login" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
     }
 }
+
+/*bool mainClass::CreateAccoount();
+string mainClass::AddItem()
+{
+    return "Failed: Item exist";
+}
+*/
