@@ -26,7 +26,15 @@ bool mainClass::LogIn(string username, string password)
     {
         //Response from the site
         string strResult = DataGrabber->ConnectTo("/user/login" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
+       /* json datajson = json::parse(strResult);
+        if(datajson.at("code") == 200)
+        {
+
+        }
+*/
     }
+    
+    return false;
 }
 
 /*bool mainClass::CreateAccoount();
