@@ -8,12 +8,10 @@ class getData {
     CURL* curlObj;
 
     std::string ApplicationPath();
-  
+
   public:
     getData(std::string URL);
     
     void EstablishConnection();
-    std::string ConnectTo(std::string link);         
-
-    std::string getUserData(); 
+    std::string ConnectTo(std::string link);            
 };

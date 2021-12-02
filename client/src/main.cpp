@@ -191,7 +191,7 @@ int main()
 	AddFontResourceEx((LPCSTR)FontPaths[3].c_str(), FR_PRIVATE, NULL);
 	AddFontResourceEx((LPCSTR)FontPaths[4].c_str(), FR_PRIVATE, NULL);
 	AddFontResourceEx((LPCSTR)FontPaths[5].c_str(), FR_PRIVATE, NULL);
-    SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
+    //SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 
 	Form* MainWindow = new Form();
 	return MainWindow->CreateForm();

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <Windows.h>
+#include <fstream>
+#include <iostream>
 #include "datahandler/getData.h"
 #include "lib/json.hpp"
 
@@ -36,6 +38,12 @@ string getData::ConnectTo(string link)
     string strPath = URL + link;
     string strData;
 
+    if(!ifstream(ApplicationPath() + "/cookie.txt"))
+    {
+        ofstream ofCookie("cookie.txt");
+        ofCookie.close();
+    }
+
     //convert URL string into C string
     curl_easy_setopt(curlObj, CURLOPT_URL, strPath.c_str());
     curl_easy_setopt(curlObj, CURLOPT_COOKIEFILE, ApplicationPath() + "/cookie.txt");
@@ -46,12 +54,4 @@ string getData::ConnectTo(string link)
     curl_easy_perform(curlObj);
 
     return strData;
-}
-
-string getData::getUserData()
-{
-    EstablishConnection();
-	string data = ConnectTo("/gvhjgvjhgvjhg");
-	json datajson = json::parse(data);
-    return "NOTHING";
 }

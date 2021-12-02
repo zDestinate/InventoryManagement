@@ -9,9 +9,10 @@ class mainClass {
     const std::string URL = "http://157.245.0.156";
 
     getData* DataGrabber;
-    UserLogIn* LogIn;
+    UserLogIn* estabLogIn;
 
   public:
     mainClass();
     void test();
+    bool LogIn(std::string username, std::string password);
 };

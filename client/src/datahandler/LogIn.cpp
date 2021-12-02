@@ -82,8 +82,4 @@ bool UserLogIn::LoginPass(string password)
     return true;
 }
 
-string UserLogIn::MemberID(string memID)
-{
 
-    return "NOTHING";
-}
