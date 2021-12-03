@@ -5,7 +5,7 @@
 
 #pragma comment(lib, "comctl32.lib")
 
-form_menubar::form_menubar(HWND hwndParent, int lpParam, int x, int y, int width, int height, int ItemMinWidth, int ItemMaxWidth)
+form_menubar::form_menubar(HWND hwndParent, int lpParam, int x, int y, int width, int height, int ItemMinWidth, int ItemMaxWidth, int &FocusContentFormObj)
 {
     hwndmenubar = CreateWindow("STATIC", "", ES_CENTER | WS_CHILD | WS_VISIBLE, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
     SetWindowSubclass(hwndmenubar, StaticProc, lpParam, (DWORD_PTR)this);
@@ -14,6 +14,8 @@ form_menubar::form_menubar(HWND hwndParent, int lpParam, int x, int y, int width
     ItemWidth = ItemMinWidth;
     ItemHeight = ItemMinWidth;
     this->ItemMaxWidth = ItemMaxWidth;
+    this->FocusContentFormObj = &FocusContentFormObj;
+    this->hwndParent = hwndParent;
 
     HFONT hFontButton = CreateFont(17, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
         OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
@@ -151,7 +153,28 @@ LRESULT form_menubar::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             EndPaint(hwnd, &ps);
         }
         break;
+    case WM_COMMAND:
+        {
+            SendMessage(pThis->hwndParent, WM_COMMAND, wParam, NULL);
+
+            switch(LOWORD(wParam))
+            {
+                
+            }
+        }
+        break;
     }
 
     return DefSubclassProc(hwnd, message, wParam, lParam);
+}
+
+void form_menubar::SetCurrentContent(content* FocusContent)
+{
+    Content = FocusContent;
+    MenuItem_Dashboard->Content = FocusContent;
+    MenuItem_Item->Content = FocusContent;
+    MenuItem_PointOfSale->Content = FocusContent;
+    MenuItem_Promotion->Content = FocusContent;
+    MenuItem_Accounts->Content = FocusContent;
+    MenuItem_Settings->Content = FocusContent;
 }

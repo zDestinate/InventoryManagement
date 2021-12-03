@@ -27,6 +27,7 @@ bool form_main::CenterWindow(HWND hwndWindow)
 form_main::form_main(HWND hwndLogin)
 {
     this->hwndLogin = hwndLogin;
+    this->FocusContentFormObj = FormObjects::CONTENT_DASHBOARD;
 }
 
 int form_main::CreateFormMain()
@@ -104,7 +105,7 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             int nMainWidth = rectWindow.right - rectWindow.left;
             int nMainHeight = rectWindow.bottom - rectWindow.top;
 
-            Menu_Bar = new form_menubar(hwnd, FormObjects::MENU_SIDEBAR, 0, MenuTopHeight, ItemMaxWidth, nMainHeight - MenuTopHeight, ItemMinWidth, ItemMaxWidth);
+            Menu_Bar = new form_menubar(hwnd, FormObjects::MENU_SIDEBAR, 0, MenuTopHeight, ItemMaxWidth, nMainHeight - MenuTopHeight, ItemMinWidth, ItemMaxWidth, FocusContentFormObj);
             Menu_Bar->BackgroundColorRGB = RGB(0, 0, 0);
 
             Menu_Top = new form_menutop(hwnd, FormObjects::MENU_TOP, 0, 0, nMainWidth, MenuTopHeight);
@@ -114,6 +115,15 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             Menu_Top->nTitleWidth = 250;
             Menu_Top->SetNameText(L"John Doe");
             Menu_Top->SetIDText(L"9123058");
+
+            ContentDashboard = new content_dashboard(hwnd, FormObjects::CONTENT_DASHBOARD, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
+            ContentItem = new content_item(hwnd, FormObjects::CONTENT_ITEM, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
+            ContentPointOfSale = new content_pointofsale(hwnd, FormObjects::CONTENT_POINTOFSALE, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
+            ContentPromotion = new content_promotion(hwnd, FormObjects::CONTENT_PROMOTION, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
+            ContentAccounts = new content_accounts(hwnd, FormObjects::CONTENT_ACCOUNTS, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
+            ContentSettings = new content_settings(hwnd, FormObjects::CONTENT_SETTINGS, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
+
+            SetFocusContent(FormObjects::CONTENT_DASHBOARD);
         }
         break;
     case WM_GETMINMAXINFO:
@@ -133,21 +143,25 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             int nMainHeight = rectWindow.bottom - rectWindow.top;
 
             int MaxWidth = ItemMaxWidth;
+            bool bItemExtended = false;
 
             if(Menu_Bar->hwndmenubar != nullptr)
             {
                 if(nMainWidth >= 1200)
                 {
                     Menu_Bar->bItemExtended = true;
+                    bItemExtended = true;
                     MaxWidth = 300;
                 }
                 else if(nMainWidth >= 950)
                 {
                     Menu_Bar->bItemExtended = true;
+                    bItemExtended = true;
                 }
                 else
                 {
                     Menu_Bar->bItemExtended = false;
+                    bItemExtended = false;
                 }
 
                 Menu_Bar->ItemMaxWidth = MaxWidth;
@@ -160,13 +174,16 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
                 SetWindowPos(Menu_Top->hwndmenutop, NULL, 0, 0, nMainWidth, MenuTopHeight, SWP_NOMOVE | SWP_NOZORDER);
                 //UpdateWindow(Menu_Top->hwndmenutop);
             }
+
+            UpdateContent(FocusContent, bItemExtended, nMainWidth, nMainHeight, MaxWidth);
         }
         break;
     case WM_COMMAND:
         {
+            SetFocusContent(LOWORD(wParam));
             switch(LOWORD(wParam))
             {
-
+                
             }
         }
         break;
@@ -187,4 +204,97 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
     }
 
     return 0;
+}
+
+void form_main::UpdateContent(content* Content, bool bItemExtended, int nMainWidth, int nMainHeight, int MaxWidth)
+{
+    if(Content->hwnd != nullptr)
+    {
+        if(bItemExtended)
+        {
+            SetWindowPos(Content->hwnd, NULL, MaxWidth, MenuTopHeight, nMainWidth - MaxWidth, nMainHeight - MenuTopHeight - 40, SWP_NOZORDER);
+        }
+        else
+        {
+            SetWindowPos(Content->hwnd, NULL, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40, SWP_NOZORDER);
+        }
+    }
+}
+
+void form_main::SetFocusContent(int FormObj)
+{
+    ShowWindow(ContentDashboard->hwnd, SW_HIDE);
+    ShowWindow(ContentItem->hwnd, SW_HIDE);
+    ShowWindow(ContentPointOfSale->hwnd, SW_HIDE);
+    ShowWindow(ContentPromotion->hwnd, SW_HIDE);
+    ShowWindow(ContentAccounts->hwnd, SW_HIDE);
+    ShowWindow(ContentSettings->hwnd, SW_HIDE);
+
+    switch(FormObj)
+    {
+        case FormObjects::MENU_DASHBOARD:
+            {
+                FocusContent = ContentDashboard;
+                ShowWindow(ContentDashboard->hwnd, SW_SHOW);
+            }
+            break;
+        case FormObjects::MENU_ITEM:
+            {
+                FocusContent = ContentItem;
+                ShowWindow(ContentItem->hwnd, SW_SHOW);
+            }
+            break;
+        case FormObjects::MENU_POINTOFSALE:
+            {
+                FocusContent = ContentPointOfSale;
+                ShowWindow(ContentPointOfSale->hwnd, SW_SHOW);
+            }
+            break;
+        case FormObjects::MENU_PROMOTION:
+            {
+                FocusContent = ContentPromotion;
+                ShowWindow(ContentPromotion->hwnd, SW_SHOW);
+            }
+            break;
+        case FormObjects::MENU_ACCOUNTS:
+            {
+                FocusContent = ContentAccounts;
+                ShowWindow(ContentAccounts->hwnd, SW_SHOW);
+            }
+            break;
+        case FormObjects::MENU_SETTINGS:
+            {
+                FocusContent = ContentSettings;
+                ShowWindow(ContentSettings->hwnd, SW_SHOW);
+            }
+            break;
+        default:
+            {
+                FocusContent = ContentDashboard;
+                ShowWindow(ContentDashboard->hwnd, SW_SHOW);
+            }
+            break;
+    }
+
+    Menu_Bar->SetCurrentContent(FocusContent);
+
+    //Update the Content window
+    RECT rectWindow;
+    GetWindowRect(hwndMain, &rectWindow);
+
+    int nMainWidth = rectWindow.right - rectWindow.left;
+    int nMainHeight = rectWindow.bottom - rectWindow.top;
+
+    int MaxWidth = ItemMaxWidth;
+    bool bItemExtended = false;
+    if(nMainWidth >= 1200)
+    {
+        bItemExtended = true;
+        MaxWidth = 300;
+    }
+    else if(nMainWidth >= 950)
+    {
+        bItemExtended = true;
+    }
+    UpdateContent(FocusContent, bItemExtended, nMainWidth, nMainHeight, MaxWidth);
 }
