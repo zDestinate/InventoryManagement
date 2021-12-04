@@ -54,8 +54,8 @@ class Sales {
     std::vector<itemObj> shoppingCart;
 
     Sales();
-    int addToCart(std::string name, std::string sku, int price);
-    int removeFromCart(std::string SKU);
-    void clearCart();
+    std::string addToCart(std::string name, std::string sku, int price);
+    std::string removeFromCart(std::string SKU);
+    std::string clearCart();
 };
 

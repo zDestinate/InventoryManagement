@@ -11,21 +11,22 @@ Sales::Sales()
 }
 
 
-int Sales::addToCart(std::string name, std::string sku, int price)
+string Sales::addToCart(std::string name, std::string sku, int price)
 {
     itemObj newItem(name, sku, price);
     shoppingCart.push_back(newItem);
 
-    return 0;
+    return "added to cart";
 }
 
-int Sales::removeFromCart(std::string SKU)
+string Sales::removeFromCart(std::string SKU)
 {
 
-    return 0;
+    return "added to cart";
 }
 
-void Sales::clearCart()
+string Sales::clearCart()
 {
     shoppingCart.clear();
+    return "added to cart";
 }
