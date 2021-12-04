@@ -55,6 +55,7 @@ int main()
 	HWND hwndConsole = GetConsoleWindow();
 	DWORD dwProcessId;
 	GetWindowThreadProcessId(hwndConsole, &dwProcessId);
+	/*
 	if (GetCurrentProcessId() != dwProcessId)
 	{
 		SetConsoleTitle("InventoryManagement - Developer Console");
@@ -63,6 +64,9 @@ int main()
 	{
 		ShowWindow(hwndConsole, SW_HIDE);
 	}
+	*/
+
+	SetConsoleTitle("InventoryManagement - Developer Console");
 
 	//Check if curl exist
 	if (!ifstream(ApplicationPath() + "/libcurl.dll"))

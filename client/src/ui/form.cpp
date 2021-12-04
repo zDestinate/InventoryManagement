@@ -25,6 +25,11 @@ bool Form::CenterWindow(HWND hwndWindow)
     return true;
 }
 
+Form::Form()
+{
+    DataHandler = new mainClass();
+}
+
 int Form::CreateForm()
 {
     WNDCLASSEX wcex;
@@ -158,20 +163,40 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             {
                 case FormObjects::BTN_LOGIN:
                     {
-                        printf("Login button clicked!\n");
-                        ShowWindow(hwnd, SW_HIDE);
-                        SendMessage(txtboxUsername->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
-                        SendMessage(txtboxPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                        int nUsername = GetWindowTextLength(txtboxUsername->hwndTxtbox) + 1;
+                        TCHAR *tszUsername = new TCHAR[nUsername];
+                        nUsername = GetWindowText(txtboxUsername->hwndTxtbox, tszUsername, nUsername);
+                        string strUsername;
+                        strUsername.assign(&tszUsername[0], &tszUsername[nUsername]);
+                        
+                        int nPassword = GetWindowTextLength(txtboxPassword->hwndTxtbox) + 1;
+                        TCHAR *tszPassword = new TCHAR[nPassword];
+                        nPassword = GetWindowText(txtboxUsername->hwndTxtbox, tszPassword, nPassword);
+                        string strPassword;
+                        strPassword.assign(&tszPassword[0], &tszPassword[nPassword]);
 
-                        if(formMain == nullptr)
+                        if(DataHandler->LogIn(strUsername, strPassword))
                         {
-                            formMain = new form_main(hwnd);
-                            formMain->CreateFormMain();
+                            ShowWindow(hwnd, SW_HIDE);
+                            SendMessage(txtboxUsername->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                            SendMessage(txtboxPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+
+                            if(formMain == nullptr)
+                            {
+                                formMain = new form_main(hwnd);
+                                formMain->CreateFormMain();
+                            }
+                            else
+                            {
+                                ShowWindow(formMain->hwndMain, SW_RESTORE);
+                            }
                         }
                         else
                         {
-                            ShowWindow(formMain->hwndMain, SW_RESTORE);
+                            MessageBox(NULL, "Invalid username or password", "Login", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+                            SendMessage(txtboxPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
                         }
+                        
                     }
                     break;
                 case FormObjects::BTN_EXIT:
@@ -190,6 +215,7 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
+        exit(0);
         break;
     default:
         return DefWindowProc(hwnd, message, wParam, lParam);

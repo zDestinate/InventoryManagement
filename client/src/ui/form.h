@@ -5,6 +5,7 @@
 #include "ui/form_staticlabel.h"
 #include "ui/form_button.h"
 #include "ui/form_main.h"
+#include "datahandler/mainHeader.h"
 
 class Form
 {
@@ -16,12 +17,15 @@ class Form
         form_button* btnLogin, *btnExit;
         form_main* formMain;
 
+        mainClass* DataHandler = nullptr;
+
         bool CenterWindow(HWND hwndWindow);
 
         static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
         LRESULT CALLBACK RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     public:
+        Form();
         int CreateForm();
         
 };
