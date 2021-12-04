@@ -6,6 +6,7 @@
 
 form_menuitem::form_menuitem(HWND hwndParent, int lpParam, int x, int y, int width, int height, UINT timerID)
 {
+    this->hwndParent = hwndParent;
     hwndbutton = CreateWindow("BUTTON", "", ES_CENTER | WS_CHILD | WS_VISIBLE | WS_TABSTOP, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
     SetWindowSubclass(hwndbutton, ButtonProc, lpParam, (DWORD_PTR)this);
 
@@ -21,7 +22,6 @@ form_menuitem::form_menuitem(HWND hwndParent, int lpParam, int x, int y, int wid
     currentx = width;
 
     IDT_HOVER_TIMER_CHECK = timerID;
-
     SetTimer(hwndbutton, IDT_HOVER_TIMER_CHECK, 30, (TIMERPROC)NULL);
 }
 
@@ -34,6 +34,16 @@ LRESULT form_menuitem::ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
     {
     case WM_PAINT:
         {
+            
+            if((pThis->Content != nullptr) && (!pThis->bHover))
+            {
+                RECT rcContent;
+                GetClientRect(pThis->Content->hwnd, &rcContent);
+
+                InvalidateRect(pThis->Content->hwnd, &rcContent, TRUE);
+                UpdateWindow(pThis->Content->hwnd);
+            }
+
             //Get the current HWND Rect
             RECT rc;
             GetClientRect(hwnd, &rc);
@@ -95,8 +105,11 @@ LRESULT form_menuitem::ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 rc.left = pThis->minx;
                 rc.right = pThis->maxx;
             }
-            DrawTextW(hdc, (LPCWSTR)pThis->ButtonText.c_str(), pThis->ButtonText.length(), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-            
+
+            if(pThis->bItemExtended || pThis->bHover)
+            {
+                DrawTextW(hdc, (LPCWSTR)pThis->ButtonText.c_str(), pThis->ButtonText.length(), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+            }
 
             //Restore the font and end painting
             SelectObject(hdc, hFont);
@@ -106,13 +119,24 @@ LRESULT form_menuitem::ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
     case WM_MOUSEMOVE:
         {
             pThis->bHover = true;
-            //RedrawWindow(hwnd, 0, 0, RDW_ERASE | RDW_UPDATENOW);
+            
+            //SetWindowPos(hwnd, NULL, pThis->locx, pThis->locy, pThis->maxx, pThis->miny, NULL);
         }
         break;
     case WM_MOUSELEAVE:
         {
             pThis->bHover = false;
-            //RedrawWindow(hwnd, 0, 0, RDW_ERASE | RDW_UPDATENOW);
+
+            /*
+            if(pThis->bItemExtended)
+            {
+                SetWindowPos(hwnd, NULL, pThis->locx, pThis->locy, pThis->maxx, pThis->miny, NULL);
+            }
+            else
+            {
+                SetWindowPos(hwnd, NULL, pThis->locx, pThis->locy, pThis->minx, pThis->miny, NULL);
+            }
+            */
         }
         break;
     case WM_TIMER:
@@ -123,7 +147,7 @@ LRESULT form_menuitem::ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 {
                     if(pThis->currentx < pThis->maxx)
                     {
-                        pThis->currentx += 15;
+                        pThis->currentx += 20;
                     }
                     else
                     {

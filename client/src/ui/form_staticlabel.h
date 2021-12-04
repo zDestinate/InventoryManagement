@@ -17,6 +17,9 @@ class form_staticlabel
         wstring StaticText;
         COLORREF TextColorRGB = RGB(0, 0 ,0);
         COLORREF BackgroundColorRGB = RGB(255, 255, 255);
+        bool bUseBorder = false;
+        COLORREF BorderColorRGB = RGB(0, 0 ,0);
+        int BorderSize = 1;
 
         form_staticlabel(HWND hwndParent, int lpParam, int x, int y, int width, int height);
 

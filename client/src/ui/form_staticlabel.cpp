@@ -44,7 +44,36 @@ LRESULT form_staticlabel::StaticProc(HWND hwnd, UINT message, WPARAM wParam, LPA
             hBackgroundColor = CreateSolidBrush(pThis->BackgroundColorRGB); 
             SelectObject(hdc, hBackgroundColor);
             FillRect(hdc, &rc, hBackgroundColor);
-            DeleteObject(hBackgroundColor); 
+            DeleteObject(hBackgroundColor);
+
+            //Paint Border
+            if(pThis->bUseBorder)
+            {
+                HBRUSH hBorderColor;
+                hBorderColor = CreateSolidBrush(pThis->BorderColorRGB);
+
+                RECT rcBorder;
+
+                //Top
+                GetClientRect(hwnd, &rcBorder);
+                rcBorder.bottom = rcBorder.top + pThis->BorderSize;
+                FillRect(hdc, &rcBorder, hBorderColor);
+
+                //Bottom
+                GetClientRect(hwnd, &rcBorder);
+                rcBorder.top = rcBorder.bottom - pThis->BorderSize;
+                FillRect(hdc, &rcBorder, hBorderColor);
+
+                //Left
+                GetClientRect(hwnd, &rcBorder);
+                rcBorder.right = rcBorder.left + pThis->BorderSize;
+                FillRect(hdc, &rcBorder, hBorderColor);
+
+                //Right
+                GetClientRect(hwnd, &rcBorder);
+                rcBorder.left = rcBorder.right - pThis->BorderSize;
+                FillRect(hdc, &rcBorder, hBorderColor);
+            }
 
             //Grab current font
             HFONT hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);

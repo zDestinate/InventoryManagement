@@ -34,12 +34,12 @@ LRESULT form_menuuser::ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
             RECT rectName;
             GetClientRect(hwnd, &rectName);
             rectName.left = rectIcon.left + 70;
-            rectName.top = 20;
+            rectName.top = 18;
 
             RECT rectID;
             GetClientRect(hwnd, &rectID);
             rectID.left = rectName.left;
-            rectID.top = rectName.top + 25;
+            rectID.top = rectName.top + 23;
 
             PAINTSTRUCT ps;
             HDC hdc;

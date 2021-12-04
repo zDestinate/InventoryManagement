@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <commctrl.h>
 #include <string>
+#include "ui/content/content.h"
 
 using namespace std;
 
@@ -11,6 +12,8 @@ class form_menuitem
     private:
         static LRESULT CALLBACK ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);
 
+        HWND hwndParent;
+
         bool bHover = false;
         HFONT hFont;
         int minx, miny, maxx, currentx, locx, locy;
@@ -18,6 +21,8 @@ class form_menuitem
 
     public:
         HWND hwndbutton;
+        content* Content = nullptr;
+        
         wstring IconText, ButtonText;
         COLORREF ButtonColorRGB = RGB(0, 0, 0);
         COLORREF ButtonColorRGB_Hover = RGB(0, 0, 0);
