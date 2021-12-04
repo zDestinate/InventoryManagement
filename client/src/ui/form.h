@@ -15,7 +15,7 @@ class Form
         form_staticlabel* lblTitle, *lblVersion;
         form_underlinetxtbox* txtboxUsername, *txtboxPassword;
         form_button* btnLogin, *btnExit;
-        form_main* formMain;
+        form_main* formMain = nullptr;
 
         mainClass* DataHandler = nullptr;
 
