@@ -22,5 +22,5 @@ class mainClass {
     void test();
     bool LogIn(std::string username, std::string password);
     bool makeCust(std::string name, std::string phonenum, std::string email);
-    int mainClass::addToCart(string productSku);
+    int addToCart(std::string productSku);
 };
