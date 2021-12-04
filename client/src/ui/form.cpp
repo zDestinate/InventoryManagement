@@ -171,7 +171,7 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                         
                         int nPassword = GetWindowTextLength(txtboxPassword->hwndTxtbox) + 1;
                         TCHAR *tszPassword = new TCHAR[nPassword];
-                        nPassword = GetWindowText(txtboxUsername->hwndTxtbox, tszPassword, nPassword);
+                        nPassword = GetWindowText(txtboxPassword->hwndTxtbox, tszPassword, nPassword);
                         string strPassword;
                         strPassword.assign(&tszPassword[0], &tszPassword[nPassword]);
 
