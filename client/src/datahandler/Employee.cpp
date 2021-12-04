@@ -6,8 +6,6 @@ using namespace std;
 
 using json = nlohmann::json;
 
-string empName,empID,empPosition; 
-
 void Employee::getUserData(string username)
 {
 

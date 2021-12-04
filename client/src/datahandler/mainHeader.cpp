@@ -29,7 +29,7 @@ bool mainClass::LogIn(string username, string password)
     if(busername && bpassword)
     {
         //Response from the site
-        string strResult = DataGrabber->ConnectTo("mongodb://admin:123QWEasd-=@localhost:27017/" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
+        string strResult = DataGrabber->ConnectTo("login/user" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
        /* json datajson = json::parse(strResult);
         if(datajson.at("code") == 200)
         {
@@ -46,6 +46,7 @@ bool mainClass::makeCust(string name, string phonenum,string email)
     {
         string strResult = DataGrabber->ConnectTo("/user/login" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
     }
+    return false;
 }
 
 
@@ -53,13 +54,14 @@ int mainClass::addToCart(string productSku)
 {
     string item = productSku;
     
-    string strResult = DataGrabber->ConnectTo("/inventory/item" + addCart->item);
+   // string strResult = DataGrabber->ConnectTo("/inventory/item" + addCart->item);
     /* json datajson = json::parse(strResult);
         if(datajson.at("code") == 200)
         {
 
         }
     */
+   return 0;
 }
 
 
