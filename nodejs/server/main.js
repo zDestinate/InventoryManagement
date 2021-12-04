@@ -1,9 +1,14 @@
 const express = require('express'),
 	app = express(),
 	serv = require('http').Server(app);
-const session = require('express-session')
+const ejs = require('ejs');
+const session = require('express-session');
 const path = require('path');
 const bodyParser = require("body-parser");
+const MongoClient = require('mongodb').MongoClient;
+const bcrypt = require('bcrypt');
+
+const config = require('../config.json');
 	
 //Server start
 console.log("[SERVER] Server started");
@@ -12,101 +17,119 @@ console.log("[SERVER] Server started");
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
 	name: '370',
-	secret: ' asjdfhioq23 qkjdwr 723iawfhsfdfsdf hahdk',
+	secret: config.Cookie.secret_key,
 	resave: false,
 	saveUninitialized: true,
 	cookie:
 	{ 
+		sameSite: true,
 		secure: false,
-		maxAge: 3600000
+		maxAge: config.Cookie.expire_time
 	}
 }))
 
 
 //Set server default path
 app.use(express.static( __dirname + '/../client'));
-
+app.engine('html', ejs.renderFile);
 app.set("views", path.join(__dirname, '../views'));
-app.engine("html", require("dot-emc").init(
-    {
-        app: app,
-        fileExtension:"html"
-    }
-).__express);
 app.set("view engine", "html");
 
 //bodyParser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//Get IP address and check if its IPv4 or IPv6
-function GetIPAddress(req)
-{
-	var ip = req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	
-	if (ip.substr(0, 7) == "::ffff:") {
-		ip = ip.substr(7);
-	}
-	return ip;
+//Mongo inc++ seq
+function getNextSequenceValue(db, strCounter, callback){
+	var sequenceDocument = db.collection('counters').findOneAndUpdate(
+		{_id: strCounter},
+		{$inc:{seq:1}},
+		{new:true},
+		callback
+	);
 }
 
-
-app.get('/', function(req, res)
+//init mongo
+MongoClient.connect(config.Mongo.url, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, database)
 {
-	var data = {};
-	data['test'] = 'something';
-	data['test2'] = 'something2';
+	if(err) throw err;
 	
-	var prettydata = JSON.stringify(data, null, 2);
-	res.type('json').send(prettydata);
-});
-
-app.get('/user/login/:username/:password', function(req, res)
-{
-	//if auth is false or auth doesn't exist
-	if(!req.session.auth)
-	{
-		if(req.params.username == 'abc' && req.params.password == '123')
+	console.log("Connection to database server successful");
+	var db = database.db(config.Mongo.database);
+	
+ 	//Creating counter
+	db.listCollections({name: 'counters'}).next(function(err, collinfo){
+		//if collinfo is column
+		if(collinfo == null)
 		{
-			req.session.auth = true;
-			res.send('you login');
-			return;
+			console.log("Unable to find collection name counters");
+
+			//create this collection
+			db.createCollection("counters", function(cerr, res)
+			{
+				if(cerr)
+				{
+					console.log("Failed to create collection name counters");
+					throw cerr;
+				}
+				else
+				{
+					console.log("Created a collection name counters");
+					db.collection("counters").insertOne({_id: "userid", seq: 0}, function(uerr, ures) {
+						if(uerr)
+						{
+							console.log("Failed to create userid in counters collection");
+							throw uerr;
+						}
+						else
+						{
+							console.log("Created userid counter");
+						}
+					});
+				}
+			});
 		}
-		
-		//if username or password is wrong
-		res.send('invalid username password');
-		return;
-	}
-	//if auth is true
-	else
-	{
-		res.send('you already login');
-	}
-});
-
-app.get('/inventory', function(req, res)
-{
-	if(req.session.auth)
-	{
-		var data = {};
-		data['test'] = 'something';
-		data['test2'] = 'something2';
-		
-		var prettydata = JSON.stringify(data, null, 2);
-		res.type('json').send(prettydata);
-		return;
-	}
+	});
 	
-	res.send('you are not login');
-});
-
-//Set page 404
-app.use(function(req, res, next) {
-	console.log("[WEB] %s connected to %s", GetIPAddress(req), req.originalUrl);
-	res.status(404);
-	return;
+	db.listCollections({name: 'users'}).next(function(err, collinfo){
+		if(collinfo == null)
+		{
+			console.log("Unable to find collection name users");
+			db.createCollection("users", function(cerr, res)
+			{
+				if(cerr)
+				{
+					console.log("Failed to create collection name users");
+					throw cerr;
+				}
+				else
+				{					
+					getNextSequenceValue(db, 'userid', function(nerr, nres)
+					{
+						var hashpass = bcrypt.hashSync("123QWEasd", config.Hash.saltround);
+						db.collection("users").insertOne({_id: nres.value.seq, username: "admin", password: String(hashpass), rank: 0}, function(uerr, ures) {
+							if(uerr)
+							{
+								console.log("Failed to create an admin. Please make sure your database is clean");
+								throw uerr;
+							}
+							else
+							{
+								console.log("Created a admin with username admin and password adminCIRC");
+							}
+						});
+					});
+				}
+			});
+		}
+	}); 
+	
+	//Pages
+	require('./pages')(app, express, db);
 });
 
 //Server listen port and IP
-serv.listen(80, "157.245.0.156");
-console.log("[SERVER] Server listening on port 80...");
+serv.listen(config.Server.port, config.Server.address, function()
+{
+	console.log("[SERVER] Server listening on port 80...");
+});
