@@ -1,0 +1,21 @@
+{
+	"Server":
+	{
+		"address": "157.245.0.156",
+		"port": 80
+	},
+	"Mongo":
+	{
+		"url": "mongodb://admin:123QWEasd-=@localhost:27017/",
+		"database": "370"
+	},
+	"Cookie":
+	{
+		"expire_time": 300000,
+		"secret_key": "adfj hqoruhald fjhajfdhLAJSHD aldsjfh923hur"
+	},
+	"Hash":
+	{
+		"saltround": 15
+	}
+}
