@@ -94,7 +94,15 @@ module.exports = function (app, express, db)
 				if(err || !result)
 				{
 					console.log("[LOGIN] %s failed to login username %s", GetIPAddress(req), req.params.username);
-					res.send('invalid username password');
+					
+					
+
+					var data = {};
+					data['message'] = 'Login failed';
+					data['code'] = '0';
+					
+					var prettydata = JSON.stringify(data, null, 2);
+					res.type('json').send(prettydata);
 					return;
 				}
 				else
@@ -102,7 +110,14 @@ module.exports = function (app, express, db)
 					
 					req.session.auth=true;
 					console.log("[LOGIN] %s successfully login username %s", GetIPAddress(req), req.params.username);
-					res.send('login success');
+					
+					
+					var data = {};
+					data['message'] = 'Login success';
+					data['code'] = '10';
+					
+					var prettydata = JSON.stringify(data, null, 2);
+					res.type('json').send(prettydata);
 					return;
 				}
 
@@ -124,7 +139,12 @@ module.exports = function (app, express, db)
 		//if auth is true
 		else
 		{
-			res.send('you already login');
+			var data = {};
+					data['message'] = 'Already Logged in';
+					data['code'] = '111';
+					
+					var prettydata = JSON.stringify(data, null, 2);
+					res.type('json').send(prettydata);
 		}
 	});
 	
