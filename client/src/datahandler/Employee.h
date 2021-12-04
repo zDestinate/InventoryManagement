@@ -6,6 +6,6 @@ class Employee {
 
   public:
 
-    std::string getUserData(std::string username); 
-
+    void getUserData(std::string username); 
+    std::string returnName();
 };

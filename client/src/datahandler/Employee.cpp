@@ -1,24 +1,26 @@
 #include <iostream>
 #include <Windows.h>
 #include "datahandler/Employee.h"
-
+#include "lib/json.hpp"
 using namespace std;
 
 using json = nlohmann::json;
-double price = 0;
-int quantity = 0;
-string productname,widxlen,description,empName,empID,empPosition; 
 
-string Employee::getUserData()
+string empName,empID,empPosition; 
+
+void Employee::getUserData(string username)
 {
-    EstablishConnection();
-	string data = ConnectTo("/gvhjgvjhgvjhg");
-	json datajson = json::parse(data);
 
     empName = "gaggsa";
     empID = "gasgsag";
     empPosition = "agsagas";
 
-    return "geg";
 }
+
+string Employee::returnName()
+{
+    return empName;
+}
+
+
 

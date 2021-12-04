@@ -9,6 +9,10 @@ mainClass::mainClass()
 {
     //For login
     estabLogIn = new UserLogIn();
+    //Create Customer
+    custcreate = new Customer();
+    //addingToCart
+    addCart = new Sales();
 
     //For getting the data
     DataGrabber = new getData(URL);
@@ -25,7 +29,7 @@ bool mainClass::LogIn(string username, string password)
     if(busername && bpassword)
     {
         //Response from the site
-        string strResult = DataGrabber->ConnectTo("/user/login" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
+        string strResult = DataGrabber->ConnectTo("mongodb://admin:123QWEasd-=@localhost:27017/" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
        /* json datajson = json::parse(strResult);
         if(datajson.at("code") == 200)
         {
@@ -36,6 +40,33 @@ bool mainClass::LogIn(string username, string password)
     
     return false;
 }
+bool mainClass::makeCust(string name, string phonenum,string email)
+{
+    if(custcreate->createCustomer(name, phonenum, email) == true)
+    {
+        string strResult = DataGrabber->ConnectTo("/user/login" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
+    }
+}
+
+
+int mainClass::addToCart(string productSku)
+{
+    string item = productSku;
+    
+    string strResult = DataGrabber->ConnectTo("/inventory/item" + addCart->item);
+    /* json datajson = json::parse(strResult);
+        if(datajson.at("code") == 200)
+        {
+
+        }
+    */
+}
+
+
+
+
+
+
 
 /*bool mainClass::CreateAccoount();
 string mainClass::AddItem()
