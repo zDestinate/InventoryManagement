@@ -2,8 +2,10 @@
 #include <Windows.h>
 #include <string>
 #include "datahandler/mainHeader.h"
+#include "lib/json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 mainClass::mainClass()
 {
@@ -29,13 +31,27 @@ bool mainClass::LogIn(string username, string password)
     if(busername && bpassword)
     {
         //Response from the site
-        string strResult = DataGrabber->ConnectTo("login/user" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
-       /* json datajson = json::parse(strResult);
-        if(datajson.at("code") == 200)
-        {
+        string strResult = DataGrabber->ConnectTo("/user/login/" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
+        json datajson = json::parse(strResult);
+       
+        cout << strResult << endl;
 
+        if(datajson.at("code") == 0)
+        {
+            return false;
         }
-*/
+        if(datajson.at("code") == 10)
+        {
+            return true;
+        }   
+
+        if(datajson.at("code") == 111)
+        {
+            return false;
+        }
+
+        
+
     }
     
     return false;
