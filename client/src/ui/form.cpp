@@ -126,9 +126,15 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                 OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
                 DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
-            lblTitle = new form_staticlabel(hwnd, FormObjects::LBL_TITLE, -10, 80, nMainWidth, 30); 
+            lblTitle = new form_staticlabel(hwnd, FormObjects::LBL_TITLE, -10, 80, nMainWidth, 30);
             lblTitle->SetFont(hFontTitle);
             lblTitle->StaticText = L"COMPANYNAME";
+
+            lblLoginStatus = new form_staticlabel(hwnd, FormObjects::LBL_LOGINSTATUS, -10, 125, nMainWidth, 20);
+            lblLoginStatus->SetFont(hFontButton);
+            lblLoginStatus->StaticText = L"Invalid username or password";
+            lblLoginStatus->TextColorRGB = RGB(255, 51, 51);
+            ShowWindow(lblLoginStatus->hwndstatic, SW_HIDE);
 
             txtboxUsername = new form_underlinetxtbox(hwnd, FormObjects::TXT_USERNAME, nCenterLoc - 10, 170, ntxtboxWidth, ntxtboxHeight);
             txtboxUsername->SetFont(hFont);
@@ -178,6 +184,7 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                         if(DataHandler->LogIn(strUsername, strPassword))
                         {
                             ShowWindow(hwnd, SW_HIDE);
+                            ShowWindow(lblLoginStatus->hwndstatic, SW_HIDE);
                             SendMessage(txtboxUsername->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
                             SendMessage(txtboxPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
 
@@ -193,7 +200,9 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                         }
                         else
                         {
-                            MessageBox(NULL, "Invalid username or password", "Login", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+                            ShowWindow(lblLoginStatus->hwndstatic, SW_SHOW);
+                            lblLoginStatus->StaticText = L"Invalid username or password";
+                            lblLoginStatus->TextColorRGB = RGB(255, 51, 51);
                             SendMessage(txtboxPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
                         }
                         

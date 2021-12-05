@@ -12,7 +12,7 @@ class Form
     private:
         HINSTANCE hInstLoginWin;
         HWND hwndLogin;
-        form_staticlabel* lblTitle, *lblVersion;
+        form_staticlabel* lblTitle, *lblLoginStatus, *lblVersion;
         form_underlinetxtbox* txtboxUsername, *txtboxPassword;
         form_button* btnLogin, *btnExit;
         form_main* formMain = nullptr;
