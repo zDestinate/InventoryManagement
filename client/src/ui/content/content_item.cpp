@@ -29,7 +29,7 @@ content_item::content_item(HWND hwndParent, int lpParam, int x, int y, int width
     int nItemListWidth = nWidth / 1.5;
     int nItemListX = (nWidth / 2) - (nItemListWidth / 2) - 10;
     nItemListY = 120;
-    ItemList = new content_item_list(hwnd, FormObjects::CONTENT_ITEM_LIST, nItemListX, nItemListY, nItemListWidth, nHeight / 1.5);
+    ItemList = new content_item_list(hwnd, FormObjects::CONTENT_ITEM_LIST, nItemListX, nItemListY, nItemListWidth, nHeight - nSearchBarHeight - nSearchBarY - 175);
     ItemList->CreateColumn(0, "TESTTT", 150);
     ItemList->Insert(0, 0, "asdfasdf");
     ItemList->Insert(0, 1, "bbbbbb");
@@ -101,7 +101,7 @@ LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wPara
 
             int nItemListWidth = nWidth / 1.5;
             int nItemListX = (nWidth / 2) - (nItemListWidth / 2) - 10;
-            SetWindowPos(pThis->ItemList->hwnd, NULL, nItemListX, pThis->nItemListY, nItemListWidth, nHeight / 1.5, SWP_NOZORDER);
+            SetWindowPos(pThis->ItemList->hwnd, NULL, nItemListX, pThis->nItemListY, nItemListWidth,  nHeight - pThis->nSearchBarHeight - pThis->nSearchBarY - 175, SWP_NOZORDER);
         }
         break;
     case WM_COMMAND:
