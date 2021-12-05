@@ -6,7 +6,7 @@
 
 content_item_list::content_item_list(HWND hwndParent, int lpParam, int x, int y, int width, int height)
 {
-    hwnd = CreateWindow(WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | LVS_REPORT, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
+    hwnd = CreateWindow(WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | LVS_REPORT | LVS_SINGLESEL, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
     SetWindowSubclass(hwnd, ListViewProc, lpParam, (DWORD_PTR)this);
 
     hFont = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
