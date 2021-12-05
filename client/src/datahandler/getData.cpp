@@ -66,3 +66,9 @@ string getData::ConnectTo(string link)
 
     return strData;
 }
+
+void getData::ClearCookies()
+{
+    curl_easy_setopt(curlObj, CURLOPT_COOKIELIST, "ALL");
+    curl_easy_perform(curlObj);
+}

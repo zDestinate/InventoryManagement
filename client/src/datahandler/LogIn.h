@@ -10,4 +10,5 @@ class UserLogIn {
  
     bool LoginUser(std::string username);
     bool LoginPass(std::string password);
+    bool LogOut();
 };

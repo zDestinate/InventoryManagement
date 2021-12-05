@@ -14,5 +14,6 @@ class getData {
 
     bool bSuccessfullyConnected = false;
     void EstablishConnection();
+    void ClearCookies();
     std::string ConnectTo(std::string link);            
 };

@@ -3,6 +3,9 @@
 #include <string>
 #include "datahandler/LogIn.h"
 #include "lib/json.hpp"
+#include<fstream>
+
+
 using namespace std;
 
 using json = nlohmann::json;
@@ -31,8 +34,7 @@ bool UserLogIn::LoginUser(string username)
 {
     int invalid = 5; //log in attempts variable
     
-   while(invalid != 0)
-   {    
+     
         if(username.length() < 8 || !searchUser(username)) //if length less than 8 or username there a special character invalid
         {
             invalid--; // deduct remaining attempts
@@ -46,12 +48,11 @@ bool UserLogIn::LoginUser(string username)
 
         strUsername = username;
         return true; 
-   }
 }
 
 bool UserLogIn::LoginPass(string password)
 {
-    int SpecChar = 1; //special character variable counter
+    
     int Upper = 0;  //upper case letter variable counter
     char c; //letter holder
 
@@ -67,7 +68,7 @@ bool UserLogIn::LoginPass(string password)
             }
     }
     //if length less than 8 or no upper case character or no special character invalid password 
-    if(password.length() < 8 || Upper == 0 || SpecChar == 0)
+    if(password.length() < 8 || Upper == 0)
     {
         return false; 
     }
@@ -75,5 +76,14 @@ bool UserLogIn::LoginPass(string password)
     strPassword = password;
     return true;
 }
+/**
+bool UserLogIn::LogOut()
+{
+    
+    std::fstream ofs;
 
-
+    ofs.open("cookie.txt", std::ofstream::out | std::ofstream::trunc);
+    ofs.close();
+   
+}
+**/
