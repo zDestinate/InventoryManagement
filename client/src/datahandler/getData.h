@@ -11,7 +11,8 @@ class getData {
 
   public:
     getData(std::string URL);
-    
+
+    bool bSuccessfullyConnected = false;
     void EstablishConnection();
     std::string ConnectTo(std::string link);            
 };

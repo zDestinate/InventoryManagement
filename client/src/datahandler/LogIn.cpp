@@ -36,7 +36,7 @@ bool UserLogIn::LoginUser(string username)
         if(username.length() < 8 || !searchUser(username)) //if length less than 8 or username there a special character invalid
         {
             invalid--; // deduct remaining attempts
-            cout << "Invalid Login\n" << "Attempts left:" << invalid;
+            //cout << "Invalid Login\n" << "Attempts left:" << invalid << endl;
 
                 if(invalid == 0)//if attemps = 0 exit
                 {
@@ -51,7 +51,7 @@ bool UserLogIn::LoginUser(string username)
 
 bool UserLogIn::LoginPass(string password)
 {
-    int SpecChar = 0; //special character variable counter
+    int SpecChar = 1; //special character variable counter
     int Upper = 0;  //upper case letter variable counter
     char c; //letter holder
 
@@ -59,12 +59,6 @@ bool UserLogIn::LoginPass(string password)
     {
          c = password[i];
         
-            //if c is special character counter++
-            if((c >= 33 && c <= 47)||(c >= 58 && c <= 64) 
-            || ( c>= 91 && c<= 96) || (c >= 123 && c >=126)) 
-            {
-             SpecChar++;
-            }
 
             //if c is a upper case letter upper++
             if(isupper(c))

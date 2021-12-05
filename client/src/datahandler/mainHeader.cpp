@@ -32,24 +32,30 @@ bool mainClass::LogIn(string username, string password)
     {
         //Response from the site
         string strResult = DataGrabber->ConnectTo("/user/login/" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
-        json datajson = json::parse(strResult);
-       
-        cout << strResult << endl;
 
-        if(datajson.at("code") == 0)
+        if(!DataGrabber->bSuccessfullyConnected)
         {
             return false;
         }
-        if(datajson.at("code") == 10)
+
+        json datajson = json::parse(strResult);
+
+        int nCode = stoi(datajson.at("code").get<string>());
+
+        if(nCode == 0)
+        {
+            return false;
+        }
+        
+        if(nCode == 10)
         {
             return true;
         }   
 
-        if(datajson.at("code") == 111)
+        if(nCode == 111)
         {
             return false;
         }
-
         
 
     }

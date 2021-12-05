@@ -35,6 +35,7 @@ void getData::EstablishConnection()
 
 string getData::ConnectTo(string link)
 {
+    bSuccessfullyConnected = false; 
     string strPath = URL + link;
     string strData;
 
@@ -51,7 +52,17 @@ string getData::ConnectTo(string link)
     curl_easy_setopt(curlObj, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curlObj, CURLOPT_WRITEDATA, &strData);
 
-    curl_easy_perform(curlObj);
+    CURLcode curlCode = curl_easy_perform(curlObj);
+    switch(curlCode)
+    {
+        case CURLE_COULDNT_CONNECT:
+            printf("[CURL] Failed to connect\n");
+            break;
+        case CURLE_OK:
+            printf("[CURL] Successful\n");
+            bSuccessfullyConnected = true;
+            break;
+    }
 
     return strData;
 }
