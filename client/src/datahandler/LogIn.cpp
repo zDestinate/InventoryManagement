@@ -76,7 +76,7 @@ bool UserLogIn::LoginPass(string password)
     strPassword = password;
     return true;
 }
-/**
+
 bool UserLogIn::LogOut()
 {
     
@@ -84,6 +84,6 @@ bool UserLogIn::LogOut()
 
     ofs.open("cookie.txt", std::ofstream::out | std::ofstream::trunc);
     ofs.close();
-   
+ return true;  
 }
-**/
+

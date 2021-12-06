@@ -12,7 +12,7 @@ mainClass::mainClass()
     //For login
     estabLogIn = new UserLogIn();
     //Create Customer
-    custcreate = new Customer();
+    custCreate = new Customer();
     //addingToCart
     addCart = new Sales();
 
@@ -24,7 +24,7 @@ mainClass::mainClass()
 bool mainClass::LogIn(string username, string password)
 {
     return true;
-    
+
     bool busername = estabLogIn->LoginUser(username);
     bool bpassword = estabLogIn->LoginPass(password);
 
@@ -66,13 +66,19 @@ bool mainClass::LogIn(string username, string password)
 }
 bool mainClass::makeCust(string name, string phonenum,string email)
 {
-    if(custcreate->createCustomer(name, phonenum, email) == true)
+    if(custCreate->createCustomer(name, phonenum, email) == true)
     {
         string strResult = DataGrabber->ConnectTo("/user/login" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
     }
     return false;
 }
 
+void mainClass::logOut()
+{
+    DataGrabber->ConnectTo("/user/logout");
+    DataGrabber ->ClearCookies();
+    estabLogIn ->LogOut();
+}
 
 int mainClass::addToCart(string productSku)
 {
@@ -89,12 +95,11 @@ int mainClass::addToCart(string productSku)
 }
 
 
-
-
-
-
-
-/*bool mainClass::CreateAccoount();
+/*
+bool mainClass::CreateAccoount()
+{
+    
+}
 string mainClass::AddItem()
 {
     return "Failed: Item exist";
