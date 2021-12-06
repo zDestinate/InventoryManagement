@@ -1,3 +1,4 @@
+#include "ui/objects.h"
 #include "ui/content/content_accounts.h"
 
 content_accounts::content_accounts(HWND hwndParent, int lpParam, int x, int y, int width, int height)
@@ -5,11 +6,60 @@ content_accounts::content_accounts(HWND hwndParent, int lpParam, int x, int y, i
 {
     SetWindowSubclass(hwnd, ContentProc, lpParam, (DWORD_PTR)this);
 
-    TEST = L"ACCOUNT CONTENT";
-
-    hFont = CreateFont(30, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
+    hFont = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
         OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
         DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
+
+    RECT rectWindow;
+    GetWindowRect(hwnd, &rectWindow);
+
+    int nWidth = rectWindow.right - rectWindow.left;
+    int nHeight = rectWindow.bottom - rectWindow.top;
+
+    //For search bar
+    int nSearchBarWidth = nWidth / 2;
+    nSearchBarHeight = 25;
+    int nSearchBarX = (nWidth / 2) - (nSearchBarWidth / 2) + (30 / 2) - 10;
+    nSearchBarY = 50;
+
+    SearchBar = new content_item_search(hwnd, FormObjects::CONTENT_ACCOUNTS_SEARCH, nSearchBarX, nSearchBarY, nSearchBarWidth, nSearchBarHeight);
+    SearchBar->PlaceHolder = "Search";
+
+    //For ListView
+    int nItemListWidth = nWidth - 120;
+    int nItemListX = 50;
+    nItemListY = 120;
+    ItemList = new content_item_list(hwnd, FormObjects::CONTENT_ACCOUNTS_LIST, nItemListX, nItemListY, nItemListWidth, nHeight - nSearchBarHeight - nSearchBarY - 175);
+    ItemList->CreateColumn(0, "TESTTT", 150);
+    ItemList->Insert(0, 0, "asdfasdf");
+    ItemList->Insert(0, 1, "bbbbbb");
+    ItemList->CreateColumn(1, "ASDASD", 150);
+    ItemList->Insert(1, 0, "ads");
+    ItemList->Insert(1, 1, "wwwwwwwww");
+
+    //For buttons
+    nButtonWidth = 150;
+    nButtonheight = 32;
+    nSpaceBetweenButtons = 15;
+
+    btnResetUserPass = new form_button(hwnd, FormObjects::CONTENT_ACCOUNTS_BTN_RESETPASSWORD, nWidth - 70 - (nButtonWidth * 1), nHeight - 100, nButtonWidth, nButtonheight);
+    btnResetUserPass->SetFont(hFont);
+    btnResetUserPass->ButtonText = "Reset Password";
+    btnResetUserPass->ButtonColorRGB = RedColorRGB;
+    btnResetUserPass->ButtonColorRGB_Hover = RGB(224, 25, 25);
+
+    int nEditUserWidth = 100;
+    btnEditUser = new form_button(hwnd, FormObjects::CONTENT_ACCOUNTS_BTN_EDIT, nWidth - 70 - (nButtonWidth * 1) - nEditUserWidth - nSpaceBetweenButtons, nHeight - 100, nEditUserWidth, nButtonheight);
+    btnEditUser->SetFont(hFont);
+    btnEditUser->ButtonText = "Edit";
+    btnEditUser->ButtonColorRGB = RGB(43, 185, 255);
+    btnEditUser->ButtonColorRGB_Hover = RGB(0, 154, 229);
+
+    btnCreateUser = new form_button(hwnd, FormObjects::CONTENT_ACCOUNTS_BTN_CREATE, nWidth - 70 - (nButtonWidth * 1) - (nEditUserWidth * 2) - (nSpaceBetweenButtons * 2), nHeight - 100, nEditUserWidth, nButtonheight);
+    btnCreateUser->SetFont(hFont);
+    btnCreateUser->ButtonText = "Create";
+    btnCreateUser->ButtonColorRGB = RGB(43, 185, 255);
+    btnCreateUser->ButtonColorRGB_Hover = RGB(0, 154, 229);
 }
 
 LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
@@ -59,11 +109,51 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
 
             SetTextColor(hdc, pThis->TextColorRGB);
             SelectObject(hdc, pThis->hFont);
-            DrawTextW(hdc, (LPCWSTR)pThis->TEST.c_str(), pThis->TEST.length(), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
             //Restore the font and end painting
             SelectObject(hdc, hFont);
             EndPaint(hwnd, &ps);
+        }
+        break;
+    case WM_SIZE:
+        {
+            RECT rc;
+            GetWindowRect(hwnd, &rc);
+
+            int nWidth = rc.right - rc.left;
+            int nHeight = rc.bottom - rc.top;
+
+            int nSearchBarWidth = nWidth / 2;
+            int nSearchBarX = (nWidth / 2) - (nSearchBarWidth / 2) + (30 / 2) - 10;
+            SetWindowPos(pThis->SearchBar->hwnd, NULL, nSearchBarX, pThis->nSearchBarY, nSearchBarWidth, pThis->nSearchBarHeight, SWP_NOZORDER);
+
+            int nItemListWidth = nWidth - 120;
+            int nItemListX = 50;
+            SetWindowPos(pThis->ItemList->hwnd, NULL, nItemListX, pThis->nItemListY, nItemListWidth,  nHeight - pThis->nSearchBarHeight - pThis->nSearchBarY - 175, SWP_NOZORDER);
+
+
+            //Buttons
+            SetWindowPos(pThis->btnResetUserPass->hwndbutton, NULL, nWidth - 70 - (pThis->nButtonWidth * 1), nHeight - 100, pThis->nButtonWidth, pThis->nButtonheight, SWP_NOZORDER);
+
+            int nEditUserWidth = 100;
+            SetWindowPos(pThis->btnEditUser->hwndbutton, NULL, nWidth - 70 - (pThis->nButtonWidth * 1) - nEditUserWidth - pThis->nSpaceBetweenButtons, nHeight - 100, nEditUserWidth, pThis->nButtonheight, SWP_NOZORDER);
+            SetWindowPos(pThis->btnCreateUser->hwndbutton, NULL, nWidth - 70 - (pThis->nButtonWidth * 1) - (nEditUserWidth * 2) - (pThis->nSpaceBetweenButtons * 2), nHeight - 100, nEditUserWidth, pThis->nButtonheight, SWP_NOZORDER);
+        }
+        break;
+    case WM_COMMAND:
+        {
+            switch(LOWORD(wParam))
+            {
+                case FormObjects::CONTENT_ACCOUNTS_SEARCH:
+                    {
+                        int nSearchBarLength = GetWindowTextLength(pThis->SearchBar->hwnd) + 1;
+                        TCHAR *tszSearchBarText = new TCHAR[nSearchBarLength];
+                        nSearchBarLength = GetWindowText(pThis->SearchBar->hwnd, tszSearchBarText, nSearchBarLength);
+                        string strSearchbarText;
+                        strSearchbarText.assign(&tszSearchBarText[0], &tszSearchBarText[nSearchBarLength]);
+                    }
+                    break;
+            }
         }
         break;
     }
