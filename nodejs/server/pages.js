@@ -69,6 +69,7 @@ function findUser(userName, db,passcode, callback){
 		
 	});
 }
+//function createUser(db,)
 
 module.exports = function (app, express, db)
 {
@@ -239,6 +240,18 @@ module.exports = function (app, express, db)
 		}
 	});
 
+
+	app.get('/user/logout', function(req, res){
+		req.session.destroy();
+		var data = {};
+			data['message'] = 'Logged Out';
+			data['code'] = '876';
+			
+			var prettydata = JSON.stringify(data, null, 2);
+			res.type('json').send(prettydata);
+			return;
+
+	});
 
 	app.get('/user/create/:name/:email/:phone', function(req, res)
 	{
