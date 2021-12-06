@@ -15,6 +15,7 @@ using namespace std;
 
 
 string ProgramVersion = "Version 1.0.0.12";
+string LinkURL = "http://157.245.0.156";
 LPCTSTR FontNames[6];
 string FontPaths[6];
 
