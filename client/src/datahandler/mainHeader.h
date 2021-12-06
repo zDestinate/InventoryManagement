@@ -14,13 +14,15 @@ class mainClass {
 
     getData* DataGrabber;
     UserLogIn* estabLogIn;
-    Customer* custcreate;
+    Customer* custCreate;
     Sales* addCart;
 
   public:
     mainClass();
     void test();
     bool LogIn(std::string username, std::string password);
+    void logOut();
     bool makeCust(std::string name, std::string phonenum, std::string email);
     int addToCart(std::string productSku);
+
 };
