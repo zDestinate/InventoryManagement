@@ -69,7 +69,6 @@ LRESULT CALLBACK content_item_list::ListViewProc(HWND hwnd, UINT message, WPARAM
                         item.iItem = itemId;
                         item.pszText = szItemName;
                         ListView_GetItem(hwnd, &item);
-                        printf("Deleted: %s\n", item.pszText);
 
                         ListView_DeleteItem(hwnd, itemId);
                     }

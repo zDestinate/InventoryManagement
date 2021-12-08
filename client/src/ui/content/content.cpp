@@ -7,7 +7,8 @@
 content::content(HWND hwndParent, int lpParam, int x, int y, int width, int height)
 {
     hwnd = CreateWindow("STATIC", "", WS_CHILD | WS_VISIBLE , x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
-    SetWindowSubclass(hwnd, ContentProc, lpParam, (DWORD_PTR)this);
+    this->hwndParent = hwndParent;
+    //SetWindowSubclass(hwnd, ContentProc, lpParam, (DWORD_PTR)this);
 }
 
 LRESULT content::ContentProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)

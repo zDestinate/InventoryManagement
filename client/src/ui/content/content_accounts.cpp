@@ -10,6 +10,12 @@ content_accounts::content_accounts(HWND hwndParent, int lpParam, int x, int y, i
         OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
         DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
+
+    //Pop up account settings
+    FormAccounts = new popup_accounts(hwndParent);
+    CreateThread(NULL, 0, FormAccounts->CreateThread, (void*)FormAccounts, 0, &dwThreadID_PopUp_Accounts);
+    
+    //RECT of hwnd for design
     RECT rectWindow;
     GetWindowRect(hwnd, &rectWindow);
 
@@ -151,6 +157,30 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
                         nSearchBarLength = GetWindowText(pThis->SearchBar->hwnd, tszSearchBarText, nSearchBarLength);
                         string strSearchbarText;
                         strSearchbarText.assign(&tszSearchBarText[0], &tszSearchBarText[nSearchBarLength]);
+                    }
+                    break;
+                case FormObjects::CONTENT_ACCOUNTS_BTN_CREATE:
+                    {
+                        pThis->FormAccounts->bShowPassword = true;
+                        pThis->FormAccounts->bShowPersonalInfo = true;
+                        ShowWindow(pThis->FormAccounts->hwnd, SW_SHOW);
+                        EnableWindow(pThis->hwndParent, FALSE);
+                    }
+                    break;
+                case FormObjects::CONTENT_ACCOUNTS_BTN_EDIT:
+                    {
+                        pThis->FormAccounts->bShowPassword = false;
+                        pThis->FormAccounts->bShowPersonalInfo = true;
+                        ShowWindow(pThis->FormAccounts->hwnd, SW_SHOW);
+                        EnableWindow(pThis->hwndParent, FALSE);
+                    }
+                    break;
+                case FormObjects::CONTENT_ACCOUNTS_BTN_RESETPASSWORD:
+                    {
+                        pThis->FormAccounts->bShowPassword = true;
+                        pThis->FormAccounts->bShowPersonalInfo = false;
+                        ShowWindow(pThis->FormAccounts->hwnd, SW_SHOW);
+                        EnableWindow(pThis->hwndParent, FALSE);
                     }
                     break;
             }

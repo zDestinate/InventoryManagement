@@ -13,6 +13,7 @@ class content
 
     public:
         HWND hwnd;
+        HWND hwndParent;
         COLORREF BackgroundColorRGB = RGB(255, 255, 255);
         COLORREF RedColorRGB = RGB(255, 51, 51);
         COLORREF GreenColorRGB = RGB(58, 219, 0);
