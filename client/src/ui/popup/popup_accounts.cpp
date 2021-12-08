@@ -231,6 +231,8 @@ LRESULT popup_accounts::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
                 nFieldCount++;
                 SetWindowPos(txtPermission->hwndTxtbox, NULL, nCenterX, nY * nFieldCount, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
+                btnFirstButton->ButtonText = "Create";
+
                 SetWindowPos(hwnd, NULL, NULL, NULL, 460, 500, SWP_NOZORDER | SWP_NOMOVE);
             }
             else if(bShowPersonalInfo)
@@ -249,6 +251,8 @@ LRESULT popup_accounts::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
                 nFieldCount++;
                 SetWindowPos(txtPermission->hwndTxtbox, NULL, nCenterX, nY * nFieldCount, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
+                btnFirstButton->ButtonText = "Edit";
+
                 SetWindowPos(hwnd, NULL, NULL, NULL, 460, 440, SWP_NOZORDER | SWP_NOMOVE);
             }
             else if(bShowPassword)
@@ -260,6 +264,8 @@ LRESULT popup_accounts::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
                 ShowWindow(txtPermission->hwndTxtbox, SW_HIDE);
 
                 SetWindowPos(txtPassword->hwndTxtbox, NULL, nCenterX, nY * nFieldCount, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
+                btnFirstButton->ButtonText = "Reset";
 
                 SetWindowPos(hwnd, NULL, NULL, NULL, 460, 260, SWP_NOZORDER | SWP_NOMOVE);
             }
