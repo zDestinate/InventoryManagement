@@ -192,6 +192,7 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                             {
                                 formMain = new form_main(hwnd);
                                 formMain->CreateFormMain();
+                                formMain->SetDataHandler(DataHandler);
                             }
                             else
                             {

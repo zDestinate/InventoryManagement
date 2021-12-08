@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include "datahandler/mainHeader.h"
 #include "ui/form_menubar.h"
 #include "ui/form_menutop.h"
 #include "ui/content/content.h"
@@ -16,6 +17,8 @@ class form_main
     private:
         HINSTANCE hInstMainWin;
         HWND hwndLogin;
+
+        mainClass* DataHandler = nullptr;
 
         int MenuTopHeight = 80;
         form_menutop* Menu_Top = nullptr;
@@ -33,7 +36,6 @@ class form_main
         content_accounts* ContentAccounts = nullptr;
         content_settings* ContentSettings = nullptr;
 
-
         bool CenterWindow(HWND hwndWindow);
         void UpdateContent(content* Content, bool bItemExtended, int nMainWidth, int nMainHeight, int MaxWidth);
 
@@ -45,6 +47,7 @@ class form_main
 
         form_main(HWND hwndLogin);
         int CreateFormMain();
+        void SetDataHandler(mainClass* tempDataHandler);
 
         void SetFocusContent(int FormObj);
         

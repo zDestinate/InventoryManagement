@@ -191,6 +191,12 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
         {
             //DestroyWindow(hwnd);
             ShowWindow(hwnd, SW_HIDE);
+
+            if(DataHandler != nullptr)
+            {
+                DataHandler->logOut();
+            }
+
             CenterWindow(hwndLogin);
             ShowWindow(hwndLogin, SW_RESTORE);
         }
