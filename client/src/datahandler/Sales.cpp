@@ -16,17 +16,17 @@ string Sales::addToCart(std::string name, std::string sku, int price)
     itemObj newItem(name, sku, price);
     shoppingCart.push_back(newItem);
 
-    return "added to cart";
+    return "item added to cart";
 }
 
 string Sales::removeFromCart(std::string SKU)
 {
 
-    return "added to cart";
+    return "item removed from cart";
 }
 
 string Sales::clearCart()
 {
     shoppingCart.clear();
-    return "added to cart";
+    return "cart cleared";
 }

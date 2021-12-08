@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <string>
+#include "global.h"
 #include "datahandler/mainHeader.h"
 #include "lib/json.hpp"
 
@@ -9,12 +10,14 @@ using json = nlohmann::json;
 
 mainClass::mainClass()
 {
+    URL = LinkURL;
+
     //For login
     estabLogIn = new UserLogIn();
-    //Create Customer
-    custCreate = new Customer();
     //addingToCart
     addCart = new Sales();
+    //For account management
+    manageAcc = new accountManagement();
 
     //For getting the data
     DataGrabber = new getData(URL);
@@ -42,6 +45,7 @@ bool mainClass::LogIn(string username, string password)
 
         json datajson = json::parse(strResult);
 
+        
         int nCode = stoi(datajson.at("code").get<string>());
 
         if(nCode == 0)
@@ -64,20 +68,64 @@ bool mainClass::LogIn(string username, string password)
     
     return false;
 }
-bool mainClass::makeCust(string name, string phonenum,string email)
-{
-    if(custCreate->createCustomer(name, phonenum, email) == true)
-    {
-        string strResult = DataGrabber->ConnectTo("/user/login" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
-    }
-    return false;
-}
 
 void mainClass::logOut()
 {
     DataGrabber->ConnectTo("/user/logout");
     DataGrabber ->ClearCookies();
     estabLogIn ->LogOut();
+}
+
+bool mainClass::makeCust(std::string fname,std::string lname, std::string phonenum, std::string email)
+{   
+    bool check1 = manageAcc->createCustomer(phonenum, email);
+    bool check2 = manageAcc ->checkName(fname, lname);
+
+    if(check1 && check2 )
+    {
+        string strResult = DataGrabber->ConnectTo("/user/login" + fname +"/"+ lname + "/" + phonenum + "/" + email);
+    }
+    return false;
+}
+
+bool mainClass::CreateAccoount(std::string username,std::string password,std::string fname, std::string lname, int value)
+{
+    string position = to_string(value);
+
+    bool busername = estabLogIn->LoginUser(username);
+    bool bpassword = estabLogIn->LoginPass(password);
+    bool namecheck = manageAcc ->checkName(fname,lname);
+
+    if(busername && bpassword && namecheck)
+    {
+        string strResult = DataGrabber->ConnectTo("/user/login/" + estabLogIn->strUsername + "/" + estabLogIn->strPassword + "/" + fname + "/" + lname + "/" + position);
+        return true;
+    }
+
+    return false;
+    
+}
+
+bool mainClass::deleteAcc(std::string id)
+{
+    string strResult = DataGrabber->ConnectTo("/user/logout");
+    return true;    
+}
+
+
+bool mainClass::returnUserData()
+{
+    string strResult = DataGrabber->ConnectTo("/user/logout");
+
+    json datajson = json::parse(strResult);
+    bool getDataResult = manageAcc->allUserData(datajson);
+
+    if(getDataResult){
+        cout<< "successful" << endl;
+        return true;
+    }
+    cout<< "failed" << endl;
+    return false;
 }
 
 int mainClass::addToCart(string productSku)
@@ -94,14 +142,10 @@ int mainClass::addToCart(string productSku)
    return 0;
 }
 
+bool mainClass::addItemToDB(std::string name, std::string sku, int price)
+{
 
-/*
-bool mainClass::CreateAccoount()
-{
-    
+   string strResult = DataGrabber->ConnectTo("/user/logout");
+    return true;
 }
-string mainClass::AddItem()
-{
-    return "Failed: Item exist";
-}
-*/
+
