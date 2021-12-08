@@ -304,3 +304,8 @@ void form_main::SetFocusContent(int FormObj)
     }
     UpdateContent(FocusContent, bItemExtended, nMainWidth, nMainHeight, MaxWidth);
 }
+
+void form_main::SetDataHandler(mainClass* tempDataHandler)
+{
+    DataHandler = tempDataHandler;
+}
