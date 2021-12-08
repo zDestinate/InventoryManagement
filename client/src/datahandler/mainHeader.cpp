@@ -71,40 +71,28 @@ bool mainClass::LogIn(string username, string password)
 void mainClass::logOut()
 {
     DataGrabber->ConnectTo("/user/logout");
-    DataGrabber ->ClearCookies();
-    estabLogIn ->LogOut();
+    DataGrabber->ClearCookies();
+    estabLogIn->LogOut();
 }
 
-bool mainClass::makeCust(std::string fname,std::string lname, std::string phonenum, std::string email)
-{   
-    bool check1 = manageAcc->createCustomer(phonenum, email);
-    bool check2 = manageAcc ->checkName(fname, lname);
-
-    if(check1 && check2 )
-    {
-        string strResult = DataGrabber->ConnectTo("/user/login" + fname +"/"+ lname + "/" + phonenum + "/" + email);
-    }
-    return false;
-}
-
-bool mainClass::CreateAccoount(std::string username,std::string password,std::string fname, std::string lname, int value)
+/*bool mainClass::CreateAccoount(std::string username,std::string password,std::string phonenum,std::string email, std::string perm,std::string flname)
 {
-    string position = to_string(value);
 
     bool busername = estabLogIn->LoginUser(username);
     bool bpassword = estabLogIn->LoginPass(password);
-    bool namecheck = manageAcc ->checkName(fname,lname);
+    bool namecheck = manageAcc ->checkName(flname);
+    bool check1 = manageAcc->createCustomer(phonenum, email);
 
     if(busername && bpassword && namecheck)
     {
-        string strResult = DataGrabber->ConnectTo("/user/login/" + estabLogIn->strUsername + "/" + estabLogIn->strPassword + "/" + fname + "/" + lname + "/" + position);
+       // string strResult = DataGrabber->ConnectTo("/user/login/" + estabLogIn->strUsername + "/" + estabLogIn->strPassword + "/" + fname + "/" + lname + "/" + position);
         return true;
     }
 
     return false;
     
 }
-
+*/
 bool mainClass::deleteAcc(std::string id)
 {
     string strResult = DataGrabber->ConnectTo("/user/logout");

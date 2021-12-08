@@ -30,6 +30,6 @@ class mainClass {
     bool makeCust(std::string fname,std::string lname, std::string phonenum, std::string email);
     bool deleteAcc(std::string id);
      ///user/create/:username/:password/:phone/:perm/:flname
-    bool CreateAccoount(std::string username,std::string password,std::string phonenum, std::string lname, int value);
+    bool CreateAccoount(std::string username,std::string password,std::string phonenum,std::string email,std::string perm,std::string flname);
     
 };
