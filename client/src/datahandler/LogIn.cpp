@@ -77,13 +77,12 @@ bool UserLogIn::LoginPass(string password)
     return true;
 }
 
-bool UserLogIn::LogOut()
+void UserLogIn::LogOut()
 {
     
     std::fstream ofs;
 
     ofs.open("cookie.txt", std::ofstream::out | std::ofstream::trunc);
-    ofs.close();
- return true;  
+    ofs.close();  
 }
 

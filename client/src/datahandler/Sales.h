@@ -1,14 +1,16 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "lib/json.hpp"
+using json = nlohmann::json;
 
 class itemObj
 {
     public:
     std::string name,sku;
-    int price=0;
+    float price=0;
 
-    itemObj(std::string x, std::string y, int z)
+    itemObj(std::string x, std::string y, float z)
     {
         name = x;
         sku = y;
@@ -23,7 +25,7 @@ class itemObj
     {
         return sku;
     }
-    int getPrice()
+    float getPrice()
     {
         return price;
     }
@@ -38,7 +40,7 @@ class itemObj
         sku = SKU;
     }
     
-    void setPrice(int Price)
+    void setPrice(float Price)
     {
         price = Price;
     }
@@ -52,10 +54,12 @@ class Sales {
   public:
 
     std::vector<itemObj> shoppingCart;
+    float total;
+    std::string cartString;
 
-    Sales();
-    std::string addToCart(std::string name, std::string sku, int price);
-    std::string removeFromCart(std::string SKU);
-    std::string clearCart();
+    bool addToCart(json itemInfo);
+    bool removeFromCart(std::string SKU);
+    bool clearCart();
+    void shoppingCartToString();
 };
 

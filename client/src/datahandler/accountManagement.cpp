@@ -8,11 +8,6 @@
 using namespace std;
 using json = nlohmann::json;
 
-accountManagement::accountManagement()
-{
-
-}
-
 bool accountManagement::isChar(char c)
 {
     return ((c >= 'a' && c <= 'z')
@@ -93,7 +88,7 @@ bool accountManagement::checkphoneNum(string phoneNum)
     return true;
 }
 
-bool accountManagement::createCustomer(string phoneNum, string email)
+bool accountManagement::checkPhoneEmail(string phoneNum, string email)
 {
      ///user/create/:username/:password/:phone/:perm/:flname
     bool check1,check2;
@@ -112,8 +107,8 @@ bool accountManagement::createCustomer(string phoneNum, string email)
 
 bool accountManagement::allUserData(json datajson)
 {
-    int j = 0, val= -1,count = 0;
-    string first,last,value;
+    int j = 0,count = 0;
+    string username,phone,email,perm,flname;
 
    if(datajson.is_array())
     {
@@ -121,29 +116,38 @@ bool accountManagement::allUserData(json datajson)
         {
             if(count == 0)
             {
-                first = datajson[i].at("code").get<string>();
+                username = datajson[i].at("code").get<string>();
                 count ++;
             }
 
             if(count == 1)
             {
-                last = datajson[i].at("code").get<string>();
+                phone = datajson[i].at("code").get<string>();
                 count ++;
             }
 
             if(count == 2)
             {
-                value = datajson[i].at("code").get<string>();
-                val = stoi(value);
-
-                if(val == 0)
+                email = datajson[i].at("code").get<string>();
+                count++;
+            }
+            if(count == 3)
+            {
+                perm = datajson[i].at("code").get<string>();
+                count++;
+            }
+            if(count == 4)
+            {
+                flname = datajson[i].at("code").get<string>();
+            
+                if(perm == "cus")
                 {
-                    custAcc Cust(first,last,val);
+                    custAcc Cust(username,phone,email,perm,flname);
                     vectCust.push_back(Cust);
                 }
-                if((val == 1) || (val == 2))
+                if((perm == "sup") || (perm == "emp"))
                 {
-                    workerEmp Emp(first,last,val);
+                    workerEmp Emp(username,phone,email,perm,flname);
                     vectEmp.push_back(Emp);
                 }
                 count = 0;
@@ -151,36 +155,62 @@ bool accountManagement::allUserData(json datajson)
         }
         return true;
     }
-    return true;
-}
-
-bool accountManagement::changePassword(std::string id)
-{
-
     return false;
 }
 
-bool accountManagement::searchAcc(std::string id)
+bool accountManagement::checkName(std::string flname)
 {
-
-    return false;
-}
-
-bool accountManagement::checkName(std::string fname, std::string lname)
-{
-    
-    for(int i = 0; i <= fname.length(); i++ )
+    char nc;
+    for(int i = 0; i <= flname.length(); i++ )
     {
-        if(isdigit(fname[i])){
-            return false;
-        }
-    }
-    
-    for(int i = 0; i <= lname.length(); i++ )
-    {
-        if(isdigit(lname[i])){
+        nc = flname[i];
+
+        if(isdigit(flname[i]) ||(nc>=33 && nc<=64)||
+                                (nc>=91 && nc<=96)||
+                                (nc>=123 && nc<=126))
+        {
             return false;
         }
     }
     return true;
 }
+//ISSUE WITH CHANGE PASSWORD
+bool accountManagement::changePassword(std::string id,std::string password)
+{
+/*  for(int i = 0; i < vectEmp.size(); i++)
+    {
+        if(vectEmp[i].get)
+    }
+*/
+    return false;
+}
+
+//NOTE TO SELF MAKE SEP FUNCTIONS FOR EMP AND CUS CHANGE FIGURE IT OUT
+bool accountManagement::changeUserName(std::string id,std::string newName)
+{
+    
+return false;
+}
+bool accountManagement::changePhone(std::string id,std::string newPhone)
+{
+
+return false;
+}
+bool accountManagement::changeEmail(std::string id,std::string  newEmail)
+{
+
+return false;
+}
+bool accountManagement::changePerm(std::string id,std::string newPerm)
+{
+
+return false;
+}
+bool accountManagement::changeFlname(std::string id,std::string  newFlname)
+{
+
+return false;
+}
+
+
+

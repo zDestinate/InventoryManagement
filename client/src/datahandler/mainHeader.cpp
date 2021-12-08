@@ -15,7 +15,7 @@ mainClass::mainClass()
     //For login
     estabLogIn = new UserLogIn();
     //addingToCart
-    addCart = new Sales();
+    Cart = new Sales();
     //For account management
     manageAcc = new accountManagement();
 
@@ -75,30 +75,38 @@ void mainClass::logOut()
     estabLogIn->LogOut();
 }
 
-/*bool mainClass::CreateAccoount(std::string username,std::string password,std::string phonenum,std::string email, std::string perm,std::string flname)
+bool mainClass::CreateAccoount(std::string username,std::string password,std::string phonenum,std::string email, std::string perm,std::string flname)
 {
 
     bool busername = estabLogIn->LoginUser(username);
     bool bpassword = estabLogIn->LoginPass(password);
     bool namecheck = manageAcc ->checkName(flname);
-    bool check1 = manageAcc->createCustomer(phonenum, email);
+    bool check1 = manageAcc->checkPhoneEmail(phonenum, email);
 
-    if(busername && bpassword && namecheck)
+    if(busername && bpassword && namecheck && check1)
     {
-       // string strResult = DataGrabber->ConnectTo("/user/login/" + estabLogIn->strUsername + "/" + estabLogIn->strPassword + "/" + fname + "/" + lname + "/" + position);
-        return true;
+         ///user/create/:username/:password/:phone/:perm/:flname
+       string strResult = DataGrabber->ConnectTo("/user/create/" + username + "/" + password + "/" + phonenum + "/" + email + "/" + perm + "/" + flname);
+       returnUserData();
+       return true;
     }
-
-    return false;
-    
+    return false;   
 }
-*/
+
 bool mainClass::deleteAcc(std::string id)
-{
-    string strResult = DataGrabber->ConnectTo("/user/logout");
-    return true;    
-}
+{   
+    string strResult = DataGrabber->ConnectTo("/user/delete" + id);
+    
+    json datajson = json::parse(strResult);
+    int nCode = stoi(datajson.at("code").get<string>());
 
+    if(nCode = 0)
+    {
+        returnUserData();
+        return true;
+    }    
+    return false;
+}
 
 bool mainClass::returnUserData()
 {
@@ -115,24 +123,45 @@ bool mainClass::returnUserData()
     return false;
 }
 
-int mainClass::addToCart(string productSku)
-{
-    string item = productSku;
-    
-   // string strResult = DataGrabber->ConnectTo("/inventory/item" + addCart->item);
-    /* json datajson = json::parse(strResult);
-        if(datajson.at("code") == 200)
-        {
-
-        }
-    */
-   return 0;
+bool mainClass::addToCart(string productSku)
+{   
+    string strResult = DataGrabber->ConnectTo("/inventory/item" + productSku);
+    json datajson = json::parse(strResult);
+       
+    bool addResult = Cart->addToCart(datajson);
+    if(addResult)
+    {
+        return true;
+    }
+    return false;
 }
 
-bool mainClass::addItemToDB(std::string name, std::string sku, int price)
+bool mainClass::removeFromCart(std::string productSku)
+{
+    bool remove = Cart->removeFromCart(productSku);
+    
+    if(remove){
+        return true;
+    }
+    return false;
+}
+
+void mainClass::checkout()
+{
+    Cart->shoppingCartToString();
+    string strResult = DataGrabber->ConnectTo("/inventory/checkout" + Cart ->cartString);
+
+    Cart->clearCart();
+}
+bool mainClass::addItemToDB(std::string name, std::string sku, std::string price)
 {
 
    string strResult = DataGrabber->ConnectTo("/user/logout");
     return true;
 }
 
+/*  -NEED TO FINISH SALES AND HOW TO SEND THAT
+    -NEED TO FINISH INVENTORY AND UPDATING AFTER SALE
+    -NEED TO FINISH ACCOUNT MANAGEMENT CHANGING PASSWORDS
+    -NEED TO ADD ROUTES
+*/

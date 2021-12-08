@@ -14,7 +14,7 @@ class mainClass {
     getData* DataGrabber;
     UserLogIn* estabLogIn;
     accountManagement* manageAcc;
-    Sales* addCart;
+    Sales* Cart;
   
   public:
     mainClass();
@@ -22,14 +22,15 @@ class mainClass {
     bool LogIn(std::string username, std::string password);
     void logOut();
     
-    
-    int addToCart(std::string productSku);
-    bool addItemToDB(std::string name, std::string sku, int price);
-    
+    bool removeFromCart(std::string productSku);
+    bool addToCart(std::string productSku);
+    bool addItemToDB(std::string name, std::string sku, std::string price);
+    void checkout();
+
+
     bool returnUserData();
     bool makeCust(std::string fname,std::string lname, std::string phonenum, std::string email);
     bool deleteAcc(std::string id);
-     ///user/create/:username/:password/:phone/:perm/:flname
     bool CreateAccoount(std::string username,std::string password,std::string phonenum,std::string email,std::string perm,std::string flname);
     
 };
