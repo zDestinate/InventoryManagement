@@ -26,7 +26,6 @@ mainClass::mainClass()
 
 bool mainClass::LogIn(string username, string password)
 {
-    return true;
 
     bool busername = estabLogIn->LoginUser(username);
     bool bpassword = estabLogIn->LoginPass(password);
