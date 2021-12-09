@@ -36,6 +36,7 @@ content_accounts::content_accounts(HWND hwndParent, int lpParam, int x, int y, i
     int nItemListX = 50;
     nItemListY = 120;
     ItemList = new content_item_list(hwnd, FormObjects::CONTENT_ACCOUNTS_LIST, nItemListX, nItemListY, nItemListWidth, nHeight - nSearchBarHeight - nSearchBarY - 175);
+    ItemList->nMinXColumn = 20;
     ItemList->CreateColumn(0, "TESTTT", 150);
     ItemList->Insert(0, 0, "asdfasdf");
     ItemList->Insert(0, 1, "bbbbbb");

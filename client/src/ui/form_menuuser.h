@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <commctrl.h>
 #include <string>
+#include "ui/popup/popup_profile.h"
 
 using namespace std;
 
@@ -13,6 +14,8 @@ class form_menuuser
 
         bool bHover = false;
         HFONT hFontIcon;
+        
+        DWORD dwThreadID_PopUp_Profile;
 
     public:
         HWND hwnd;
@@ -25,5 +28,8 @@ class form_menuuser
         COLORREF IDTextColorRGB = RGB(0, 0, 0);
         COLORREF IDTextColorRGB_Hover = RGB(255, 255, 255);
 
+        popup_profile* FormProfile = nullptr;
+
         form_menuuser(HWND hwndParent, int lpParam, int x, int y, int width, int height);
+        void SetProfilePopup(HWND hwndMain);
 };

@@ -23,9 +23,9 @@ bool popup_accounts::CenterWindow(HWND hwndWindow)
     return true;
 }
 
-popup_accounts::popup_accounts(HWND hwndContent)
+popup_accounts::popup_accounts(HWND hwndMain)
 {
-    this->hwndContent = hwndContent;
+    this->hwndMain = hwndMain;
 
     hFont = CreateFont(18, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
         OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
@@ -77,7 +77,7 @@ int popup_accounts::CreateFormMain()
 
     hInstMainWin = wcex.hInstance;
 
-    hwnd = CreateWindowEx(WS_EX_TOPMOST, "IMFormPopupAccounts", "Inventory Management - Accounts", WS_POPUPWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 460, 500, NULL, NULL, hInstMainWin, this);
+    hwnd = CreateWindowEx(NULL, "IMFormPopupAccounts", "Inventory Management - Accounts", WS_POPUPWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 460, 500, NULL, NULL, hInstMainWin, this);
     CenterWindow(hwnd);
     ShowWindow(hwnd, SW_HIDE);
     UpdateWindow(hwnd);
@@ -197,7 +197,7 @@ LRESULT popup_accounts::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
             {
                 case FormObjects::POPUP_ACCOUNTS_BTN_CANCEL:
                     {
-                        EnableWindow(hwndContent, true);
+                        EnableWindow(hwndMain, true);
                         ShowWindow(hwnd, SW_HIDE);
                         SendMessage(txtUsername->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
                         SendMessage(txtPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
@@ -281,7 +281,7 @@ LRESULT popup_accounts::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
         break;
     case WM_CLOSE:
         {
-            EnableWindow(hwndContent, true);
+            EnableWindow(hwndMain, true);
             ShowWindow(hwnd, SW_HIDE);
             SendMessage(txtUsername->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
             SendMessage(txtPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");

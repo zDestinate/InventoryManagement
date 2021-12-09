@@ -105,3 +105,13 @@ LRESULT form_menuuser::ButtonProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
     return DefSubclassProc(hwnd, message, wParam, lParam);
 }
+
+void form_menuuser::SetProfilePopup(HWND hwndMain)
+{
+    if(FormProfile == nullptr)
+    {
+        //Pop up profile change password
+        FormProfile = new popup_profile(hwndMain);
+        CreateThread(NULL, 0, FormProfile->CreateThread, (void*)FormProfile, 0, &dwThreadID_PopUp_Profile);
+    }
+}
