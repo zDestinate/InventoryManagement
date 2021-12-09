@@ -26,7 +26,7 @@ mainClass::mainClass()
 
 bool mainClass::LogIn(string username, string password)
 {
-
+    return true;
     bool busername = estabLogIn->LoginUser(username);
     bool bpassword = estabLogIn->LoginPass(password);
 
@@ -150,7 +150,6 @@ void mainClass::checkout()
 {
     Cart->shoppingCartToString();
     string strResult = DataGrabber->ConnectTo("/inventory/checkout" + Cart ->cartString);
-
     Cart->clearCart();
 }
 bool mainClass::addItemToDB(std::string name, std::string sku, std::string price)

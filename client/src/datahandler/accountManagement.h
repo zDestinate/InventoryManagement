@@ -144,12 +144,12 @@ class accountManagement {
     bool allUserData(json userData); 
     bool checkName(std::string flname);
     
-    bool changeUserName(std::string id,std::string newName);
-    bool changePhone(std::string id,std::string newPhone);
-    bool changeEmail(std::string id,std::string  newEmail);
-    bool changePerm(std::string id,std::string newPerm);
-    bool changeFlname(std::string id,std::string  newFlname);
-    bool changePassword(std::string id,std::string newPassword);
+    bool changeUserName(std::string id,std::string newName,std::string perm);
+    bool changePhone(std::string id,std::string newPhone,std::string perm);
+    bool changeEmail(std::string id,std::string  newEmail,std::string perm);
+    bool changePerm(std::string id,std::string newPerm,std::string perm);
+    bool changeFlname(std::string id,std::string  newFlname,std::string perm);
+    bool changePassword(std::string id,std::string newPassword,std::string perm);
    
     
     

@@ -174,41 +174,122 @@ bool accountManagement::checkName(std::string flname)
     }
     return true;
 }
-//ISSUE WITH CHANGE PASSWORD
-bool accountManagement::changePassword(std::string id,std::string password)
+
+//ISSUE WITH CHANGE PASSWORD what is their id?????
+bool accountManagement::changePassword(std::string id,std::string password,std::string perm)
 {
-/*  for(int i = 0; i < vectEmp.size(); i++)
+ /* for(int i = 0; i < vectEmp.size(); i++)
     {
-        if(vectEmp[i].get)
+        if(vectEmp[i].get
     }
-*/
+ */
     return false;
 }
 
-//NOTE TO SELF MAKE SEP FUNCTIONS FOR EMP AND CUS CHANGE FIGURE IT OUT
-bool accountManagement::changeUserName(std::string id,std::string newName)
+bool accountManagement::changeUserName(std::string oldName,std::string newName,std::string perm)
 {
+    
+    for(int i = 0; i < vectEmp.size(); i++)
+    {
+        //if
+    }
     
 return false;
 }
-bool accountManagement::changePhone(std::string id,std::string newPhone)
-{
 
+bool accountManagement::changePhone(std::string oldPhone,std::string newPhone,std::string perm)
+{   
+    bool checkNewPhone = checkphoneNum(newPhone);
+    
+        if(checkNewPhone)
+        {
+            if(perm == "cus")
+            {
+                for(int i = 0; i < vectCust.size(); i++)
+                {
+                    if(vectCust[i].getPhone() == oldPhone)
+                    {
+                        vectCust[i].setPhone(newPhone);
+                        return true;
+                    }
+                }
+            }
+
+            if(perm == "sup" || perm == "emp")
+            {
+                for(int i = 0; i < vectEmp.size(); i++)
+                {
+                    if(vectEmp[i].getPhone() == oldPhone)
+                    {
+                        vectEmp[i].setPhone(newPhone);
+                        return true;
+                    }
+                }
+            }
+        }
+    
+    return false;
+}
+
+bool accountManagement::changeEmail(std::string oldEmail,std::string  newEmail,std::string perm)
+{
+    bool checkNewEmail = is_valid(newEmail);
+
+        if(checkNewEmail)
+        {
+            if(perm == "cus")
+            {
+                for(int i = 0; i < vectCust.size(); i++)
+                {
+                    if(vectCust[i].getEmail() == oldEmail)
+                    {
+                        vectCust[i].setEmail(newEmail);
+                        return true;
+                    }
+                }
+            }
+
+            if(perm == "sup" || perm == "emp")
+            {
+                for(int i = 0; i < vectEmp.size(); i++)
+                {
+                    if(vectEmp[i].getEmail() == oldEmail)
+                    {
+                        vectEmp[i].setEmail(newEmail);
+                        return true;
+                    }
+                }
+            }
+        }
+
+    return false;
+}
+
+bool accountManagement::changePerm(std::string id,std::string newPerm,std::string perm)
+{
+    if(perm == "cus")
+    {
+
+    }
+
+    if(perm == "sup" || perm == "emp")
+    {
+        
+    }
 return false;
 }
-bool accountManagement::changeEmail(std::string id,std::string  newEmail)
-{
 
-return false;
-}
-bool accountManagement::changePerm(std::string id,std::string newPerm)
+bool accountManagement::changeFlname(std::string id,std::string  newFlname,std::string perm)
 {
+    if(perm == "cus")
+    {
 
-return false;
-}
-bool accountManagement::changeFlname(std::string id,std::string  newFlname)
-{
+    }
 
+    if(perm == "sup" || perm == "emp")
+    {
+        
+    }
 return false;
 }
 
