@@ -6,118 +6,41 @@
 using json = nlohmann::json;
 
 //user/create/:username/:phone/:email/:perm/:flname
-class workerEmp
+class User
 {
     public:
-    std::string username,phone,email,perm,flname;
+        std::string id,user, phone, email,perm,flname;
 
-    workerEmp(std::string user, std::string num, std::string ema,std::string per, std::string flnm)
-    {
-        username = user;
-        phone = num;
-        email = ema;
-        perm = per;
-        flname = flnm;
-    }
-    
-    std::string getUser()
-    {
-        return username;
-    }
-    std::string getPhone()
-    {
-        return phone;
-    }
-    std::string getEmail()
-    {
-        return email;
-    }
-    std::string getPerm()
-    {
-        return perm;
-    }
-    std::string getName()
-    {
-        return flname;
-    }
-    
-    void setUser(std::string use)
-    {
-        username = use;
-    }
-    void setPhone(std::string pho)
-    {
-        phone = pho;
-    }
-    void setEmail(std::string ema)
-    {
-        email = ema;
-    }
-    void setPerm(std::string pe)
-    {
-        perm = pe;
-    }
-    void setName(std::string nm)
-    {
-        flname = nm;
-    }
+        User(std::string id,std::string user, std::string phone, std::string email,std::string perm,std::string flname)
+        {
+            this->id = id;
+            this->user  = user;
+            this->phone = phone;
+            this->email = email;
+            this->perm = perm;
+            this->flname = flname;
+        }
 };
 
-class custAcc
+class custAcc : public User
 {
     public:
-    std::string username,phone,email,perm,flname;
+        custAcc(std::string id,std::string user, std::string phone, std::string email,std::string perm,std::string flname) :
+        User(id,user, phone, email, perm, flname)
+        {
+            //Constructor of Customer
+        }
 
-    custAcc(std::string user, std::string num, std::string ema,std::string per, std::string flnm)
-    {
-        username = user;
-        phone = num;
-        email = ema;
-        perm = per;
-        flname = flnm;
-    }
-    
-    std::string getUser()
-    {
-        return username;
-    }
-    std::string getPhone()
-    {
-        return phone;
-    }
-    std::string getEmail()
-    {
-        return email;
-    }
-    std::string getPerm()
-    {
-        return perm;
-    }
-    std::string getName()
-    {
-        return flname;
-    }
-    
-    void setUser(std::string use)
-    {
-        username = use;
-    }
-    void setPhone(std::string pho)
-    {
-        phone = pho;
-    }
-    void setEmail(std::string ema)
-    {
-        email = ema;
-    }
-    void setPerm(std::string pe)
-    {
-        perm = pe;
-    }
-    void setName(std::string nm)
-    {
-        flname = nm;
-    }
+};
+
+class workerEmp : public User
+{
+    public:
+        workerEmp(std::string id,std::string user, std::string phone, std::string email,std::string perm,std::string flname) :
+        User(id,user, phone, email, perm, flname)
+        {
+            //Constructor of Customer
+        }
 };
 
 class accountManagement {    
@@ -138,18 +61,19 @@ class accountManagement {
     //user/create/:username/:phone/:email/:perm/:flname
     std::vector<workerEmp> vectEmp;
     std::vector<custAcc> vectCust;
-    
+    std::vector<User> vUser;
+
     bool checkPhoneEmail(std::string phoneNum, std::string email);
     
     bool allUserData(json userData); 
     bool checkName(std::string flname);
     
-    bool changeUserName(std::string id,std::string newName,std::string perm);
-    bool changePhone(std::string id,std::string newPhone,std::string perm);
-    bool changeEmail(std::string id,std::string  newEmail,std::string perm);
-    bool changePerm(std::string id,std::string newPerm,std::string perm);
-    bool changeFlname(std::string id,std::string  newFlname,std::string perm);
-    bool changePassword(std::string id,std::string newPassword,std::string perm);
+    bool changeUserName(std::string id,std::string newName);
+    bool changePhone(std::string id,std::string newPhone);
+    bool changeEmail(std::string id,std::string  newEmail);
+    bool changePerm(std::string id,std::string newPerm);
+    bool changeFlname(std::string id,std::string  newFlname);
+    bool changePassword(std::string id,std::string newPassword);
    
     
     

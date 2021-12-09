@@ -5,6 +5,8 @@
 #include <conio.h>
 #include "global.h"
 #include "ui/form.h"
+#include "datahandler/test.h"
+#include <vector>
 
 #pragma comment(linker,"\"/manifestdependency:type='win32' \
 name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \

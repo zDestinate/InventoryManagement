@@ -108,7 +108,7 @@ bool accountManagement::checkPhoneEmail(string phoneNum, string email)
 bool accountManagement::allUserData(json datajson)
 {
     int j = 0,count = 0;
-    string username,phone,email,perm,flname;
+    string id,username,phone,email,perm,flname;
 
    if(datajson.is_array())
     {
@@ -116,39 +116,46 @@ bool accountManagement::allUserData(json datajson)
         {
             if(count == 0)
             {
-                username = datajson[i].at("code").get<string>();
+                id = datajson[i].at("code").get<string>();
                 count ++;
             }
 
             if(count == 1)
             {
-                phone = datajson[i].at("code").get<string>();
+                username = datajson[i].at("code").get<string>();
                 count ++;
             }
 
             if(count == 2)
             {
-                email = datajson[i].at("code").get<string>();
+                phone = datajson[i].at("code").get<string>();
                 count++;
             }
             if(count == 3)
             {
-                perm = datajson[i].at("code").get<string>();
+                email = datajson[i].at("code").get<string>();
                 count++;
             }
             if(count == 4)
             {
+                perm = datajson[i].at("code").get<string>();
+                count++;
+            }
+            if(count == 5)
+            {
                 flname = datajson[i].at("code").get<string>();
-            
+                
                 if(perm == "cus")
                 {
-                    custAcc Cust(username,phone,email,perm,flname);
+                    custAcc Cust(id," ",phone,email,perm,flname);
                     vectCust.push_back(Cust);
+                    vUser.push_back(Cust);
                 }
                 if((perm == "sup") || (perm == "emp"))
                 {
-                    workerEmp Emp(username,phone,email,perm,flname);
+                    workerEmp Emp(id,username,phone,email,perm,flname);
                     vectEmp.push_back(Emp);
+                    vUser.push_back(Emp);
                 }
                 count = 0;
             }
@@ -176,7 +183,7 @@ bool accountManagement::checkName(std::string flname)
 }
 
 //ISSUE WITH CHANGE PASSWORD what is their id?????
-bool accountManagement::changePassword(std::string id,std::string password,std::string perm)
+bool accountManagement::changePassword(std::string id,std::string password)
 {
  /* for(int i = 0; i < vectEmp.size(); i++)
     {
@@ -186,7 +193,7 @@ bool accountManagement::changePassword(std::string id,std::string password,std::
     return false;
 }
 
-bool accountManagement::changeUserName(std::string oldName,std::string newName,std::string perm)
+bool accountManagement::changeUserName(std::string oldName,std::string newName)
 {
     
     for(int i = 0; i < vectEmp.size(); i++)
@@ -197,99 +204,58 @@ bool accountManagement::changeUserName(std::string oldName,std::string newName,s
 return false;
 }
 
-bool accountManagement::changePhone(std::string oldPhone,std::string newPhone,std::string perm)
+bool accountManagement::changePhone(std::string oldPhone,std::string newPhone)
 {   
     bool checkNewPhone = checkphoneNum(newPhone);
     
         if(checkNewPhone)
         {
-            if(perm == "cus")
-            {
-                for(int i = 0; i < vectCust.size(); i++)
-                {
-                    if(vectCust[i].getPhone() == oldPhone)
-                    {
-                        vectCust[i].setPhone(newPhone);
-                        return true;
-                    }
-                }
-            }
-
-            if(perm == "sup" || perm == "emp")
-            {
-                for(int i = 0; i < vectEmp.size(); i++)
-                {
-                    if(vectEmp[i].getPhone() == oldPhone)
-                    {
-                        vectEmp[i].setPhone(newPhone);
-                        return true;
-                    }
-                }
-            }
+            
         }
     
     return false;
 }
 
-bool accountManagement::changeEmail(std::string oldEmail,std::string  newEmail,std::string perm)
+bool accountManagement::changeEmail(std::string id,std::string newEmail)
 {
     bool checkNewEmail = is_valid(newEmail);
 
         if(checkNewEmail)
         {
-            if(perm == "cus")
-            {
-                for(int i = 0; i < vectCust.size(); i++)
+            for(int i = 0; i < vUser.size(); i++)
+	        {
+                if(vUser[i].email == newEmail)
                 {
-                    if(vectCust[i].getEmail() == oldEmail)
-                    {
-                        vectCust[i].setEmail(newEmail);
-                        return true;
-                    }
-                }
-            }
+                    vUser[i].email = newEmail;
 
-            if(perm == "sup" || perm == "emp")
-            {
-                for(int i = 0; i < vectEmp.size(); i++)
-                {
-                    if(vectEmp[i].getEmail() == oldEmail)
+                    if(vUser[i].perm == "cus")
                     {
-                        vectEmp[i].setEmail(newEmail);
-                        return true;
+                        for(int j = 0; j < vectCust.size(); j++)
+                        {
+                            if(vectCust[j].id == vUser[i].id)
+                            {
+                                vectCust[j].email = newEmail;
+                            }
+                        }
                     }
                 }
-            }
+	        }
+
+            return true;
         }
 
     return false;
 }
 
-bool accountManagement::changePerm(std::string id,std::string newPerm,std::string perm)
+bool accountManagement::changePerm(std::string id,std::string newPerm)
 {
-    if(perm == "cus")
-    {
-
-    }
-
-    if(perm == "sup" || perm == "emp")
-    {
-        
-    }
+    
 return false;
 }
 
-bool accountManagement::changeFlname(std::string id,std::string  newFlname,std::string perm)
+bool accountManagement::changeFlname(std::string id,std::string newFlname)
 {
-    if(perm == "cus")
-    {
-
-    }
-
-    if(perm == "sup" || perm == "emp")
-    {
-        
-    }
+   
 return false;
 }
 

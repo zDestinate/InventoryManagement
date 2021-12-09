@@ -26,7 +26,6 @@ mainClass::mainClass()
 
 bool mainClass::LogIn(string username, string password)
 {
-    return true;
     bool busername = estabLogIn->LoginUser(username);
     bool bpassword = estabLogIn->LoginPass(password);
 
@@ -110,7 +109,7 @@ bool mainClass::deleteAcc(std::string id)
 
 bool mainClass::returnUserData()
 {
-    string strResult = DataGrabber->ConnectTo("/user/logout");
+    string strResult = DataGrabber->ConnectTo("/user");
 
     json datajson = json::parse(strResult);
     bool getDataResult = manageAcc->allUserData(datajson);
