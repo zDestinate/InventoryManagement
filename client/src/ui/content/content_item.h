@@ -4,6 +4,7 @@
 #include "ui/content/content.h"
 #include "ui/content/item/search.h"
 #include "ui/content/item/itemlist.h"
+#include "ui/form_button.h"
 
 using namespace std;
 
@@ -19,6 +20,11 @@ class content_item : public content
 
         content_item_list* ItemList = nullptr;
         int nItemListY;
+
+        form_button* btnCreateItem, *btnEditItem;
+        int nButtonWidth;
+        int nButtonheight;
+        int nSpaceBetweenButtons;
 
     public: 
         content_item(HWND hwndParent, int lpParam, int x, int y, int width, int height);

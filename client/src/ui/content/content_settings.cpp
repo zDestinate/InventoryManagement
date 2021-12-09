@@ -66,6 +66,14 @@ LRESULT CALLBACK content_settings::ContentProc(HWND hwnd, UINT message, WPARAM w
             EndPaint(hwnd, &ps);
         }
         break;
+    case WM_SHOWWINDOW:
+        {
+            if(wParam)
+            {
+                printf("[CONTENT][SETTINGS] Show\n");
+            }
+        }
+        break;
     }
 
     return DefSubclassProc(hwnd, message, wParam, lParam);

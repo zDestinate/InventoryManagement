@@ -66,6 +66,14 @@ LRESULT CALLBACK content_promotion::ContentProc(HWND hwnd, UINT message, WPARAM 
             EndPaint(hwnd, &ps);
         }
         break;
+    case WM_SHOWWINDOW:
+        {
+            if(wParam)
+            {
+                printf("[CONTENT][PROMOTION] Show\n");
+            }
+        }
+        break;
     }
 
     return DefSubclassProc(hwnd, message, wParam, lParam);

@@ -4,7 +4,6 @@
 #include <cassert>
 #include <conio.h>
 #include "global.h"
-#include "api/api.h"
 #include "ui/form.h"
 
 #pragma comment(linker,"\"/manifestdependency:type='win32' \
@@ -69,10 +68,17 @@ int main()
 
 	SetConsoleTitle("InventoryManagement - Developer Console");
 
+	if(IsDebuggerPresent())
+	{
+		MessageBox(NULL, "Error 0x1001\nUnable to start due to security risk", "WARNING", MB_OK | MB_ICONWARNING | MB_SYSTEMMODAL);
+		exit(1000);
+		return 1;
+	}
+
 	//Check if curl exist
 	if (!ifstream(ApplicationPath() + "/libcurl.dll"))
 	{
-		MessageBox(NULL, "Error 0x1001\nPlease make sure you have the libcurl.dll file.", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+		MessageBox(NULL, "Error 0x1002\nPlease make sure you have the libcurl.dll file.", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}
@@ -80,42 +86,42 @@ int main()
 	//Check fonts
 	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Brands-Regular-400.otf"))
 	{
-		MessageBox(NULL, "Error 0x1002\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+		MessageBox(NULL, "Error 0x1003\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}
 
 	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Duotone-Solid-900.otf"))
 	{
-		MessageBox(NULL, "Error 0x1003\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+		MessageBox(NULL, "Error 0x1004\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}
 
 	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Pro-Light-300.otf"))
 	{
-		MessageBox(NULL, "Error 0x1004\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+		MessageBox(NULL, "Error 0x1005\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}
 
 	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Pro-Regular-400.otf"))
 	{
-		MessageBox(NULL, "Error 0x1004\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+		MessageBox(NULL, "Error 0x1006\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}
 
 	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Pro-Solid-900.otf"))
 	{
-		MessageBox(NULL, "Error 0x1004\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+		MessageBox(NULL, "Error 0x1007\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}
 
 	if (!ifstream(ApplicationPath() + "/res/fonts/Font Awesome 6 Pro-Thin-100.otf"))
 	{
-		MessageBox(NULL, "Error 0x1005\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+		MessageBox(NULL, "Error 0x1008\nMissing some font files", "ERROR", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		exit(0);
 		return 1;
 	}

@@ -165,6 +165,12 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_COMMAND:
         {
+            if(IsDebuggerPresent())
+            {
+                MessageBox(NULL, "Security risk detected!\nProgram will now exit due to security reason", "WARNING", MB_OK | MB_ICONWARNING | MB_SYSTEMMODAL);
+                exit(0);
+            }
+
             switch(LOWORD(wParam))
             {
                 case FormObjects::BTN_LOGIN:
@@ -181,6 +187,7 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                         string strPassword;
                         strPassword.assign(&tszPassword[0], &tszPassword[nPassword]);
 
+                        //DataHandler->LogIn(strUsername, strPassword)
                         if(DataHandler->LogIn(strUsername, strPassword))
                         {
                             ShowWindow(hwnd, SW_HIDE);
@@ -198,6 +205,8 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                             {
                                 ShowWindow(formMain->hwndMain, SW_RESTORE);
                             }
+
+                            printf("[LOGIN] Successfully login\n");
                         }
                         else
                         {
@@ -205,13 +214,14 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                             lblLoginStatus->StaticText = L"Invalid username or password";
                             lblLoginStatus->TextColorRGB = RGB(255, 51, 51);
                             SendMessage(txtboxPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                            printf("[LOGIN] Invalid username or password\n");
                         }
                         
                     }
                     break;
                 case FormObjects::BTN_EXIT:
                     {
-                        printf("Exit button clicked!\n");
+                        printf("[LOGIN] Exit\n");
                         SendMessage(hwnd, WM_CLOSE, 0, NULL);
                     }
                     break;
@@ -221,6 +231,18 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_CLOSE:
         {
             DestroyWindow(hwnd);
+        }
+        break;
+    case WM_SHOWWINDOW:
+        {
+            if(wParam)
+            {
+                printf("[LOGIN] Login Form show\n");
+            }
+            else
+            {
+                printf("[LOGIN] Login Form hidden\n");
+            }
         }
         break;
     case WM_DESTROY:

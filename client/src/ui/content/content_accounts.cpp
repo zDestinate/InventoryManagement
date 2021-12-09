@@ -186,6 +186,14 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
             }
         }
         break;
+    case WM_SHOWWINDOW:
+        {
+            if(wParam)
+            {
+                printf("[CONTENT][ACCOUNTS] Show\n");
+            }
+        }
+        break;
     }
 
     return DefSubclassProc(hwnd, message, wParam, lParam);

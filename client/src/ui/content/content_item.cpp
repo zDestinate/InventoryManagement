@@ -6,7 +6,7 @@ content_item::content_item(HWND hwndParent, int lpParam, int x, int y, int width
 {
     SetWindowSubclass(hwnd, ContentProc, lpParam, (DWORD_PTR)this);
 
-    hFont = CreateFont(30, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
+    hFont = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
         OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
         DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
@@ -17,6 +17,7 @@ content_item::content_item(HWND hwndParent, int lpParam, int x, int y, int width
     int nWidth = rectWindow.right - rectWindow.left;
     int nHeight = rectWindow.bottom - rectWindow.top;
 
+    //Searchbar
     int nSearchBarWidth = nWidth / 2;
     nSearchBarHeight = 25;
     int nSearchBarX = (nWidth / 2) - (nSearchBarWidth / 2) + (30 / 2) - 10;
@@ -25,9 +26,9 @@ content_item::content_item(HWND hwndParent, int lpParam, int x, int y, int width
     SearchBar = new content_item_search(hwnd, FormObjects::CONTENT_ITEM_SEARCH, nSearchBarX, nSearchBarY, nSearchBarWidth, nSearchBarHeight);
     SearchBar->PlaceHolder = "Search";
 
-    
-    int nItemListWidth = nWidth / 1.5;
-    int nItemListX = (nWidth / 2) - (nItemListWidth / 2) - 10;
+    //Listview
+    int nItemListWidth = nWidth - 120;
+    int nItemListX = 50;
     nItemListY = 120;
     ItemList = new content_item_list(hwnd, FormObjects::CONTENT_ITEM_LIST, nItemListX, nItemListY, nItemListWidth, nHeight - nSearchBarHeight - nSearchBarY - 175);
     ItemList->CreateColumn(0, "TESTTT", 150);
@@ -36,6 +37,23 @@ content_item::content_item(HWND hwndParent, int lpParam, int x, int y, int width
     ItemList->CreateColumn(1, "ASDASD", 150);
     ItemList->Insert(1, 0, "ads");
     ItemList->Insert(1, 1, "wwwwwwwww");
+
+    //Buttons
+    nButtonWidth = 120;
+    nButtonheight = 32;
+    nSpaceBetweenButtons = 15;
+
+    btnEditItem = new form_button(hwnd, FormObjects::CONTENT_ITEM_BTN_EDIT, nWidth - 70 - (nButtonWidth * 1), nHeight - 100, nButtonWidth, nButtonheight);
+    btnEditItem->SetFont(hFont);
+    btnEditItem->ButtonText = "Edit Item";
+    btnEditItem->ButtonColorRGB = RGB(43, 185, 255);
+    btnEditItem->ButtonColorRGB_Hover = RGB(0, 154, 229);
+
+    btnCreateItem = new form_button(hwnd, FormObjects::CONTENT_ITEM_BTN_CREATE, nWidth - 70 - (nButtonWidth * 2) - nSpaceBetweenButtons, nHeight - 100, nButtonWidth, nButtonheight);
+    btnCreateItem->SetFont(hFont);
+    btnCreateItem->ButtonText = "Create Item";
+    btnCreateItem->ButtonColorRGB = RGB(43, 185, 255);
+    btnCreateItem->ButtonColorRGB_Hover = RGB(0, 154, 229);
 }
 
 LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
@@ -99,9 +117,13 @@ LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wPara
             int nSearchBarX = (nWidth / 2) - (nSearchBarWidth / 2) + (30 / 2) - 10;
             SetWindowPos(pThis->SearchBar->hwnd, NULL, nSearchBarX, pThis->nSearchBarY, nSearchBarWidth, pThis->nSearchBarHeight, SWP_NOZORDER);
 
-            int nItemListWidth = nWidth / 1.5;
-            int nItemListX = (nWidth / 2) - (nItemListWidth / 2) - 10;
+            int nItemListWidth = nWidth - 120;
+            int nItemListX = 50;
             SetWindowPos(pThis->ItemList->hwnd, NULL, nItemListX, pThis->nItemListY, nItemListWidth,  nHeight - pThis->nSearchBarHeight - pThis->nSearchBarY - 175, SWP_NOZORDER);
+
+            //Buttons
+            SetWindowPos(pThis->btnEditItem->hwndbutton, NULL, nWidth - 70 - (pThis->nButtonWidth * 1), nHeight - 100, pThis->nButtonWidth, pThis->nButtonheight, SWP_NOZORDER);
+            SetWindowPos(pThis->btnCreateItem->hwndbutton, NULL, nWidth - 70 - (pThis->nButtonWidth * 2) - pThis->nSpaceBetweenButtons, nHeight - 100, pThis->nButtonWidth, pThis->nButtonheight, SWP_NOZORDER);
         }
         break;
     case WM_COMMAND:
@@ -117,6 +139,14 @@ LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wPara
                         strSearchbarText.assign(&tszSearchBarText[0], &tszSearchBarText[nSearchBarLength]);
                     }
                     break;
+            }
+        }
+        break;
+    case WM_SHOWWINDOW:
+        {
+            if(wParam)
+            {
+                printf("[CONTENT][ITEM] Show\n");
             }
         }
         break;

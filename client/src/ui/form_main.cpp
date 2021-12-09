@@ -180,7 +180,15 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
         break;
     case WM_COMMAND:
         {
+            if(IsDebuggerPresent())
+            {
+                MessageBox(NULL, "Security risk detected!\nProgram will now exit due to security reason", "WARNING", MB_OK | MB_ICONWARNING | MB_SYSTEMMODAL);
+                exit(0);
+            }
+            
             SetFocusContent(LOWORD(wParam));
+            printf("[MAIN] Item 0x%0X clicked\n", LOWORD(wParam));
+
             switch(LOWORD(wParam))
             {
                 
@@ -199,6 +207,18 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
 
             CenterWindow(hwndLogin);
             ShowWindow(hwndLogin, SW_RESTORE);
+        }
+        break;
+    case WM_SHOWWINDOW:
+        {
+            if(wParam)
+            {
+                printf("[MAIN] Main Form show\n");
+            }
+            else
+            {
+                printf("[MAIN] Main Form hidden\n");
+            }
         }
         break;
     case WM_DESTROY:
