@@ -10,6 +10,8 @@ form_menutop::form_menutop(HWND hwndParent, int lpParam, int x, int y, int width
     hwndmenutop = CreateWindow("STATIC", "", ES_CENTER | WS_CHILD | WS_VISIBLE, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
     SetWindowSubclass(hwndmenutop, MenuTopProc, lpParam, (DWORD_PTR)this);
 
+    this->hwndParent = hwndParent;
+
     hFontTitle = CreateFont(30, 0, 0, 0, FW_THIN, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
         OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
         DEFAULT_PITCH | FF_MODERN , TEXT("Arial"));
@@ -34,6 +36,7 @@ form_menutop::form_menutop(HWND hwndParent, int lpParam, int x, int y, int width
     MenuTop_UserWidth = 220;
 
     MenuUser = new form_menuuser(hwndmenutop, FormObjects::MENU_TOP_USER, width - MenuTop_UserWidth, 0, MenuTop_UserWidth, height - nBottomBorderHeight);
+    MenuUser->SetProfilePopup(hwndParent);
     MenuUser->ButtonColorRGB = BackgroundColorRGB;
     MenuUser->ButtonColorRGB_Hover = RGB(0, 154, 229);
     MenuUser->IconText = L"\uf2bd";
@@ -142,6 +145,19 @@ LRESULT form_menutop::MenuTopProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
             SelectObject(hdc, hFont);
             EndPaint(hwnd, &ps);
+        }
+        break;
+    case WM_COMMAND:
+        {
+            switch(LOWORD(wParam))
+            {
+                case FormObjects::MENU_TOP_USER:
+                    {
+                        ShowWindow(pThis->MenuUser->FormProfile->hwnd, SW_SHOW);
+                        EnableWindow(pThis->hwndParent, FALSE);
+                    }
+                    break;
+            }
         }
         break;
     case WM_SIZE:

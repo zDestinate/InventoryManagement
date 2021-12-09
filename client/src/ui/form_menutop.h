@@ -13,6 +13,8 @@ class form_menutop
         static LRESULT CALLBACK MenuTopProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);
         HFONT hFontTitle, hFontName, hFontID;
 
+        HWND hwndParent;
+
         int nBottomBorderHeight = 1;
 
         form_menuuser* MenuUser;

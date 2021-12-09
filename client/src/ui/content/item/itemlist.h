@@ -22,6 +22,8 @@ class content_item_list
         content_item_list(HWND hwndParent, int lpParam, int x, int y, int width, int height);
         void SetFont(HFONT hFont);
 
+        int nMinXColumn;
+
         int SetListTextColor(COLORREF TextColor);
         int CreateColumn(int nCol, char *szText, int nWidth);
         int Insert(int nCol, int nRow, char *szText);

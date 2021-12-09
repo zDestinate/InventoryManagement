@@ -13,6 +13,8 @@ content_item_list::content_item_list(HWND hwndParent, int lpParam, int x, int y,
         OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
         DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
+    nMinXColumn = 0;
+
     SetFont(hFont);
     SetListTextColor(RGB(0, 0, 0));
     SendMessage(hwnd, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
@@ -103,6 +105,7 @@ int content_item_list::CreateColumn(int nCol, char *szText, int nWidth)
     lvc.cx = nWidth;
     lvc.pszText = szText;
     lvc.iSubItem = nCol;
+    lvc.cxMin = nMinXColumn;
     return ListView_InsertColumn(hwnd, nCol, &lvc);
 }
 
