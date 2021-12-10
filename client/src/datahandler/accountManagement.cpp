@@ -185,32 +185,93 @@ bool accountManagement::checkName(std::string flname)
 //ISSUE WITH CHANGE PASSWORD what is their id?????
 bool accountManagement::changePassword(std::string id,std::string password)
 {
- /* for(int i = 0; i < vectEmp.size(); i++)
+    bool psCheck = checkPass->LoginPass(password);
+       
+    if(psCheck)
     {
-        if(vectEmp[i].get
+    return true;
     }
- */
+
     return false;
 }
 
-bool accountManagement::changeUserName(std::string oldName,std::string newName)
+bool accountManagement::changeUserName(std::string id,std::string newName)
 {
-    
-    for(int i = 0; i < vectEmp.size(); i++)
+    bool nmCheck = checkName(newName);
+    if(nmCheck)
     {
-        //if
+        for(int i = 0; i < vUser.size(); i++)
+	        {
+                if(vUser[i].id == id)
+                {
+                    vUser[i].flname = newName;
+
+                    if(vUser[i].perm == "cus")
+                    {
+                        for(int j = 0; j < vectCust.size(); j++)
+                        {
+                            if(vectCust[j].id == vUser[i].id)
+                            {
+                                vectCust[j].flname = newName;
+                            }
+                        }
+                    }
+
+                    if(vUser[i].perm == "sup" || vUser[i].perm == "emp")
+                    {
+                        for(int j = 0; j < vectEmp.size(); j++)
+                        {
+                            if(vectEmp[j].id == vUser[i].id)
+                            {
+                                vectEmp[j].flname = newName;
+                            }
+                        }
+                    }
+                }
+	        }
+
     }
     
-return false;
+    
+    return false;
 }
 
-bool accountManagement::changePhone(std::string oldPhone,std::string newPhone)
+bool accountManagement::changePhone(std::string id,std::string newPhone)
 {   
     bool checkNewPhone = checkphoneNum(newPhone);
     
         if(checkNewPhone)
         {
-            
+            for(int i = 0; i < vUser.size(); i++)
+	        {
+                if(vUser[i].id == id)
+                {
+                    vUser[i].phone = newPhone;
+
+                    if(vUser[i].perm == "cus")
+                    {
+                        for(int j = 0; j < vectCust.size(); j++)
+                        {
+                            if(vectCust[j].id == vUser[i].id)
+                            {
+                                vectCust[j].phone = newPhone;
+                            }
+                        }
+                    }
+
+                    if(vUser[i].perm == "sup" || vUser[i].perm == "emp")
+                    {
+                        for(int j = 0; j < vectEmp.size(); j++)
+                        {
+                            if(vectEmp[j].id == vUser[i].id)
+                            {
+                                vectEmp[j].phone = newPhone;
+                            }
+                        }
+                    }
+                }
+	        }
+
         }
     
     return false;
@@ -224,7 +285,7 @@ bool accountManagement::changeEmail(std::string id,std::string newEmail)
         {
             for(int i = 0; i < vUser.size(); i++)
 	        {
-                if(vUser[i].email == newEmail)
+                if(vUser[i].id == id)
                 {
                     vUser[i].email = newEmail;
 
@@ -235,6 +296,17 @@ bool accountManagement::changeEmail(std::string id,std::string newEmail)
                             if(vectCust[j].id == vUser[i].id)
                             {
                                 vectCust[j].email = newEmail;
+                            }
+                        }
+                    }
+
+                    if(vUser[i].perm == "sup" || vUser[i].perm == "emp")
+                    {
+                        for(int j = 0; j < vectEmp.size(); j++)
+                        {
+                            if(vectEmp[j].id == vUser[i].id)
+                            {
+                                vectEmp[j].email = newEmail;
                             }
                         }
                     }
@@ -255,8 +327,44 @@ return false;
 
 bool accountManagement::changeFlname(std::string id,std::string newFlname)
 {
-   
-return false;
+   bool nameCheck = checkName(newFlname);
+
+    if(nameCheck)
+        {
+            for(int i = 0; i < vUser.size(); i++)
+	        {
+                if(vUser[i].id == id)
+                {
+                    vUser[i].flname = newFlname;
+
+                    if(vUser[i].perm == "cus")
+                    {
+                        for(int j = 0; j < vectCust.size(); j++)
+                        {
+                            if(vectCust[j].id == vUser[i].id)
+                            {
+                                vectCust[j].flname = newFlname;
+                            }
+                        }
+                    }
+
+                    if(vUser[i].perm == "sup" || vUser[i].perm == "emp")
+                    {
+                        for(int j = 0; j < vectEmp.size(); j++)
+                        {
+                            if(vectEmp[j].id == vUser[i].id)
+                            {
+                                vectEmp[j].flname = newFlname;
+                            }
+                        }
+                    }
+                }
+	        }
+
+            return true;
+        }
+
+    return false;
 }
 
 

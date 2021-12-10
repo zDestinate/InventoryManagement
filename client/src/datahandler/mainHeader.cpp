@@ -4,6 +4,7 @@
 #include "global.h"
 #include "datahandler/mainHeader.h"
 #include "lib/json.hpp"
+#include <vector>
 
 using namespace std;
 using json = nlohmann::json;
@@ -38,6 +39,7 @@ bool mainClass::LogIn(string username, string password)
 
         if(!DataGrabber->bSuccessfullyConnected)
         {
+            severStatus = false;
             return false;
         }
 
@@ -65,6 +67,11 @@ bool mainClass::LogIn(string username, string password)
     }
     
     return false;
+}
+
+bool mainClass::loginStatus()
+{
+    return severStatus;
 }
 
 void mainClass::logOut()
@@ -122,7 +129,23 @@ bool mainClass::returnUserData()
     return false;
 }
 
-bool mainClass::addToCart(string productSku)
+
+ vector<User> mainClass::returnUserVector()
+ {
+     return manageAcc->vUser;
+ }
+
+vector<workerEmp> mainClass::returnEmpVector()
+ {
+     return manageAcc->vectEmp;
+ }
+
+vector<custAcc> mainClass::returnCusVector()
+{
+    return manageAcc->vectCust;
+}
+
+bool mainClass::addToCart(std::string productSku)
 {   
     string strResult = DataGrabber->ConnectTo("/inventory/item" + productSku);
     json datajson = json::parse(strResult);
@@ -151,6 +174,7 @@ void mainClass::checkout()
     string strResult = DataGrabber->ConnectTo("/inventory/checkout" + Cart ->cartString);
     Cart->clearCart();
 }
+
 bool mainClass::addItemToDB(std::string name, std::string sku, std::string price)
 {
 
