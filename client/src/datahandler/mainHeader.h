@@ -6,6 +6,7 @@
 #include "datahandler/accountManagement.h"
 #include "datahandler/Inventory.h"
 #include "datahandler/Sales.h"
+#include <vector>
 
 class mainClass {    
   private:
@@ -15,22 +16,34 @@ class mainClass {
     UserLogIn* estabLogIn;
     accountManagement* manageAcc;
     Sales* Cart;
-  
+    bool severStatus = true;
+
   public:
     mainClass();
     
     bool LogIn(std::string username, std::string password);
     void logOut();
+    bool exeCheck();
     
     bool removeFromCart(std::string productSku);
     bool addToCart(std::string productSku);
     bool addItemToDB(std::string name, std::string sku, std::string price);
     void checkout();
 
-
+    
     bool returnUserData();
+    std::vector<User> returnUserVector();
+    std::vector<custAcc> returnCusVector();
+    std::vector<workerEmp> returnEmpVector();
+    
     bool makeCust(std::string fname,std::string lname, std::string phonenum, std::string email);
     bool deleteAcc(std::string id);
     bool CreateAccoount(std::string username,std::string password,std::string phonenum,std::string email,std::string perm,std::string flname);
     
+    bool editUserName(std::string id,std::string newName);
+    bool editPhone(std::string id,std::string newPhone);
+    bool editEmail(std::string id,std::string  newEmail);
+    bool editPerm(std::string id,std::string newPerm);
+    bool editFlname(std::string id,std::string  newFlname);
+    bool editPassword(std::string id,std::string newPassword);
 };

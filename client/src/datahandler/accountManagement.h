@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "datahandler/getData.h"
+#include "datahandler/LogIn.h"
 #include "lib/json.hpp"
 using json = nlohmann::json;
 
@@ -55,6 +56,8 @@ class accountManagement {
     const std::string URL;
     getData* getEmp;
     std:: string empName,empID,empPosition; 
+
+    UserLogIn* checkPass;
 
   public:
 

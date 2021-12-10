@@ -39,16 +39,16 @@ string getData::ConnectTo(string link)
     string strPath = URL + link;
     string strData;
 
-    if(!ifstream(ApplicationPath() + "/cookie.txt"))
+    if(!ifstream(ApplicationPath() + "/token"))
     {
-        ofstream ofCookie("cookie.txt");
+        ofstream ofCookie("token");
         ofCookie.close();
     }
 
     //convert URL string into C string
     curl_easy_setopt(curlObj, CURLOPT_URL, strPath.c_str());
-    curl_easy_setopt(curlObj, CURLOPT_COOKIEFILE, ApplicationPath() + "/cookie.txt");
-    curl_easy_setopt(curlObj, CURLOPT_COOKIEJAR, ApplicationPath() + "/cookie.txt");
+    curl_easy_setopt(curlObj, CURLOPT_COOKIEFILE, ApplicationPath() + "/token");
+    curl_easy_setopt(curlObj, CURLOPT_COOKIEJAR, ApplicationPath() + "/token");
     curl_easy_setopt(curlObj, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curlObj, CURLOPT_WRITEDATA, &strData);
 
