@@ -69,12 +69,14 @@ int main()
 
 	SetConsoleTitle("InventoryManagement - Developer Console");
 
+	/*
 	if(IsDebuggerPresent())
 	{
 		MessageBox(NULL, "Error 0x1001\nUnable to start due to security risk", "WARNING", MB_OK | MB_ICONWARNING | MB_SYSTEMMODAL);
 		exit(1000);
 		return 1;
 	}
+	*/
 
 	//Check if curl exist
 	if (!ifstream(ApplicationPath() + "/libcurl.dll"))

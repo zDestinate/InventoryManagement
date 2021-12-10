@@ -165,11 +165,13 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_COMMAND:
         {
+            /*
             if(IsDebuggerPresent())
             {
                 MessageBox(NULL, "Security risk detected!\nProgram will now exit due to security reason", "WARNING", MB_OK | MB_ICONWARNING | MB_SYSTEMMODAL);
                 exit(1000);
             }
+            */
 
             switch(LOWORD(wParam))
             {
@@ -190,23 +192,33 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                         //DataHandler->LogIn(strUsername, strPassword)
                         if(DataHandler->LogIn(strUsername, strPassword))
                         {
-                            ShowWindow(hwnd, SW_HIDE);
-                            ShowWindow(lblLoginStatus->hwndstatic, SW_HIDE);
-                            SendMessage(txtboxUsername->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
-                            SendMessage(txtboxPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
-
-                            if(formMain == nullptr)
+                            if(DataHandler->exeCheck())
                             {
-                                formMain = new form_main(hwnd);
-                                formMain->SetDataHandler(DataHandler);
-                                formMain->CreateFormMain();
+                                ShowWindow(hwnd, SW_HIDE);
+                                ShowWindow(lblLoginStatus->hwndstatic, SW_HIDE);
+                                SendMessage(txtboxUsername->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                                SendMessage(txtboxPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+
+                                if(formMain == nullptr)
+                                {
+                                    formMain = new form_main(hwnd);
+                                    formMain->SetDataHandler(DataHandler);
+                                    formMain->CreateFormMain();
+                                }
+                                else
+                                {
+                                    ShowWindow(formMain->hwndMain, SW_RESTORE);
+                                }
+
+                                printf("[LOGIN] Successfully login\n");
                             }
                             else
                             {
-                                ShowWindow(formMain->hwndMain, SW_RESTORE);
+                                ShowWindow(lblLoginStatus->hwndstatic, SW_SHOW);
+                                lblLoginStatus->StaticText = L"Connection Error";
+                                lblLoginStatus->TextColorRGB = RGB(255, 51, 51);
+                                printf("[LOGIN] Unable to connect to the server\n");
                             }
-
-                            printf("[LOGIN] Successfully login\n");
                         }
                         else
                         {

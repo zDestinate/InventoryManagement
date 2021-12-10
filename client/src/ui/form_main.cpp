@@ -120,7 +120,11 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             ContentItem = new content_item(hwnd, FormObjects::CONTENT_ITEM, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
             ContentPointOfSale = new content_pointofsale(hwnd, FormObjects::CONTENT_POINTOFSALE, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
             ContentPromotion = new content_promotion(hwnd, FormObjects::CONTENT_PROMOTION, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
+            
             ContentAccounts = new content_accounts(hwnd, FormObjects::CONTENT_ACCOUNTS, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
+            //ContentAccounts->DataHandler = DataHandler;
+            //ContentAccounts->ShowUserList();
+
             ContentSettings = new content_settings(hwnd, FormObjects::CONTENT_SETTINGS, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
 
             SetFocusContent(FormObjects::CONTENT_DASHBOARD);
@@ -180,11 +184,13 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
         break;
     case WM_COMMAND:
         {
+            /*
             if(IsDebuggerPresent())
             {
                 MessageBox(NULL, "Security risk detected!\nProgram will now exit due to security reason", "WARNING", MB_OK | MB_ICONWARNING | MB_SYSTEMMODAL);
                 exit(1000);
             }
+            */
             
             SetFocusContent(LOWORD(wParam));
             printf("[MAIN] Item 0x%0X clicked\n", LOWORD(wParam));
