@@ -17,8 +17,9 @@ class content_item_search
     public:
         HWND hwnd;
         string PlaceHolder;
-        wstring strSearchIcon;
-        int nSearchIconX;
+        wstring wstrIcon;
+        int nIconX;
+        bool bSolidIcon;
 
         content_item_search(HWND hwndParent, int lpParam, int x, int y, int width, int height);
 
