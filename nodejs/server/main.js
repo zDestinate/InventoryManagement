@@ -90,7 +90,7 @@ MongoClient.connect(config.Mongo.url, {useNewUrlParser: true, useUnifiedTopology
 			});
 		}
 	});
-	
+	//create an intialize users db 
 	db.listCollections({name: 'users'}).next(function(err, collinfo){
 		if(collinfo == null)
 		{
@@ -124,6 +124,40 @@ MongoClient.connect(config.Mongo.url, {useNewUrlParser: true, useUnifiedTopology
 		}
 	}); 
 	
+	db.listCollections({name: 'inventory'}).next(function(err, collinfo){
+		if(collinfo == null)
+		{
+			console.log("Unable to find collection name inventory");
+			db.createCollection("inventory", function(cerr, res)
+			{
+				if(cerr)
+				{
+					console.log("Failed to create collection name inventory");
+					throw cerr;
+				}
+				else
+				{					//refactor into insert inventory function
+						db.collection("inventory").insertOne(
+							{
+								description: "sand",
+								price: "0",
+								quantity:"0",
+								function(uerr, ures) {
+							   if(uerr)
+							   {
+								   console.log("Failed to create item sand. Please make sure your database is clean");
+								   throw uerr;
+							   }
+							   else
+							   {
+								   console.log("Created item sand");
+							   }}
+
+						});
+				}
+			});
+		}
+	}); 
 	//Pages
 	require('./pages')(app, express, db);
 });
@@ -133,3 +167,4 @@ serv.listen(config.Server.port, config.Server.address, function()
 {
 	console.log("[SERVER] Server listening on port 80...");
 });
+
