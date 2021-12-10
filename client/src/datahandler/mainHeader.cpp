@@ -42,6 +42,7 @@ bool mainClass::LogIn(string username, string password)
             severStatus = false;
             return false;
         }
+        severStatus = true;
 
         json datajson = json::parse(strResult);
 
@@ -69,7 +70,7 @@ bool mainClass::LogIn(string username, string password)
     return false;
 }
 
-bool mainClass::loginStatus()
+bool mainClass::exeCheck()
 {
     return severStatus;
 }
@@ -77,6 +78,12 @@ bool mainClass::loginStatus()
 void mainClass::logOut()
 {
     DataGrabber->ConnectTo("/user/logout");
+    if(!DataGrabber->bSuccessfullyConnected)
+        {
+            severStatus = false;
+        }
+        severStatus = true;
+
     DataGrabber->ClearCookies();
     estabLogIn->LogOut();
 }
@@ -88,6 +95,13 @@ bool mainClass::CreateAccoount(std::string username,std::string password,std::st
     bool bpassword = estabLogIn->LoginPass(password);
     bool namecheck = manageAcc ->checkName(flname);
     bool check1 = manageAcc->checkPhoneEmail(phonenum, email);
+
+
+    if(!DataGrabber->bSuccessfullyConnected)
+        {
+            severStatus = false;
+        }
+        severStatus = true;
 
     if(busername && bpassword && namecheck && check1)
     {
@@ -117,6 +131,11 @@ bool mainClass::deleteAcc(std::string id)
 bool mainClass::returnUserData()
 {
     string strResult = DataGrabber->ConnectTo("/user");
+    if(!DataGrabber->bSuccessfullyConnected)
+        {
+            severStatus = false;
+        }
+        severStatus = true;
 
     json datajson = json::parse(strResult);
     bool getDataResult = manageAcc->allUserData(datajson);
@@ -128,7 +147,6 @@ bool mainClass::returnUserData()
     cout<< "failed" << endl;
     return false;
 }
-
 
  vector<User> mainClass::returnUserVector()
  {
@@ -171,7 +189,14 @@ bool mainClass::removeFromCart(std::string productSku)
 void mainClass::checkout()
 {
     Cart->shoppingCartToString();
+    
     string strResult = DataGrabber->ConnectTo("/inventory/checkout" + Cart ->cartString);
+    if(!DataGrabber->bSuccessfullyConnected)
+        {
+            severStatus = false;
+        }
+        severStatus = true;
+   
     Cart->clearCart();
 }
 
@@ -179,8 +204,102 @@ bool mainClass::addItemToDB(std::string name, std::string sku, std::string price
 {
 
    string strResult = DataGrabber->ConnectTo("/user/logout");
+   if(!DataGrabber->bSuccessfullyConnected)
+        {
+            severStatus = false;
+        }
+        severStatus = true;
     return true;
 }
+
+bool mainClass::editUserName(std::string id,std::string newName)
+{   
+    bool editName = manageAcc->changeUserName(id, newName);
+        
+        if(editName)
+        {
+            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" +newName);
+
+            if(!DataGrabber->bSuccessfullyConnected)
+        {
+            severStatus = false;
+        }
+            severStatus = true;
+
+            return true;
+        }
+        
+    return false;
+}
+
+bool mainClass::editPhone(std::string id,std::string newPhone)
+{
+   bool editName = manageAcc->changeUserName(id, newPhone);
+        
+        if(editName)
+        {
+            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" + newPhone);
+            return true;
+        }
+        
+    return false;
+}
+
+bool mainClass::editEmail(std::string id,std::string  newEmail)
+{
+    bool editName = manageAcc->changeUserName(id, newEmail);
+        
+        if(editName)
+        {
+            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" +newEmail);
+            return true;
+        }
+        
+    return false;
+}
+
+bool mainClass::editPerm(std::string id,std::string newPerm)
+{
+    bool editName = manageAcc->changeUserName(id, newPerm);
+        
+        if(editName)
+        {
+            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" +newPerm);
+            return true;
+        }
+        
+    return false;
+}
+
+bool mainClass::editFlname(std::string id,std::string  newFlname)
+{
+    bool editName = manageAcc->changeUserName(id, newFlname);
+        
+        if(editName)
+        {
+            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" +newFlname);
+            return true;
+        }
+        
+    return false;
+}
+
+bool mainClass::editPassword(std::string id,std::string newPassword)
+{
+    bool editName = manageAcc->changeUserName(id, newPassword);
+        
+        if(editName)
+        {
+            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" +newPassword);
+            return true;
+        }
+        
+    return false;
+}
+
+
+
+
 
 /*  -NEED TO FINISH SALES AND HOW TO SEND THAT
     -NEED TO FINISH INVENTORY AND UPDATING AFTER SALE

@@ -7,6 +7,7 @@
 #include "datahandler/Inventory.h"
 #include "datahandler/Sales.h"
 #include <vector>
+
 class mainClass {    
   private:
     std::string URL;
@@ -21,8 +22,8 @@ class mainClass {
     mainClass();
     
     bool LogIn(std::string username, std::string password);
-    bool loginStatus();
     void logOut();
+    bool exeCheck();
     
     bool removeFromCart(std::string productSku);
     bool addToCart(std::string productSku);
@@ -39,4 +40,10 @@ class mainClass {
     bool deleteAcc(std::string id);
     bool CreateAccoount(std::string username,std::string password,std::string phonenum,std::string email,std::string perm,std::string flname);
     
+    bool editUserName(std::string id,std::string newName);
+    bool editPhone(std::string id,std::string newPhone);
+    bool editEmail(std::string id,std::string  newEmail);
+    bool editPerm(std::string id,std::string newPerm);
+    bool editFlname(std::string id,std::string  newFlname);
+    bool editPassword(std::string id,std::string newPassword);
 };
