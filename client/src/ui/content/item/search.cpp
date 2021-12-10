@@ -16,8 +16,9 @@ content_item_search::content_item_search(HWND hwndParent, int lpParam, int x, in
         DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
     SetFont(hFont);
 
-    strSearchIcon = L"\uf002";
-    nSearchIconX = 30;
+    wstrIcon = L"\uf002";
+    nIconX = 30;
+    bSolidIcon = false;
 }
 
 LRESULT CALLBACK content_item_search::UnderLineTxtBoxProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
@@ -58,7 +59,7 @@ LRESULT CALLBACK content_item_search::UnderLineTxtBoxProc(HWND hwnd, UINT messag
             SelectObject(hdc, hPen);
 
             //Starting location
-            MoveToEx(hdc, rc.left - pThis->nSearchIconX, rc.bottom + 1, 0);
+            MoveToEx(hdc, rc.left - pThis->nIconX, rc.bottom + 1, 0);
 
             //Ending location
             LineTo(hdc, rc.right - rc.left, rc.bottom + 1);
@@ -80,16 +81,27 @@ LRESULT CALLBACK content_item_search::UnderLineTxtBoxProc(HWND hwnd, UINT messag
             }
 
             //Icon
-            HFONT hFontIcon = CreateFont(22, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
+            HFONT hFontIcon;
+
+            if(pThis->bSolidIcon)
+            {
+                hFontIcon = CreateFont(22, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
+                OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
+                DEFAULT_PITCH | FF_MODERN, TEXT("Font Awesome 6 Pro Solid"));
+            }
+            else
+            {
+                hFontIcon = CreateFont(22, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
                 OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
                 DEFAULT_PITCH | FF_MODERN, TEXT("Font Awesome 6 Pro Regular"));
+            }
             
             SelectObject(hdc, hFontIcon);
             RECT rectIcon;
             GetClientRect(hwnd, &rectIcon);
-            rectIcon.left -= pThis->nSearchIconX;
+            rectIcon.left -= pThis->nIconX;
             rectIcon.top -= 7;
-            DrawTextW(hdc, (LPCWSTR)pThis->strSearchIcon.c_str(), pThis->strSearchIcon.length(), &rectIcon, DT_VCENTER | DT_SINGLELINE);
+            DrawTextW(hdc, (LPCWSTR)pThis->wstrIcon.c_str(), pThis->wstrIcon.length(), &rectIcon, DT_VCENTER | DT_SINGLELINE);
 
             //Reset color
             SetTextColor(hdc, RGB(0, 0, 0));

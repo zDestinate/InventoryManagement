@@ -4,16 +4,30 @@
 
 #pragma comment(lib, "comctl32.lib")
 
-content_item_list::content_item_list(HWND hwndParent, int lpParam, int x, int y, int width, int height)
+content_item_list::content_item_list(HWND hwndParent, int lpParam, int x, int y, int width, int height, bool bNoHeader)
 {
-    hwnd = CreateWindow(WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | LVS_REPORT | LVS_SINGLESEL, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
+    if(bNoHeader)
+    {
+        hwnd = CreateWindow(WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | LVS_REPORT | LVS_SINGLESEL | LVS_NOCOLUMNHEADER, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
+    }
+    else
+    {
+        hwnd = CreateWindow(WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | LVS_REPORT | LVS_SINGLESEL, x, y, width, height, hwndParent, (HMENU)lpParam, NULL, NULL);
+    }
+    
     SetWindowSubclass(hwnd, ListViewProc, lpParam, (DWORD_PTR)this);
+    Init();
+}
 
+void content_item_list::Init()
+{
     hFont = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
         OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
         DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
-    nMinXColumn = 0;
+    lvcMask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM | LVCF_MINWIDTH;
+    lvcFmt = LVCFMT_LEFT;
+    nMinXColumn = 30;
 
     SetFont(hFont);
     SetListTextColor(RGB(0, 0, 0));
@@ -100,8 +114,8 @@ int content_item_list::CreateColumn(int nCol, char *szText, int nWidth)
 {
     LVCOLUMN lvc;
 
-    lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-    lvc.fmt = LVCFMT_LEFT;
+    lvc.mask = lvcMask;
+    lvc.fmt = lvcFmt;
     lvc.cx = nWidth;
     lvc.pszText = szText;
     lvc.iSubItem = nCol;
@@ -131,4 +145,9 @@ int content_item_list::Insert(int nCol, int nRow, char *szText)
     }
 
     return nCode;
+}
+
+bool content_item_list::SetColumnWidth(int nCol, int Width)
+{
+    return ListView_SetColumnWidth(hwnd, nCol, Width);
 }

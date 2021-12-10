@@ -19,12 +19,16 @@ class content_item_list
     public:
         HWND hwnd;
 
-        content_item_list(HWND hwndParent, int lpParam, int x, int y, int width, int height);
-        void SetFont(HFONT hFont);
+        content_item_list(HWND hwndParent, int lpParam, int x, int y, int width, int height, bool bNoHeader = false);
+        void Init();
 
+        UINT lvcMask;
+        int lvcFmt;
         int nMinXColumn;
 
+        void SetFont(HFONT hFont);
         int SetListTextColor(COLORREF TextColor);
         int CreateColumn(int nCol, char *szText, int nWidth);
         int Insert(int nCol, int nRow, char *szText);
+        bool SetColumnWidth(int nCol, int Width);
 };
