@@ -82,7 +82,7 @@ void UserLogIn::LogOut()
     
     std::fstream ofs;
 
-    ofs.open("cookie.txt", std::ofstream::out | std::ofstream::trunc);
+    ofs.open("token", std::ofstream::out | std::ofstream::trunc);
     ofs.close();  
 }
 
