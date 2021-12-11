@@ -261,6 +261,20 @@ module.exports = function (app, express, db)
 			res.type('json').send(prettydata);
 			return;
 	});
+	//delete user route
+	app.get('/inventory/delete/:item', function(req, res){
+
+		db.collection("inventory").deleteOne(
+			{"description": req.params.item });
+			console.log("deleted user")
+			var data = {};
+			data['message'] = 'Item deleted';
+			data['code'] = '555';
+			
+			var prettydata = JSON.stringify(data, null, 2);
+			res.type('json').send(prettydata);
+			return;
+	});
 	//edit inventory route
 	app.get('/inventory/edit/:desc/:ndesc/:nquant/:ncost', function(req, res){
 
