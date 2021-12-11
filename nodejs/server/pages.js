@@ -240,11 +240,11 @@ module.exports = function (app, express, db)
 		}
 	});
 //edit user route
-	app.get('/user/edit/:username/:nusername', function(req, res){
+	app.get('/user/edit/:username/:nusername/:nname/nnum', function(req, res){
 
 		db.collection("users").update(
 			{"username": req.params.username },
-			{$set: { "username": req.params.nusername}});
+			{$set: { "username": req.params.nusername,"name":req.params.nname,"number":req.params.nnum}});
 			console.log("updated user")
 	});
 	//edit inventory route
@@ -257,14 +257,14 @@ module.exports = function (app, express, db)
 			console.log("updated inventory item");
 	});
 // create inventory route
-	app.get('/inventory/create/:desc/:cost/:quant', function(req, res)
+	app.get('/inventory/create/:desc/:cost/:quant/:Upc', function(req, res)
 	{
 		//if auth is true or auth doesn't exist
 		if(req.session.auth)
 		{
 
 			
-			if((req.params.desc != undefined) && (req.params.cost != undefined) &&(req.params.quant))
+			if((req.params.desc != undefined) && (req.params.cost != undefined) &&(req.params.quant)&&(req.params.Upc) )
 			{
 				db.collection('inventory').find({"desc":req.params.desc }).toArray(function(err, result){
 					result = result[0];
@@ -276,7 +276,8 @@ module.exports = function (app, express, db)
 								{
 									description: req.params.desc , 
 									price: req.params.cost,
-									quantity: req.params.quant
+									quantity: req.params.quant,
+									upc:req.params.Upc
 									
 								}, function(werr, wres){
 								
