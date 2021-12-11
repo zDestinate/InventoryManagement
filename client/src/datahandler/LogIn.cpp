@@ -32,11 +32,11 @@ bool UserLogIn::searchUser(string username)
 
 bool UserLogIn::LoginUser(string username)
 {
-        if(username.length() < 8 || !searchUser(username)) //if length less than 8 or username there a special character invalid
+    /*  if(username.length() < 8 || !searchUser(username)) //if length less than 8 or username there a special character invalid
         {
          return false;
         }
-
+    */
         strUsername = username;
         return true; 
 }
@@ -59,11 +59,11 @@ bool UserLogIn::LoginPass(string password)
             } */
     }
     //if length less than 8 or //no upper case character or no special character invalid password 
-    if(password.length() < 8 /*|| Upper == 0*/)
+    /*if(password.length() < 8 || Upper == 0)
     {
         return false; 
-    }
-
+    } 
+    */
     strPassword = password;
     return true;
 }

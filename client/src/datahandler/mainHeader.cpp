@@ -30,21 +30,24 @@ void mainClass::LogIn(string username, string password)
     bool busername = estabLogIn->LoginUser(username);
     bool bpassword = estabLogIn->LoginPass(password);
 
-    //string product = getData -> getProductData("sagasgsa");
     if(busername && bpassword)
     {
         //Response from the site
         strResult = DataGrabber->ConnectTo("/user/login/" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
+
         if(!DataGrabber->bSuccessfullyConnected)
         {
             severStatus = false;
         }
+        else
+        { 
             severStatus = true;
+        }
     }
 }
 
 bool mainClass::completeLogIn()
-{
+{   
     json datajson = json::parse(strResult);
 
         
@@ -79,7 +82,10 @@ void mainClass::logOut()
         {
             severStatus = false;
         }
-            severStatus = true;
+    else
+    {
+        severStatus = true;
+    }
 
     DataGrabber->ClearCookies();
     estabLogIn->LogOut();
@@ -98,8 +104,10 @@ bool mainClass::CreateAccoount(std::string username,std::string password,std::st
         {
             severStatus = false;
         }
+    else
+    {
         severStatus = true;
-
+    }
     if(busername && bpassword && namecheck && check1)
     {
          ///user/create/:username/:password/:phone/:perm/:flname
@@ -132,7 +140,10 @@ bool mainClass::returnUserData()
         {
             severStatus = false;
         }
-            severStatus = true;
+    else
+    {
+        severStatus = true;
+    }
 
     json datajson = json::parse(strResult);
     bool getDataResult = manageAcc->allUserData(datajson);
@@ -160,13 +171,34 @@ vector<custAcc> mainClass::returnCusVector()
     return manageAcc->vectCust;
 }
 
+bool mainClass::getDBItems()
+{
+    string strResult = DataGrabber->ConnectTo("/user");
+    if(!DataGrabber->bSuccessfullyConnected)
+        {
+            severStatus = false;
+        }
+    else
+    {
+        severStatus = true;
+    }
+
+    json datajson = json::parse(strResult);
+    bool getDataResult = manageAcc->allUserData(datajson);
+
+    if(getDataResult){
+        cout<< "successful" << endl;
+        return true;
+    }
+    cout<< "failed" << endl;
+    return false;
+}
+
 bool mainClass::addToCart(std::string productSku)
 {   
-    string strResult = DataGrabber->ConnectTo("/inventory/item" + productSku);
-    json datajson = json::parse(strResult);
-       
-    bool addResult = Cart->addToCart(datajson);
-    if(addResult)
+    bool add = Cart->addToCart(productSku);
+
+    if(add)
     {
         return true;
     }
@@ -192,7 +224,10 @@ void mainClass::checkout()
         {
             severStatus = false;
         }
+    else
+    {
         severStatus = true;
+    }
    
     Cart->clearCart();
 }
@@ -205,7 +240,10 @@ bool mainClass::addItemToDB(std::string name, std::string sku, std::string price
         {
             severStatus = false;
         }
+    else
+    {
         severStatus = true;
+    }
     return true;
 }
 
@@ -221,7 +259,10 @@ bool mainClass::editUserName(std::string id,std::string newName)
         {
             severStatus = false;
         }
+        else
+        {
             severStatus = true;
+        }
 
             return true;
         }

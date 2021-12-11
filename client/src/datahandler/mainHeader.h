@@ -27,6 +27,7 @@ class mainClass {
     void logOut();
     bool exeCheck();
     
+    bool getDBItems();
     bool removeFromCart(std::string productSku);
     bool addToCart(std::string productSku);
     bool addItemToDB(std::string name, std::string sku, std::string price);
