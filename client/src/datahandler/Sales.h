@@ -54,10 +54,12 @@ class Sales {
   public:
 
     std::vector<itemObj> shoppingCart;
+    std::vector<itemObj> vItems;
     float total;
     std::string cartString;
 
-    bool addToCart(json itemInfo);
+   // bool getallItems(json dataSon);
+    //bool addToCart(string sku);
     bool removeFromCart(std::string SKU);
     bool clearCart();
     void shoppingCartToString();

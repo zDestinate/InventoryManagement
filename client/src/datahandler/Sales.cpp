@@ -7,6 +7,43 @@
 using namespace std;
 using json = nlohmann::json;
 
+/*
+bool getallItems(json itemsArray)
+{
+    //'/inventory/create/:desc/:cost/:quant/:Upc'
+    string description,cost,quantity,upc;
+
+    if(itemsArray.is_array())
+    {
+        for(int i = 0; i < itemsArray.size(); i++)
+        {
+            if(itemsArray[i].contains("desc"))
+            {
+                description = itemsArray[i].at("desc").get<string>();
+            } 
+
+            if(itemsArray[i].contains("cost"))
+            {
+                cost = itemsArray[i].at("cost").get<string>();
+            } 
+
+            if(itemsArray[i].contains("quant"))
+            {
+                quantity = itemsArray[i].at("quant").get<string>();
+            } 
+
+            if(itemsArray[i].contains("upc"))
+            {
+                upc = itemsArray[i].at("upc").get<string>();
+            } 
+            itemObj item(description,cost,upc);
+        }
+    }    
+
+    return false;
+}
+
+
 bool Sales::addToCart(json itemInfo)
 {
     string name,sku;
@@ -27,7 +64,7 @@ bool Sales::addToCart(json itemInfo)
 
     return false;
 }
-
+*/
 bool Sales::removeFromCart(std::string sku)
 {
     int position =0;

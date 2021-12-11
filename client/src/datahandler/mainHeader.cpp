@@ -136,23 +136,26 @@ bool mainClass::deleteAcc(std::string id)
 bool mainClass::returnUserData()
 {
     string strResult = DataGrabber->ConnectTo("/user");
-    if(!DataGrabber->bSuccessfullyConnected)
+        if(!DataGrabber->bSuccessfullyConnected)
         {
-            severStatus = false;
+                severStatus = false;
         }
-    else
-    {
-        severStatus = true;
-    }
+        else
+        {
+            severStatus = true;
 
-    json datajson = json::parse(strResult);
-    bool getDataResult = manageAcc->allUserData(datajson);
-
-    if(getDataResult){
-        cout<< "successful" << endl;
-        return true;
-    }
-    cout<< "failed" << endl;
+            json datajson = json::parse(strResult);
+            bool getDataResult = manageAcc->allUserData(datajson);
+        
+            if(getDataResult)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     return false;
 }
 
@@ -170,21 +173,21 @@ vector<custAcc> mainClass::returnCusVector()
 {
     return manageAcc->vectCust;
 }
-
+/*
 bool mainClass::getDBItems()
 {
-    string strResult = DataGrabber->ConnectTo("/user");
+    strResult = DataGrabber->ConnectTo("/user");
     if(!DataGrabber->bSuccessfullyConnected)
-        {
-            severStatus = false;
-        }
+    {
+        severStatus = false;
+    }
     else
     {
         severStatus = true;
     }
 
     json datajson = json::parse(strResult);
-    bool getDataResult = manageAcc->allUserData(datajson);
+    bool getDataResult = Cart->getallItems(datajson);
 
     if(getDataResult){
         cout<< "successful" << endl;
@@ -198,13 +201,14 @@ bool mainClass::addToCart(std::string productSku)
 {   
     bool add = Cart->addToCart(productSku);
 
-    if(add)
-    {
-        return true;
-    }
+        if(add)
+        {
+            return true;
+        }
+
     return false;
 }
-
+*/
 bool mainClass::removeFromCart(std::string productSku)
 {
     bool remove = Cart->removeFromCart(productSku);

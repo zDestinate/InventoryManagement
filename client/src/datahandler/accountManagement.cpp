@@ -115,9 +115,11 @@ bool accountManagement::allUserData(json datajson)
         for(int i = 0; i < datajson.size(); i++)
         {
             
+            cout << datajson[i] << endl;
+
             if(datajson[i].contains("_id"))
             {
-                id = datajson[i].at("_id").get<string>();
+                id = datajson[i].at("_id").get<int>();
             } 
 
             if(datajson[i].contains("username"))
@@ -133,30 +135,30 @@ bool accountManagement::allUserData(json datajson)
             if(datajson[i].contains("email"))
             {
                 email = datajson[i].at("email").get<string>();
-            }    
-            
-            if(datajson[i].contains("perm"))
-            {
-                perm = datajson[i].at("perm").get<string>();
-            }    
+            }   
 
             if(datajson[i].contains("name"))
             {
                 flname = datajson[i].at("name").get<string>();
             }   
 
-            if(datajson[i].at("perm").get<string>() == "cus")
+            if(datajson[i].contains("perm"))
             {
-                custAcc Cust(id," ",phone,email,perm,flname);
-                vectCust.push_back(Cust);
-                vUser.push_back(Cust);
+                perm = datajson[i].at("perm").get<string>();
+
+                if(datajson[i].at("perm").get<string>() == "cus")
+                {
+                    custAcc Cust(id," ",phone,email,perm,flname);
+                    vectCust.push_back(Cust);
+                    vUser.push_back(Cust);
                 }
-            if((datajson[i].at("perm").get<string>() == "sup") || (datajson[i].at("perm").get<string>() == "emp"))
-            {
-                workerEmp Emp(id,username,phone,email,perm,flname);
-                vectEmp.push_back(Emp);
-                vUser.push_back(Emp);
-            }           
+                if((datajson[i].at("perm").get<string>() == "sup") || (datajson[i].at("perm").get<string>() == "emp"))
+                {
+                    workerEmp Emp(id,username,phone,email,perm,flname);
+                    vectEmp.push_back(Emp);
+                    vUser.push_back(Emp);
+                }           
+            }
         }
         return true;
     }
