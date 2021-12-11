@@ -146,7 +146,7 @@ module.exports = function (app, express, db)
 		}
 	});
 	
-	app.get('/user/create/:username/:password/:phone/:perm/:flname', function(req, res)
+	app.get('/user/create/:username/:password/:phone/:perm/:flname/:email', function(req, res)
 	{
 		//if auth is true or auth doesn't exist
 		if(req.session.auth)
@@ -170,6 +170,7 @@ module.exports = function (app, express, db)
 									password: String(bcrypt.hashSync(strPassword, config.Hash.saltround)),
 									name: req.params.flname,
 									number: req.params.phone,
+									email: req.params.email,
 									perm: req.params.perm
 								}, function(werr, wres){
 								
@@ -240,11 +241,11 @@ module.exports = function (app, express, db)
 		}
 	});
 //edit user route
-	app.get('/user/edit/:username/:nusername/:nname/nnum', function(req, res){
+	app.get('/user/edit/:username/:nusername/:nname/:nnum/:nemail/:nperm', function(req, res){
 
 		db.collection("users").update(
 			{"username": req.params.username },
-			{$set: { "username": req.params.nusername,"name":req.params.nname,"number":req.params.nnum}});
+			{$set: { "username": req.params.nusername,"name":req.params.nname,"number":req.params.nnum,"email":req.params.nemail,"perm":req.params.nperm}});
 			console.log("updated user")
 	});
 	//delete user route
