@@ -122,8 +122,8 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             ContentPromotion = new content_promotion(hwnd, FormObjects::CONTENT_PROMOTION, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
             
             ContentAccounts = new content_accounts(hwnd, FormObjects::CONTENT_ACCOUNTS, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
-            //ContentAccounts->DataHandler = DataHandler;
-            //ContentAccounts->ShowUserList();
+            ContentAccounts->DataHandler = DataHandler;
+            ContentAccounts->ShowUserList();
 
             ContentSettings = new content_settings(hwnd, FormObjects::CONTENT_SETTINGS, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
 

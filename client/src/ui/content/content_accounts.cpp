@@ -198,24 +198,32 @@ void content_accounts::ShowUserList()
 {
     if(DataHandler != nullptr)
     {
+        ItemList->CreateColumn(0, "ID", 100);
+        ItemList->CreateColumn(1, "Username", 100);
+        ItemList->CreateColumn(2, "Phone", 100);
+        ItemList->CreateColumn(3, "Email", 100);
+        ItemList->CreateColumn(4, "Permission", 100);
+
         if(DataHandler->returnUserData())
         {
-            ItemList->CreateColumn(0, "ID", 100);
-            ItemList->CreateColumn(1, "Username", 100);
-            ItemList->CreateColumn(2, "Phone", 100);
-            ItemList->CreateColumn(3, "Email", 100);
-            ItemList->CreateColumn(4, "Permission", 100);
-
-            vector<User> UserList = DataHandler->returnUserVector();
-            for(int i = 0; i < UserList.size(); i++)
+            if(DataHandler->exeCheck())
             {
-                char* szID = new char[(UserList[i].id).length() + 1];
-                strcpy(szID, (UserList[i].id).c_str());
-                ItemList->Insert(0, i, szID);
+                vector<User> UserList = DataHandler->returnUserVector();
 
-                char* szUsername = new char[(UserList[i].user).length() + 1];
-                strcpy(szUsername, (UserList[i].user).c_str());
-                ItemList->Insert(1, i, szUsername);
+                printf("UserList Size: %d\n", UserList.size());
+
+                /*
+                for(int i = 0; i < UserList.size(); i++)
+                {
+                    char* szID = new char[(UserList[i].id).length() + 1];
+                    strcpy(szID, (UserList[i].id).c_str());
+                    ItemList->Insert(0, i, szID);
+
+                    char* szUsername = new char[(UserList[i].user).length() + 1];
+                    strcpy(szUsername, (UserList[i].user).c_str());
+                    ItemList->Insert(1, i, szUsername);
+                }
+                */
             }
         }
     }

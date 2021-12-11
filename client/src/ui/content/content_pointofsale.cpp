@@ -30,21 +30,16 @@ content_pointofsale::content_pointofsale(HWND hwndParent, int lpParam, int x, in
     ItemList->nMinXColumn = 20;
     ItemList->lvcMask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM | LVCF_MINWIDTH;
     ItemList->lvcFmt = LVCFMT_LEFT | LVCFMT_FIXED_WIDTH;
-    ItemList->CreateColumn(0, "Description", 150);
+    ItemList->CreateColumn(0, "Description", nItemListWidth - (120 * 2));
     ItemList->Insert(0, 0, "asdfasdf");
     ItemList->Insert(0, 1, "bbbbbb");
     ItemList->lvcFmt = LVCFMT_RIGHT | LVCFMT_FIXED_WIDTH;
-    ItemList->CreateColumn(1, "Quantity", 150);
+    ItemList->CreateColumn(1, "Quantity", 120);
     ItemList->Insert(1, 0, "ads");
     ItemList->Insert(1, 1, "wwwwwwwww");
-    ItemList->CreateColumn(2, "Price", 150);
+    ItemList->CreateColumn(2, "Price", 120);
     ItemList->Insert(2, 0, "1823");
     ItemList->Insert(2, 1, "123");
-
-    ItemList->SetColumnWidth(0, (nItemListWidth / 2) - 20);
-    ItemList->SetColumnWidth(1, nItemListWidth / 4);
-    ItemList->SetColumnWidth(2, nItemListWidth / 4);
-
 }
 
 LRESULT CALLBACK content_pointofsale::ContentProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
@@ -110,9 +105,13 @@ LRESULT CALLBACK content_pointofsale::ContentProc(HWND hwnd, UINT message, WPARA
             SetWindowPos(pThis->ItemList->hwnd, NULL, nItemListX, pThis->nItemListY, nItemListWidth,  nHeight - 25 - 50 - 175, SWP_NOZORDER);
         
             //Rescale column
-            pThis->ItemList->SetColumnWidth(0, (nItemListWidth / 2) - 20);
+            /*
+            pThis->ItemList->SetColumnWidth(0, (nItemListWidth / 2));
             pThis->ItemList->SetColumnWidth(1, nItemListWidth / 4);
             pThis->ItemList->SetColumnWidth(2, nItemListWidth / 4);
+            */
+
+            pThis->ItemList->SetColumnWidth(0, nItemListWidth - (120 * 2));
         }
         break;
     case WM_SHOWWINDOW:
