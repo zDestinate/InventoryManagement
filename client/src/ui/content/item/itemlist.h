@@ -31,4 +31,7 @@ class content_item_list
         int CreateColumn(int nCol, char *szText, int nWidth);
         int Insert(int nCol, int nRow, char *szText);
         bool SetColumnWidth(int nCol, int Width);
+        bool DeleteColumn(int nCol);
+        void DeleteColumns(int nNumberOfColumns);
+
 };

@@ -151,3 +151,16 @@ bool content_item_list::SetColumnWidth(int nCol, int Width)
 {
     return ListView_SetColumnWidth(hwnd, nCol, Width);
 }
+
+bool content_item_list::DeleteColumn(int nCol)
+{
+    return ListView_DeleteColumn(hwnd, nCol);
+}
+
+void content_item_list::DeleteColumns(int nNumberOfColumns)
+{
+    for(int i = 0; i < nNumberOfColumns; i++)
+    {
+        ListView_DeleteColumn(hwnd, i);
+    }
+}

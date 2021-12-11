@@ -1,3 +1,4 @@
+#include <iostream>
 #include "ui/objects.h"
 #include "ui/content/content_accounts.h"
 
@@ -186,6 +187,7 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
             if(wParam)
             {
                 printf("[CONTENT][ACCOUNTS] Show\n");
+                pThis->ShowUserList();
             }
         }
         break;
@@ -198,6 +200,7 @@ void content_accounts::ShowUserList()
 {
     if(DataHandler != nullptr)
     {
+        ItemList->DeleteColumns(5);
         ItemList->CreateColumn(0, "ID", 100);
         ItemList->CreateColumn(1, "Username", 100);
         ItemList->CreateColumn(2, "Phone", 100);
@@ -210,20 +213,16 @@ void content_accounts::ShowUserList()
             {
                 vector<User> UserList = DataHandler->returnUserVector();
 
-                printf("UserList Size: %d\n", UserList.size());
-
-                /*
                 for(int i = 0; i < UserList.size(); i++)
                 {
-                    char* szID = new char[(UserList[i].id).length() + 1];
-                    strcpy(szID, (UserList[i].id).c_str());
+                    char* szID = new char[UserList[i].id.length() + 1];
+                    strcpy(szID, UserList[i].id.c_str());
                     ItemList->Insert(0, i, szID);
 
-                    char* szUsername = new char[(UserList[i].user).length() + 1];
-                    strcpy(szUsername, (UserList[i].user).c_str());
+                    char* szUsername = new char[UserList[i].user.length() + 1];
+                    strcpy(szUsername, UserList[i].user.c_str());
                     ItemList->Insert(1, i, szUsername);
                 }
-                */
             }
         }
     }
