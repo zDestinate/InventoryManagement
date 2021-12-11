@@ -189,8 +189,8 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                         string strPassword;
                         strPassword.assign(&tszPassword[0], &tszPassword[nPassword]);
 
-                        //DataHandler->LogIn(strUsername, strPassword)
-                        if(DataHandler->LogIn(strUsername, strPassword))
+                        DataHandler->LogIn(strUsername, strPassword);
+                        if(DataHandler->completeLogIn())
                         {
                             if(DataHandler->exeCheck())
                             {
