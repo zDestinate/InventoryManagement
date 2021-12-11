@@ -16,12 +16,14 @@ class mainClass {
     UserLogIn* estabLogIn;
     accountManagement* manageAcc;
     Sales* Cart;
+   
     bool severStatus = true;
-
+    std::string strResult;
   public:
     mainClass();
     
-    bool LogIn(std::string username, std::string password);
+    void LogIn(std::string username, std::string password);
+    bool completeLogIn();
     void logOut();
     bool exeCheck();
     

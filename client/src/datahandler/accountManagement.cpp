@@ -107,58 +107,56 @@ bool accountManagement::checkPhoneEmail(string phoneNum, string email)
 
 bool accountManagement::allUserData(json datajson)
 {
-    int j = 0,count = 0;
+
     string id,username,phone,email,perm,flname;
 
    if(datajson.is_array())
     {
         for(int i = 0; i < datajson.size(); i++)
         {
-            if(count == 0)
+            
+            if(datajson[i].contains("_id"))
             {
-                id = datajson[i].at("code").get<string>();
-                count ++;
+                id = datajson[i].at("_id").get<string>();
+            } 
+
+            if(datajson[i].contains("username"))
+            {
+                username = datajson[i].at("username").get<string>();
+            }
+            
+            if(datajson[i].contains("number"))
+            {
+                phone = datajson[i].at("number").get<string>();
             }
 
-            if(count == 1)
+            if(datajson[i].contains("email"))
             {
-                username = datajson[i].at("code").get<string>();
-                count ++;
-            }
+                email = datajson[i].at("email").get<string>();
+            }    
+            
+            if(datajson[i].contains("perm"))
+            {
+                perm = datajson[i].at("perm").get<string>();
+            }    
 
-            if(count == 2)
+            if(datajson[i].contains("name"))
             {
-                phone = datajson[i].at("code").get<string>();
-                count++;
-            }
-            if(count == 3)
+                flname = datajson[i].at("name").get<string>();
+            }   
+
+            if(datajson[i].at("perm").get<string>() == "cus")
             {
-                email = datajson[i].at("code").get<string>();
-                count++;
-            }
-            if(count == 4)
-            {
-                perm = datajson[i].at("code").get<string>();
-                count++;
-            }
-            if(count == 5)
-            {
-                flname = datajson[i].at("code").get<string>();
-                
-                if(perm == "cus")
-                {
-                    custAcc Cust(id," ",phone,email,perm,flname);
-                    vectCust.push_back(Cust);
-                    vUser.push_back(Cust);
+                custAcc Cust(id," ",phone,email,perm,flname);
+                vectCust.push_back(Cust);
+                vUser.push_back(Cust);
                 }
-                if((perm == "sup") || (perm == "emp"))
-                {
-                    workerEmp Emp(id,username,phone,email,perm,flname);
-                    vectEmp.push_back(Emp);
-                    vUser.push_back(Emp);
-                }
-                count = 0;
-            }
+            if((datajson[i].at("perm").get<string>() == "sup") || (datajson[i].at("perm").get<string>() == "emp"))
+            {
+                workerEmp Emp(id,username,phone,email,perm,flname);
+                vectEmp.push_back(Emp);
+                vUser.push_back(Emp);
+            }           
         }
         return true;
     }

@@ -25,26 +25,27 @@ mainClass::mainClass()
     DataGrabber->EstablishConnection();
 }
 
-bool mainClass::LogIn(string username, string password)
+void mainClass::LogIn(string username, string password)
 {
     bool busername = estabLogIn->LoginUser(username);
     bool bpassword = estabLogIn->LoginPass(password);
 
     //string product = getData -> getProductData("sagasgsa");
-
     if(busername && bpassword)
     {
         //Response from the site
-        string strResult = DataGrabber->ConnectTo("/user/login/" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
-
+        strResult = DataGrabber->ConnectTo("/user/login/" + estabLogIn->strUsername + "/" + estabLogIn->strPassword);
         if(!DataGrabber->bSuccessfullyConnected)
         {
             severStatus = false;
-            return false;
         }
-        severStatus = true;
+            severStatus = true;
+    }
+}
 
-        json datajson = json::parse(strResult);
+bool mainClass::completeLogIn()
+{
+    json datajson = json::parse(strResult);
 
         
         int nCode = stoi(datajson.at("code").get<string>());
@@ -63,10 +64,6 @@ bool mainClass::LogIn(string username, string password)
         {
             return false;
         }
-        
-
-    }
-    
     return false;
 }
 
@@ -82,7 +79,7 @@ void mainClass::logOut()
         {
             severStatus = false;
         }
-        severStatus = true;
+            severStatus = true;
 
     DataGrabber->ClearCookies();
     estabLogIn->LogOut();
@@ -135,7 +132,7 @@ bool mainClass::returnUserData()
         {
             severStatus = false;
         }
-        severStatus = true;
+            severStatus = true;
 
     json datajson = json::parse(strResult);
     bool getDataResult = manageAcc->allUserData(datajson);
@@ -148,7 +145,7 @@ bool mainClass::returnUserData()
     return false;
 }
 
- vector<User> mainClass::returnUserVector()
+vector<User> mainClass::returnUserVector()
  {
      return manageAcc->vUser;
  }

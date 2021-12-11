@@ -32,18 +32,9 @@ bool UserLogIn::searchUser(string username)
 
 bool UserLogIn::LoginUser(string username)
 {
-    int invalid = 5; //log in attempts variable
-    
-     
         if(username.length() < 8 || !searchUser(username)) //if length less than 8 or username there a special character invalid
         {
-            invalid--; // deduct remaining attempts
-            //cout << "Invalid Login\n" << "Attempts left:" << invalid << endl;
-
-                if(invalid == 0)//if attemps = 0 exit
-                {
-                  return false;
-                }
+         return false;
         }
 
         strUsername = username;
@@ -62,13 +53,13 @@ bool UserLogIn::LoginPass(string password)
         
 
             //if c is a upper case letter upper++
-            if(isupper(c))
+           /* if(isupper(c))
             {
                 Upper++;
-            }
+            } */
     }
-    //if length less than 8 or no upper case character or no special character invalid password 
-    if(password.length() < 8 || Upper == 0)
+    //if length less than 8 or //no upper case character or no special character invalid password 
+    if(password.length() < 8 /*|| Upper == 0*/)
     {
         return false; 
     }
@@ -79,9 +70,7 @@ bool UserLogIn::LoginPass(string password)
 
 void UserLogIn::LogOut()
 {
-    
     std::fstream ofs;
-
     ofs.open("token", std::ofstream::out | std::ofstream::trunc);
     ofs.close();  
 }
