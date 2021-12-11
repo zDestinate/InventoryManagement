@@ -190,9 +190,9 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                         strPassword.assign(&tszPassword[0], &tszPassword[nPassword]);
 
                         DataHandler->LogIn(strUsername, strPassword);
-                        if(DataHandler->completeLogIn())
+                        if(DataHandler->exeCheck())
                         {
-                            if(DataHandler->exeCheck())
+                            if(DataHandler->completeLogIn())
                             {
                                 ShowWindow(hwnd, SW_HIDE);
                                 ShowWindow(lblLoginStatus->hwndstatic, SW_HIDE);
@@ -215,18 +215,18 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                             else
                             {
                                 ShowWindow(lblLoginStatus->hwndstatic, SW_SHOW);
-                                lblLoginStatus->StaticText = L"Connection Error";
+                                lblLoginStatus->StaticText = L"Invalid username or password";
                                 lblLoginStatus->TextColorRGB = RGB(255, 51, 51);
-                                printf("[LOGIN] Unable to connect to the server\n");
+                                SendMessage(txtboxPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                                printf("[LOGIN] Invalid username or password\n");
                             }
                         }
                         else
                         {
                             ShowWindow(lblLoginStatus->hwndstatic, SW_SHOW);
-                            lblLoginStatus->StaticText = L"Invalid username or password";
+                            lblLoginStatus->StaticText = L"Connection Error";
                             lblLoginStatus->TextColorRGB = RGB(255, 51, 51);
-                            SendMessage(txtboxPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
-                            printf("[LOGIN] Invalid username or password\n");
+                            printf("[LOGIN] Unable to connect to the server\n");
                         }
                         
                     }
