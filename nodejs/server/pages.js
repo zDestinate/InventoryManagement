@@ -68,6 +68,17 @@ function findUsers(db, callback)
 		});
 	}
 
+	function findItems(db, callback)
+	{
+		db.collection('inventory').find({}).toArray(function(err, result)
+		{
+			if (callback && typeof(callback) === 'function')
+			{ callback(err,result);}
+
+		});
+	}
+
+
 module.exports = function (app, express, db)
 {
 
@@ -86,6 +97,18 @@ module.exports = function (app, express, db)
 			console.log(result);
 			if(err||!result)
 			{console.log("Could not find any users");}
+			else{ 
+				res.send(result);
+
+			}
+		});
+	});
+
+	app.get('/inventory', function(req,res){
+		findItems(db,function(err,result){
+			console.log(result);
+			if(err||!result)
+			{console.log("Could not find any itemss");}
 			else{ 
 				res.send(result);
 
