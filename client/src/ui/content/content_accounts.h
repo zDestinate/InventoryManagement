@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "datahandler/mainHeader.h"
 #include "ui/content/content.h"
 #include "ui/content/item/search.h"
 #include "ui/content/item/itemlist.h"
@@ -33,4 +34,6 @@ class content_accounts : public content
     public:
         content_accounts(HWND hwndParent, int lpParam, int x, int y, int width, int height);
         COLORREF TextColorRGB = RGB(0, 0, 0);
+        mainClass* DataHandler = nullptr;
+        void ShowUserList();
 };

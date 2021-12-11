@@ -37,12 +37,6 @@ content_accounts::content_accounts(HWND hwndParent, int lpParam, int x, int y, i
     nItemListY = 120;
     ItemList = new content_item_list(hwnd, FormObjects::CONTENT_ACCOUNTS_LIST, nItemListX, nItemListY, nItemListWidth, nHeight - nSearchBarHeight - nSearchBarY - 175);
     ItemList->nMinXColumn = 20;
-    ItemList->CreateColumn(0, "TESTTT", 150);
-    ItemList->Insert(0, 0, "asdfasdf");
-    ItemList->Insert(0, 1, "bbbbbb");
-    ItemList->CreateColumn(1, "ASDASD", 150);
-    ItemList->Insert(1, 0, "ads");
-    ItemList->Insert(1, 1, "wwwwwwwww");
 
     //For buttons
     nButtonWidth = 150;
@@ -198,4 +192,31 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
     }
 
     return DefSubclassProc(hwnd, message, wParam, lParam);
+}
+
+void content_accounts::ShowUserList()
+{
+    if(DataHandler != nullptr)
+    {
+        if(DataHandler->returnUserData())
+        {
+            ItemList->CreateColumn(0, "ID", 100);
+            ItemList->CreateColumn(1, "Username", 100);
+            ItemList->CreateColumn(2, "Phone", 100);
+            ItemList->CreateColumn(3, "Email", 100);
+            ItemList->CreateColumn(4, "Permission", 100);
+
+            vector<User> UserList = DataHandler->returnUserVector();
+            for(int i = 0; i < UserList.size(); i++)
+            {
+                char* szID = new char[(UserList[i].id).length() + 1];
+                strcpy(szID, (UserList[i].id).c_str());
+                ItemList->Insert(0, i, szID);
+
+                char* szUsername = new char[(UserList[i].user).length() + 1];
+                strcpy(szUsername, (UserList[i].user).c_str());
+                ItemList->Insert(1, i, szUsername);
+            }
+        }
+    }
 }

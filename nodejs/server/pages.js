@@ -54,18 +54,7 @@ function findUser(userName, db,passcode, callback){
 		
 		}
 
-		//console.log(result[i].username);
-				//return result[i].username;
-
-				//Check if callback exist and its a function
-				
-				
-
-			/* 	bcrypt.compare("22344", result[i].password, function(berr, bresult)
-				{
-					console.log(bresult);
-				}); */
-			
+	
 		
 	});
 }
@@ -81,18 +70,7 @@ function findUsers(db, callback)
 
 module.exports = function (app, express, db)
 {
-/* 	app.get('/something', function(req, res)
-	{
-		if(permission == customer)
-		{
-			res.send(customer data);
-		}
-		else(permission == emp)
-		{
-			res.send(employee data);
-		}
- 
-	});*/
+
 	app.get('/', function(req, res)
 	{
 		var data = {};
@@ -270,39 +248,36 @@ module.exports = function (app, express, db)
 			console.log("updated user")
 	});
 	//edit inventory route
-	app.get('/inventory/edit/:desc/:ndesc', function(req, res){
+	app.get('/inventory/edit/:desc/:ndesc/:nquant/:ncost', function(req, res){
 
 
 		db.collection("inventory").update(
 			{"description": req.params.desc },
-			{$set: { "description": req.params.ndesc}});
-			console.log("updated inventory item")
+			{$set: { "description": req.params.ndesc,"price":req.params.ncost,"quantity":req.params.ncost}});
+			console.log("updated inventory item");
 	});
 // create inventory route
-	app.get('/inventory/create/:desc/:price/:quant', function(req, res)
+	app.get('/inventory/create/:desc/:cost/:quant', function(req, res)
 	{
 		//if auth is true or auth doesn't exist
 		if(req.session.auth)
 		{
 
-			var strUsername = req.params.username;
-			var strPassword = req.params.password;
 			
-			if((strUsername != undefined) && (strPassword != undefined))
+			if((req.params.desc != undefined) && (req.params.cost != undefined) &&(req.params.quant))
 			{
-				db.collection('inventory').find({"desc":strUsername}).toArray(function(err, result){
+				db.collection('inventory').find({"desc":req.params.desc }).toArray(function(err, result){
 					result = result[0];
 					if(result == undefined)
 					{
 						
 							//refactor this later 
 							db.collection("inventory").insertOne(
-								{_id: sres.value.seq,
-									description: strUsername, 
-									cost: String(bcrypt.hashSync(strPassword, config.Hash.saltround)),
-									name: req.params.flname,
-									number: req.params.phone,
-									perm: req.params.perm
+								{
+									description: req.params.desc , 
+									price: req.params.cost,
+									quantity: req.params.quant
+									
 								}, function(werr, wres){
 								
 								//if error creating user
@@ -312,7 +287,7 @@ module.exports = function (app, express, db)
 									//console.log(werr);
 									
 									var data = {};
-									data['message'] = 'Failed to create a user';
+									data['message'] = 'Failed to create item';
 									data['code'] = '104';
 									
 									var prettydata = JSON.stringify(data, null, 2);
@@ -324,7 +299,7 @@ module.exports = function (app, express, db)
 									//console.log("[WEB][CREATE_USER] %s successfully created a new user %s", GetIPAddress(req), strUsername);
 									
 									var data = {};
-									data['message'] = 'Successfully created a user';
+									data['message'] = 'Successfully created item';
 									data['code'] = '001';
 									
 									var prettydata = JSON.stringify(data, null, 2);
@@ -337,7 +312,7 @@ module.exports = function (app, express, db)
 					else
 					{
 						var data = {};
-						data['message'] = 'Username already exist';
+						data['message'] = 'Item already exist';
 						data['code'] = '101';
 						
 						var prettydata = JSON.stringify(data, null, 2);
@@ -345,17 +320,6 @@ module.exports = function (app, express, db)
 						return;
 					}
 				});
-			}
-			else
-			{
-				//Invalid	
-				var data = {};
-				data['message'] = 'Invalid username or password';
-				data['code'] = '102';
-				
-				var prettydata = JSON.stringify(data, null, 2);
-				res.type('json').send(prettydata);
-				return;
 			}
 			
 		}
@@ -386,31 +350,13 @@ module.exports = function (app, express, db)
 
 	});
 
-	/* app.get('/user/create/:name/:email/:phone', function(req, res)
-	{
-		//if auth is false or auth doesn't exist
-		console.log(req.params);
-		console.log("NAME: %s", req.params.name);
-		console.log("EMAIL: %s", req.params.email);
-
-		res.send("CREATE IS WORKING");
-	}); */
-
-
+//inventory list route
 	app.get('/inventory', function (req, res) 
 	{
 		//if(req.session.auth)
 	//	{
 
-		/*
-		const inventory= Inventory.find({});
-		console.log(inventory);
-		res.render(inventory);
-		*/
-
 		db.collection('inventory').find({}).toArray(function(err, result){
-			//console.log(result);
-			//console.log(result[1].price);
 			for(var i = 0; i < result.length; i++)
 			{
 				if(result[i].price == 35)
@@ -421,27 +367,6 @@ module.exports = function (app, express, db)
 		});
 
 		res.send("working");
-	//	}
-		
-		//res.send('you are not login');
-	});
-
-	/* app.post('/inventory', function (req,res) {
-		const newInventory = new inventory(res.body);
-		 newInventory.save();
-		console.log(newInventory);
-		res.send("new invetory item added");
-	})
-	 */
-	
-	app.get('/inventory/new', function(req, res)
-	{
-		//if(req.session.auth)
-		//{
-		res.render('inventory/new');
-		//}
-		
-		//res.send('you are not login');
 	});
 
 
