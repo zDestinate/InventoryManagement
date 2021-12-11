@@ -135,6 +135,7 @@ bool mainClass::deleteAcc(std::string id)
 
 bool mainClass::returnUserData()
 {
+    
     string strResult = DataGrabber->ConnectTo("/user");
         if(!DataGrabber->bSuccessfullyConnected)
         {

@@ -107,6 +107,9 @@ bool accountManagement::checkPhoneEmail(string phoneNum, string email)
 
 bool accountManagement::allUserData(json datajson)
 {
+    vectEmp.clear();
+    vectCust.clear();
+    vUser.clear();
 
     string id,username,phone,email,perm,flname;
 
@@ -114,12 +117,9 @@ bool accountManagement::allUserData(json datajson)
     {
         for(int i = 0; i < datajson.size(); i++)
         {
-            
-            cout << datajson[i] << endl;
-
             if(datajson[i].contains("_id"))
             {
-                id = datajson[i].at("_id").get<int>();
+                id = to_string(datajson[i].at("_id").get<int>());
             } 
 
             if(datajson[i].contains("username"))
