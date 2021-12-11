@@ -247,6 +247,20 @@ module.exports = function (app, express, db)
 			{$set: { "username": req.params.nusername,"name":req.params.nname,"number":req.params.nnum}});
 			console.log("updated user")
 	});
+	//delete user route
+	app.get('/user/delete/:username', function(req, res){
+
+		db.collection("users").deleteOne(
+			{"username": req.params.username });
+			console.log("deleted user")
+			var data = {};
+			data['message'] = 'User deleted';
+			data['code'] = '555';
+			
+			var prettydata = JSON.stringify(data, null, 2);
+			res.type('json').send(prettydata);
+			return;
+	});
 	//edit inventory route
 	app.get('/inventory/edit/:desc/:ndesc/:nquant/:ncost', function(req, res){
 
