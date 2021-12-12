@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "datahandler/mainHeader.h"
 #include "ui/content/content.h"
 #include "ui/content/item/search.h"
 #include "ui/content/item/itemlist.h"
@@ -22,7 +23,6 @@ class content_item : public content
         int nSearchBarHeight;
         int nSearchBarY;
 
-        content_item_list* ItemList = nullptr;
         int nItemListY;
 
         form_button* btnCreateItem, *btnEditItem;
@@ -30,7 +30,16 @@ class content_item : public content
         int nButtonheight;
         int nSpaceBetweenButtons;
 
+        vector<itemObj> SearchItemList, CurrentItemList;
+
     public: 
         content_item(HWND hwndParent, int lpParam, int x, int y, int width, int height);
         COLORREF TextColorRGB = RGB(0, 0, 0);
+
+        mainClass* DataHandler = nullptr;
+        content_item_list* ItemList = nullptr;
+
+        void SetDatahandler(mainClass* DataHandler);
+        void ShowItemList();
+        void ShowItemListVector(vector<itemObj> vItemList);
 };

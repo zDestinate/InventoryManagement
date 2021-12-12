@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include "datahandler/mainHeader.h"
 #include "ui/form_underlinetxtbox.h"
 #include "ui/form_button.h"
 
@@ -26,6 +27,9 @@ class popup_item
         HWND hwnd;
         HWND hwndContent;
         form_underlinetxtbox* txtUPC, *txtDescription, *txtQuantity, *txtPrice;
+        int nEditVectorID;
+
+        mainClass* DataHandler = nullptr;
 
         popup_item(HWND hwndMain);
         int CreateFormMain();

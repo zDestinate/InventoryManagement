@@ -142,6 +142,43 @@ LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wPara
                         nSearchBarLength = GetWindowText(pThis->SearchBar->hwnd, tszSearchBarText, nSearchBarLength);
                         string strSearchbarText;
                         strSearchbarText.assign(&tszSearchBarText[0], &tszSearchBarText[nSearchBarLength]);
+
+                        pThis->SearchItemList.clear();
+                        if(!strSearchbarText.empty())
+                        {
+                            if(!pThis->CurrentItemList.empty())
+                            {
+                                for(int i = 0; i < pThis->CurrentItemList.size(); i++)
+                                {
+                                    if((pThis->CurrentItemList[i]).itemId.find(strSearchbarText) != string::npos)
+                                    {
+                                        pThis->SearchItemList.push_back(pThis->CurrentItemList[i]);
+                                    }
+                                    else if((pThis->CurrentItemList[i]).description.find(strSearchbarText) != string::npos)
+                                    {
+                                        pThis->SearchItemList.push_back(pThis->CurrentItemList[i]);
+                                    }
+                                    else if((pThis->CurrentItemList[i]).quantity.find(strSearchbarText) != string::npos)
+                                    {
+                                        pThis->SearchItemList.push_back(pThis->CurrentItemList[i]);
+                                    }
+                                    else if((pThis->CurrentItemList[i]).price.find(strSearchbarText) != string::npos)
+                                    {
+                                        pThis->SearchItemList.push_back(pThis->CurrentItemList[i]);
+                                    }
+                                    else if((pThis->CurrentItemList[i]).upc.find(strSearchbarText) != string::npos)
+                                    {
+                                        pThis->SearchItemList.push_back(pThis->CurrentItemList[i]);
+                                    }
+                                }
+
+                                pThis->ShowItemListVector(pThis->SearchItemList);
+                            }
+                        }
+                        else
+                        {
+                            pThis->ShowItemList();
+                        }
                     }
                     break;
                 case FormObjects::CONTENT_ITEM_BTN_CREATE:
@@ -154,6 +191,32 @@ LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wPara
                     {
                         ShowWindow(pThis->FormItem->hwnd, SW_SHOW);
                         EnableWindow(pThis->hwndParent, FALSE);
+
+                        int itemId = SendMessage(pThis->ItemList->hwnd, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
+
+                        if(itemId != -1)
+                        {
+                            string strDescription = pThis->ItemList->GetItemText(1, itemId);
+                            SendMessage(pThis->FormItem->txtDescription->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strDescription.c_str()));
+
+                            string strQuantity = pThis->ItemList->GetItemText(2, itemId);
+                            SendMessage(pThis->FormItem->txtQuantity->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strQuantity.c_str()));
+
+                            string strPrice = pThis->ItemList->GetItemText(3, itemId);
+                            SendMessage(pThis->FormItem->txtPrice->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strPrice.c_str()));
+
+                            string strUPC = pThis->ItemList->GetItemText(4, itemId);
+                            SendMessage(pThis->FormItem->txtUPC->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strUPC.c_str()));
+
+                            pThis->FormItem->nEditVectorID = itemId;
+
+                            ShowWindow(pThis->FormItem->hwnd, SW_SHOW);
+                            EnableWindow(pThis->hwndParent, FALSE);
+                        }
+                        else
+                        {
+                            MessageBox(NULL, "Please select an user to edit that user information", "Information", MB_OK | MB_ICONINFORMATION | MB_SYSTEMMODAL);
+                        }
                     }
                     break;
             }
@@ -163,6 +226,7 @@ LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wPara
         {
             if(wParam)
             {
+                SendMessage(pThis->SearchBar->hwnd, WM_SETTEXT, 0, (LPARAM)"");
                 printf("[CONTENT][ITEM] Show\n");
             }
         }
@@ -170,4 +234,78 @@ LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wPara
     }
 
     return DefSubclassProc(hwnd, message, wParam, lParam);
+}
+
+void content_item::ShowItemList()
+{
+    CurrentItemList.clear();
+    if((DataHandler != nullptr) && (ItemList != nullptr))
+    {
+        ItemList->DeleteAllItems();
+
+        DataHandler->demoFillItems();
+
+        vector<itemObj> vItemList = DataHandler->returnUpdatedDemo();
+        CurrentItemList = vItemList;
+
+        for(int i = 0; i < vItemList.size(); i++)
+        {
+            char* szID = new char[vItemList[i].itemId.length() + 1];
+            strcpy(szID, vItemList[i].itemId.c_str());
+            ItemList->Insert(0, i, szID);
+
+            char* szDescription = new char[vItemList[i].description.length() + 1];
+            strcpy(szDescription, vItemList[i].description.c_str());
+            ItemList->Insert(1, i, szDescription);
+
+            char* szQuantity = new char[vItemList[i].quantity.length() + 1];
+            strcpy(szQuantity, vItemList[i].quantity.c_str());
+            ItemList->Insert(2, i, szQuantity);
+
+            char* szPrice = new char[vItemList[i].price.length() + 1];
+            strcpy(szPrice, vItemList[i].price.c_str());
+            ItemList->Insert(3, i, szPrice);
+
+            char* szUPC = new char[vItemList[i].upc.length() + 1];
+            strcpy(szUPC, vItemList[i].upc.c_str());
+            ItemList->Insert(4, i, szUPC);
+        }
+    }
+}
+
+void content_item::ShowItemListVector(vector<itemObj> vItemList)
+{
+    if(ItemList != nullptr)
+    {
+        ItemList->DeleteAllItems();
+
+        for(int i = 0; i < vItemList.size(); i++)
+        {
+            char* szID = new char[vItemList[i].itemId.length() + 1];
+            strcpy(szID, vItemList[i].itemId.c_str());
+            ItemList->Insert(0, i, szID);
+
+            char* szDescription = new char[vItemList[i].description.length() + 1];
+            strcpy(szDescription, vItemList[i].description.c_str());
+            ItemList->Insert(1, i, szDescription);
+
+            char* szQuantity = new char[vItemList[i].quantity.length() + 1];
+            strcpy(szQuantity, vItemList[i].quantity.c_str());
+            ItemList->Insert(2, i, szQuantity);
+
+            char* szPrice = new char[vItemList[i].price.length() + 1];
+            strcpy(szPrice, vItemList[i].price.c_str());
+            ItemList->Insert(3, i, szPrice);
+
+            char* szUPC = new char[vItemList[i].upc.length() + 1];
+            strcpy(szUPC, vItemList[i].upc.c_str());
+            ItemList->Insert(4, i, szUPC);
+        }
+    }
+}
+
+void content_item::SetDatahandler(mainClass* DataHandler)
+{
+    this->DataHandler = DataHandler;
+    FormItem->DataHandler = DataHandler;
 }
