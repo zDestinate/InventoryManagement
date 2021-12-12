@@ -19,7 +19,7 @@ mainClass::mainClass()
     Cart = new Sales();
     //For account management
     manageAcc = new accountManagement();
-
+  
     //For getting the data
     DataGrabber = new getData(URL);
     DataGrabber->EstablishConnection();
@@ -91,48 +91,6 @@ void mainClass::logOut()
     estabLogIn->LogOut();
 }
 
-bool mainClass::CreateAccoount(std::string username,std::string password,std::string phonenum,std::string email, std::string perm,std::string flname)
-{
-
-    bool busername = estabLogIn->LoginUser(username);
-    bool bpassword = estabLogIn->LoginPass(password);
-    bool namecheck = manageAcc ->checkName(flname);
-    bool check1 = manageAcc->checkPhoneEmail(phonenum, email);
-
-
-    if(!DataGrabber->bSuccessfullyConnected)
-        {
-            severStatus = false;
-        }
-    else
-    {
-        severStatus = true;
-    }
-    if(busername && bpassword && namecheck && check1)
-    {
-         ///user/create/:username/:password/:phone/:perm/:flname
-       string strResult = DataGrabber->ConnectTo("/user/create/" + username + "/" + password + "/" + phonenum + "/" + email + "/" + perm + "/" + flname);
-       returnUserData();
-       return true;
-    }
-    return false;   
-}
-
-bool mainClass::deleteAcc(std::string id)
-{   
-    string strResult = DataGrabber->ConnectTo("/user/delete" + id);
-    
-    json datajson = json::parse(strResult);
-    int nCode = stoi(datajson.at("code").get<string>());
-
-    if(nCode = 0)
-    {
-        returnUserData();
-        return true;
-    }    
-    return false;
-}
-
 bool mainClass::returnUserData()
 {
     
@@ -174,30 +132,34 @@ vector<custAcc> mainClass::returnCusVector()
 {
     return manageAcc->vectCust;
 }
-/*
+
+
 bool mainClass::getDBItems()
 {
-    strResult = DataGrabber->ConnectTo("/user");
-    if(!DataGrabber->bSuccessfullyConnected)
-    {
-        severStatus = false;
-    }
-    else
-    {
-        severStatus = true;
-    }
+    string strResult = DataGrabber->ConnectTo("/item");
+        if(!DataGrabber->bSuccessfullyConnected)
+        {
+                severStatus = false;
+        }
+        else
+        {
+            severStatus = true;
 
-    json datajson = json::parse(strResult);
-    bool getDataResult = Cart->getallItems(datajson);
-
-    if(getDataResult){
-        cout<< "successful" << endl;
-        return true;
-    }
-    cout<< "failed" << endl;
+            json datajson = json::parse(strResult);
+            bool getDataResult = Cart->getItemsData(datajson);
+        
+            if(getDataResult)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     return false;
 }
-
+/*
 bool mainClass::addToCart(std::string productSku)
 {   
     bool add = Cart->addToCart(productSku);
@@ -210,13 +172,15 @@ bool mainClass::addToCart(std::string productSku)
     return false;
 }
 */
+
 bool mainClass::removeFromCart(std::string productSku)
 {
+    /*
     bool remove = Cart->removeFromCart(productSku);
     
     if(remove){
         return true;
-    }
+    }*/
     return false;
 }
 
@@ -252,96 +216,74 @@ bool mainClass::addItemToDB(std::string name, std::string sku, std::string price
     return true;
 }
 
-bool mainClass::editUserName(std::string id,std::string newName)
-{   
-    bool editName = manageAcc->changeUserName(id, newName);
-        
-        if(editName)
-        {
-            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" +newName);
+bool mainClass::CreateAccoount(std::string username,std::string password,std::string phonenum,std::string email, std::string perm,std::string flname)
+{
 
-            if(!DataGrabber->bSuccessfullyConnected)
+    bool busername = estabLogIn->LoginUser(username);
+    bool bpassword = estabLogIn->LoginPass(password);
+    bool namecheck = manageAcc ->checkName(flname);
+    bool check1 = manageAcc->checkPhoneEmail(phonenum, email);
+
+
+    if(!DataGrabber->bSuccessfullyConnected)
         {
             severStatus = false;
         }
-        else
-        {
-            severStatus = true;
-        }
-
-            return true;
-        }
-        
-    return false;
+    else
+    {
+        severStatus = true;
+    }
+    if(busername && bpassword && namecheck && check1)
+    {
+         ///user/create/:username/:password/:phone/:perm/:flname
+       string strResult = DataGrabber->ConnectTo("/user/create/" + username + "/" + password + "/" + phonenum + "/" + email + "/" + perm + "/" + flname);
+       returnUserData();
+       return true;
+    }
+    return false;   
 }
 
-bool mainClass::editPhone(std::string id,std::string newPhone)
+bool mainClass::editUserInfo(int vectorId,std::string userName,std::string fullName,std::string email,std::string phoneNumber,std::string permission)
 {
-   bool editName = manageAcc->changeUserName(id, newPhone);
-        
-        if(editName)
-        {
-            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" + newPhone);
-            return true;
-        }
-        
-    return false;
+    /*Checks if passed info is valid
+    bool checkUser;
+    bool checkFLName;
+    bool checkEmail;
+    bool checkPhone;
+    */
+    string oldUser = manageAcc->vUser[vectorId].user;
+    
+    //'/user/edit/:username/:nusername/:nname/:nnum/:nemail/:nperm'
+    string strResult = DataGrabber->ConnectTo("/user/edit/" + oldUser + "/" + userName + "/" + fullName + "/" + phoneNumber + "/" + email + "/" + permission);
+    json datajson = json::parse(strResult);
+    
+    if(!DataGrabber->bSuccessfullyConnected)
+    {
+        severStatus = false;
+    }
+    else
+    {
+        severStatus = true;
+    }
+        returnUserData();
+       
+    return true;
 }
 
-bool mainClass::editEmail(std::string id,std::string  newEmail)
-{
-    bool editName = manageAcc->changeUserName(id, newEmail);
-        
-        if(editName)
-        {
-            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" +newEmail);
-            return true;
-        }
-        
+bool mainClass::deleteAcc(std::string id)
+{   
+    string strResult = DataGrabber->ConnectTo("/user/delete" + id);
+    
+    json datajson = json::parse(strResult);
+    int nCode = stoi(datajson.at("code").get<string>());
+
+    if(nCode = 0)
+    {
+        returnUserData();
+        return true;
+    }    
     return false;
 }
-
-bool mainClass::editPerm(std::string id,std::string newPerm)
-{
-    bool editName = manageAcc->changeUserName(id, newPerm);
-        
-        if(editName)
-        {
-            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" +newPerm);
-            return true;
-        }
-        
-    return false;
-}
-
-bool mainClass::editFlname(std::string id,std::string  newFlname)
-{
-    bool editName = manageAcc->changeUserName(id, newFlname);
-        
-        if(editName)
-        {
-            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" +newFlname);
-            return true;
-        }
-        
-    return false;
-}
-
-bool mainClass::editPassword(std::string id,std::string newPassword)
-{
-    bool editName = manageAcc->changeUserName(id, newPassword);
-        
-        if(editName)
-        {
-            string strResult = DataGrabber->ConnectTo("/user/login/" + id + "/" +newPassword);
-            return true;
-        }
-        
-    return false;
-}
-
-
-
 
 
 /*  -NEED TO FINISH SALES AND HOW TO SEND THAT

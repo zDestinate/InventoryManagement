@@ -71,12 +71,7 @@ class accountManagement {
     bool allUserData(json userData); 
     bool checkName(std::string flname);
     
-    bool changeUserName(std::string id,std::string newName);
-    bool changePhone(std::string id,std::string newPhone);
-    bool changeEmail(std::string id,std::string  newEmail);
-    bool changePerm(std::string id,std::string newPerm);
-    bool changeFlname(std::string id,std::string  newFlname);
-    bool changePassword(std::string id,std::string newPassword);
+    bool editUserInfo(std::string userName,std::string fullName,std::string email,std::string phoneNumber,std::string permission);
    
     
     
