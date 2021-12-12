@@ -127,8 +127,8 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             ContentAccounts->ItemList->CreateColumn(0, "ID", 50);
             ContentAccounts->ItemList->CreateColumn(1, "Username", 100);
             ContentAccounts->ItemList->CreateColumn(2, "Fullname", 100);
-            ContentAccounts->ItemList->CreateColumn(3, "Phone", 100);
-            ContentAccounts->ItemList->CreateColumn(4, "Email", 130);
+            ContentAccounts->ItemList->CreateColumn(3, "Email", 130);
+            ContentAccounts->ItemList->CreateColumn(5, "Phone", 100);
             ContentAccounts->ItemList->CreateColumn(5, "Permission", 100);
             ContentAccounts->ShowUserList();
 

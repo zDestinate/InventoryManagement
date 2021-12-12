@@ -294,13 +294,13 @@ void content_accounts::ShowUserList()
                     strcpy(szFullname, UserList[i].flname.c_str());
                     ItemList->Insert(2, i, szFullname);
 
-                    char* szPhone = new char[UserList[i].phone.length() + 1];
-                    strcpy(szPhone, UserList[i].phone.c_str());
-                    ItemList->Insert(3, i, szPhone);
-
                     char* szEmail = new char[UserList[i].email.length() + 1];
                     strcpy(szEmail, UserList[i].email.c_str());
-                    ItemList->Insert(4, i, szEmail);
+                    ItemList->Insert(3, i, szEmail);
+
+                    char* szPhone = new char[UserList[i].phone.length() + 1];
+                    strcpy(szPhone, UserList[i].phone.c_str());
+                    ItemList->Insert(4, i, szPhone);
 
                     char* szPerm = new char[UserList[i].perm.length() + 1];
                     strcpy(szPerm, UserList[i].perm.c_str());
@@ -331,13 +331,13 @@ void content_accounts::ShowUserListVector(vector<User> UserList)
             strcpy(szFullname, UserList[i].flname.c_str());
             ItemList->Insert(2, i, szFullname);
 
+             char* szEmail = new char[UserList[i].email.length() + 1];
+            strcpy(szEmail, UserList[i].email.c_str());
+            ItemList->Insert(3, i, szEmail);
+
             char* szPhone = new char[UserList[i].phone.length() + 1];
             strcpy(szPhone, UserList[i].phone.c_str());
-            ItemList->Insert(3, i, szPhone);
-
-            char* szEmail = new char[UserList[i].email.length() + 1];
-            strcpy(szEmail, UserList[i].email.c_str());
-            ItemList->Insert(4, i, szEmail);
+            ItemList->Insert(4, i, szPhone);
 
             char* szPerm = new char[UserList[i].perm.length() + 1];
             strcpy(szPerm, UserList[i].perm.c_str());
