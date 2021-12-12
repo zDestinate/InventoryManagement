@@ -225,6 +225,14 @@ LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wPara
             }
         }
         break;
+    case WM_ENABLE:
+        {
+            if(wParam)
+            {
+                pThis->ShowItemList();
+            }
+        }
+        break;
     }
 
     return DefSubclassProc(hwnd, message, wParam, lParam);

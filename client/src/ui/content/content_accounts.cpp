@@ -259,6 +259,14 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
             }
         }
         break;
+    case WM_ENABLE:
+        {
+            if(wParam)
+            {
+                pThis->ShowUserList();
+            }
+        }
+        break;
     }
 
     return DefSubclassProc(hwnd, message, wParam, lParam);
