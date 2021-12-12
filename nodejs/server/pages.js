@@ -91,7 +91,7 @@ module.exports = function (app, express, db)
 		var prettydata = JSON.stringify(data, null, 2);
 		res.type('json').send(prettydata);
 	});
-
+//user list route
 	app.get('/user', function(req,res){
 		findUsers(db,function(err,result){
 			console.log(result);
@@ -103,7 +103,7 @@ module.exports = function (app, express, db)
 			}
 		});
 	});
-
+//inventory list route
 	app.get('/inventory', function(req,res){
 		findItems(db,function(err,result){
 			console.log(result);
@@ -115,7 +115,7 @@ module.exports = function (app, express, db)
 			}
 		});
 	});
-
+//login route
 	app.get('/user/login/:username/:password', function(req, res)
 	{
 		//if auth is false or auth doesn't exist
@@ -265,11 +265,24 @@ module.exports = function (app, express, db)
 	});
 //edit user route
 	app.get('/user/edit/:username/:nusername/:nname/:nnum/:nemail/:nperm', function(req, res){
-
+console.log(req.params.nnum);
 		db.collection("users").update(
 			{"username": req.params.username },
-			{$set: { "username": req.params.nusername,"name":req.params.nname,"number":req.params.nnum,"email":req.params.nemail,"perm":req.params.nperm}});
+			{$set: { "username": req.params.nusername,"name":req.params.nname,"number":req.params.nnum,"email":req.params.nemail,"perm":req.params.nperm}},
+			function(err, result)
+			{
+				if(err) throw err;
+				console.log(result);
+			});
 			console.log("updated user")
+			var data = {};
+			data['message'] = 'User updated';
+			data['code'] = '015';
+			
+			var prettydata = JSON.stringify(data, null, 2);
+			res.type('json').send(prettydata);
+			return;
+
 	});
 	//delete user route
 	app.get('/user/delete/:username', function(req, res){
@@ -307,6 +320,14 @@ module.exports = function (app, express, db)
 			{"description": req.params.desc },
 			{$set: { "description": req.params.ndesc,"price":req.params.ncost,"quantity":req.params.ncost}});
 			console.log("updated inventory item");
+			var data = {};
+			data['message'] = 'Item updated';
+			data['code'] = '915';
+			
+			var prettydata = JSON.stringify(data, null, 2);
+			res.type('json').send(prettydata);
+			return;
+
 	});
 // create inventory route
 	app.get('/inventory/create/:desc/:cost/:quant/:Upc', function(req, res)
@@ -403,24 +424,6 @@ module.exports = function (app, express, db)
 
 	});
 
-//inventory list route
-	app.get('/inventory', function (req, res) 
-	{
-		//if(req.session.auth)
-	//	{
-
-		db.collection('inventory').find({}).toArray(function(err, result){
-			for(var i = 0; i < result.length; i++)
-			{
-				if(result[i].price == 35)
-				{
-					console.log(result[i]);
-				}
-			}
-		});
-
-		res.send("working");
-	});
 
 
 	//Set page 404
