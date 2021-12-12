@@ -122,12 +122,12 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             ContentItem = new content_item(hwnd, FormObjects::CONTENT_ITEM, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
             ContentItem->SetDatahandler(DataHandler);
             ContentItem->ItemList->CreateColumn(0, "ID", 50);
-            ContentItem->ItemList->CreateColumn(1, "Description", 100);
+            ContentItem->ItemList->CreateColumn(1, "Description", 180);
             ContentItem->ItemList->CreateColumn(2, "Quantity", 100);
             ContentItem->ItemList->CreateColumn(3, "Price", 100);
             ContentItem->ItemList->CreateColumn(4, "UPC", 130);
             ContentItem->ShowItemList();
-            
+
             
             ContentPointOfSale = new content_pointofsale(hwnd, FormObjects::CONTENT_POINTOFSALE, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
             ContentPromotion = new content_promotion(hwnd, FormObjects::CONTENT_PROMOTION, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);

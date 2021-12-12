@@ -136,7 +136,7 @@ LRESULT popup_item::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
             txtUPC->PlaceHolder = "UPC";
 
             nFieldCount++;
-            txtDescription = new form_underlinetxtbox(hwnd, FormObjects::POPUP_ITEM_TXT_DESCRIPTION, nCenterX, nY * nFieldCount, txtboxWidth, txtboxHeight, true);
+            txtDescription = new form_underlinetxtbox(hwnd, FormObjects::POPUP_ITEM_TXT_DESCRIPTION, nCenterX, nY * nFieldCount, txtboxWidth, txtboxHeight);
             txtDescription->SetFont(hFont);
             txtDescription->PlaceHolder = "DESCRIPTION";
 

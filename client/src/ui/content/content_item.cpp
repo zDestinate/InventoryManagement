@@ -36,12 +36,7 @@ content_item::content_item(HWND hwndParent, int lpParam, int x, int y, int width
     int nItemListX = 50;
     nItemListY = 120;
     ItemList = new content_item_list(hwnd, FormObjects::CONTENT_ITEM_LIST, nItemListX, nItemListY, nItemListWidth, nHeight - nSearchBarHeight - nSearchBarY - 175);
-    ItemList->CreateColumn(0, "TESTTT", 150);
-    ItemList->Insert(0, 0, "asdfasdf");
-    ItemList->Insert(0, 1, "bbbbbb");
-    ItemList->CreateColumn(1, "ASDASD", 150);
-    ItemList->Insert(1, 0, "ads");
-    ItemList->Insert(1, 1, "wwwwwwwww");
+    ItemList->nMinXColumn = 20;
 
     //Buttons
     nButtonWidth = 120;
