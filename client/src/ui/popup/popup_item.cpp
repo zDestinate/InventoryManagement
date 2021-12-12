@@ -207,6 +207,7 @@ LRESULT popup_item::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
                         if(bSuccessful)
                         {
                             EnableWindow(hwndMain, true);
+
                             ShowWindow(hwnd, SW_HIDE);
                             SendMessage(txtUPC->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
                             SendMessage(txtDescription->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");

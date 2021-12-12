@@ -235,6 +235,7 @@ LRESULT popup_accounts::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
                                 if(bSuccessfullyEdit)
                                 {
                                     EnableWindow(hwndMain, true);
+
                                     ShowWindow(hwnd, SW_HIDE);
                                     SendMessage(txtUsername->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
                                     SendMessage(txtPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
