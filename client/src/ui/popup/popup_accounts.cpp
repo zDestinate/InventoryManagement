@@ -215,7 +215,7 @@ LRESULT popup_accounts::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
 
                                 int nPhoneLength = GetWindowTextLength(txtPhone->hwndTxtbox) + 1;
                                 TCHAR *tszPhone = new TCHAR[nPhoneLength];
-                                nPhoneLength = GetWindowText(txtPhone->hwndTxtbox, tszFullname, nPhoneLength);
+                                nPhoneLength = GetWindowText(txtPhone->hwndTxtbox, tszPhone, nPhoneLength);
                                 string strPhone;
                                 strPhone.assign(&tszPhone[0], &tszPhone[nPhoneLength]);
 
@@ -227,7 +227,7 @@ LRESULT popup_accounts::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
 
                                 int nPermissionLength = GetWindowTextLength(txtPermission->hwndTxtbox) + 1;
                                 TCHAR *tszPermission = new TCHAR[nPermissionLength];
-                                nPermissionLength = GetWindowText(txtEmail->hwndTxtbox, tszEmail, nPermissionLength);
+                                nPermissionLength = GetWindowText(txtPermission->hwndTxtbox, tszPermission, nPermissionLength);
                                 string strPermission;
                                 strPermission.assign(&tszPermission[0], &tszPermission[nPermissionLength]);
 
