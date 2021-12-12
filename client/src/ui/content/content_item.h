@@ -4,6 +4,7 @@
 #include "ui/content/content.h"
 #include "ui/content/item/search.h"
 #include "ui/content/item/itemlist.h"
+#include "ui/popup/popup_item.h"
 #include "ui/form_button.h"
 
 using namespace std;
@@ -13,6 +14,9 @@ class content_item : public content
     private:
         static LRESULT CALLBACK ContentProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);
         HFONT hFont;
+
+        popup_item* FormItem = nullptr;
+        DWORD dwThreadID_PopUp_Item;
 
         content_item_search* SearchBar = nullptr;
         int nSearchBarHeight;

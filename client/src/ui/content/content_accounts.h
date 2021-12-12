@@ -23,7 +23,6 @@ class content_accounts : public content
         int nSearchBarHeight;
         int nSearchBarY;
 
-        content_item_list* ItemList = nullptr;
         int nItemListY;
 
         form_button* btnCreateUser, *btnEditUser, *btnResetUserPass;
@@ -31,9 +30,15 @@ class content_accounts : public content
         int nButtonheight;
         int nSpaceBetweenButtons;
 
+        vector<User> SearchUserList, CurrentUserList;
+
     public:
         content_accounts(HWND hwndParent, int lpParam, int x, int y, int width, int height);
         COLORREF TextColorRGB = RGB(0, 0, 0);
+
         mainClass* DataHandler = nullptr;
+        content_item_list* ItemList = nullptr;
+
         void ShowUserList();
+        void ShowUserListVector(vector<User> UserList);
 };

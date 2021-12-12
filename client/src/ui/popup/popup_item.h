@@ -4,7 +4,7 @@
 #include "ui/form_underlinetxtbox.h"
 #include "ui/form_button.h"
 
-class popup_accounts
+class popup_item
 {
     private:
         HINSTANCE hInstMainWin;
@@ -25,13 +25,12 @@ class popup_accounts
     public:
         HWND hwnd;
         HWND hwndContent;
-        form_underlinetxtbox* txtUsername, *txtPassword, *txtFullname, *txtPhone, *txtEmail, *txtPermission;
+        form_underlinetxtbox* txtUPC, *txtDescription, *txtQuantity, *txtPrice;
 
-        popup_accounts(HWND hwndMain);
+        popup_item(HWND hwndMain);
         int CreateFormMain();
         static DWORD WINAPI CreateThread(void* Param);
         DWORD ThreadStart(void);
 
-        bool bShowPassword, bShowPersonalInfo;
         void SetFont(HFONT hFont);
 };

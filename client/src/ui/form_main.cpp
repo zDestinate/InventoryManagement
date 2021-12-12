@@ -121,8 +121,15 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             ContentPointOfSale = new content_pointofsale(hwnd, FormObjects::CONTENT_POINTOFSALE, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
             ContentPromotion = new content_promotion(hwnd, FormObjects::CONTENT_PROMOTION, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
             
+            //Account
             ContentAccounts = new content_accounts(hwnd, FormObjects::CONTENT_ACCOUNTS, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
             ContentAccounts->DataHandler = DataHandler;
+            ContentAccounts->ItemList->CreateColumn(0, "ID", 50);
+            ContentAccounts->ItemList->CreateColumn(1, "Username", 100);
+            ContentAccounts->ItemList->CreateColumn(2, "Fullname", 100);
+            ContentAccounts->ItemList->CreateColumn(3, "Phone", 100);
+            ContentAccounts->ItemList->CreateColumn(4, "Email", 130);
+            ContentAccounts->ItemList->CreateColumn(5, "Permission", 100);
             ContentAccounts->ShowUserList();
 
             ContentSettings = new content_settings(hwnd, FormObjects::CONTENT_SETTINGS, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);

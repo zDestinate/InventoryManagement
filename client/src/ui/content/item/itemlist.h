@@ -18,6 +18,7 @@ class content_item_list
 
     public:
         HWND hwnd;
+        HWND hwndContent;
 
         content_item_list(HWND hwndParent, int lpParam, int x, int y, int width, int height, bool bNoHeader = false);
         void Init();
@@ -31,7 +32,8 @@ class content_item_list
         int CreateColumn(int nCol, char *szText, int nWidth);
         int Insert(int nCol, int nRow, char *szText);
         bool SetColumnWidth(int nCol, int Width);
+        string GetItemText(int nCol, int nIndex);
         bool DeleteColumn(int nCol);
         void DeleteColumns(int nNumberOfColumns);
-
+        void DeleteAllItems();
 };

@@ -76,7 +76,8 @@ LRESULT CALLBACK content_item_list::ListViewProc(HWND hwnd, UINT message, WPARAM
             {
                 case VK_DELETE:
                 {
-                    for(int itemId = -1; (itemId = SendMessage(hwnd, LVM_GETNEXTITEM, -1, LVNI_SELECTED)) != -1;)
+                    int itemId = SendMessage(hwnd, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
+                    if(itemId != -1)
                     {
                         char szItemName[1024];
                         LVITEM item;
@@ -152,6 +153,13 @@ bool content_item_list::SetColumnWidth(int nCol, int Width)
     return ListView_SetColumnWidth(hwnd, nCol, Width);
 }
 
+string content_item_list::GetItemText(int nCol, int nIndex)
+{
+    char szText[1024];
+    ListView_GetItemText(hwnd, nIndex, nCol, szText, 1024);
+    return string(szText);
+}
+
 bool content_item_list::DeleteColumn(int nCol)
 {
     return ListView_DeleteColumn(hwnd, nCol);
@@ -159,8 +167,13 @@ bool content_item_list::DeleteColumn(int nCol)
 
 void content_item_list::DeleteColumns(int nNumberOfColumns)
 {
-    for(int i = 0; i < nNumberOfColumns; i++)
+    for(int i = nNumberOfColumns; i >= 0; i--)
     {
         ListView_DeleteColumn(hwnd, i);
     }
+}
+
+void content_item_list::DeleteAllItems()
+{
+    ListView_DeleteAllItems(hwnd);
 }

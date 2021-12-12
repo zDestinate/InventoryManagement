@@ -1,4 +1,3 @@
-#include <iostream>
 #include "ui/objects.h"
 #include "ui/content/content_accounts.h"
 
@@ -14,6 +13,7 @@ content_accounts::content_accounts(HWND hwndParent, int lpParam, int x, int y, i
 
     //Pop up account settings
     FormAccounts = new popup_accounts(hwndParent);
+    FormAccounts->hwndContent = hwnd;
     CreateThread(NULL, 0, FormAccounts->CreateThread, (void*)FormAccounts, 0, &dwThreadID_PopUp_Accounts);
     
     //RECT of hwnd for design
@@ -153,6 +153,47 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
                         nSearchBarLength = GetWindowText(pThis->SearchBar->hwnd, tszSearchBarText, nSearchBarLength);
                         string strSearchbarText;
                         strSearchbarText.assign(&tszSearchBarText[0], &tszSearchBarText[nSearchBarLength]);
+
+                        pThis->SearchUserList.clear();
+                        if(!strSearchbarText.empty())
+                        {
+                            if(!pThis->CurrentUserList.empty())
+                            {
+                                for(int i = 0; i < pThis->CurrentUserList.size(); i++)
+                                {
+                                    if((pThis->CurrentUserList[i]).id.find(strSearchbarText) != string::npos)
+                                    {
+                                        pThis->SearchUserList.push_back(pThis->CurrentUserList[i]);
+                                    }
+                                    else if((pThis->CurrentUserList[i]).user.find(strSearchbarText) != string::npos)
+                                    {
+                                        pThis->SearchUserList.push_back(pThis->CurrentUserList[i]);
+                                    }
+                                    else if((pThis->CurrentUserList[i]).flname.find(strSearchbarText) != string::npos)
+                                    {
+                                        pThis->SearchUserList.push_back(pThis->CurrentUserList[i]);
+                                    }
+                                    else if((pThis->CurrentUserList[i]).phone.find(strSearchbarText) != string::npos)
+                                    {
+                                        pThis->SearchUserList.push_back(pThis->CurrentUserList[i]);
+                                    }
+                                    else if((pThis->CurrentUserList[i]).email.find(strSearchbarText) != string::npos)
+                                    {
+                                        pThis->SearchUserList.push_back(pThis->CurrentUserList[i]);
+                                    }
+                                    else if((pThis->CurrentUserList[i]).perm.find(strSearchbarText) != string::npos)
+                                    {
+                                        pThis->SearchUserList.push_back(pThis->CurrentUserList[i]);
+                                    }
+                                }
+
+                                pThis->ShowUserListVector(pThis->SearchUserList);
+                            }
+                        }
+                        else
+                        {
+                            pThis->ShowUserList();
+                        }
                     }
                     break;
                 case FormObjects::CONTENT_ACCOUNTS_BTN_CREATE:
@@ -165,10 +206,34 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
                     break;
                 case FormObjects::CONTENT_ACCOUNTS_BTN_EDIT:
                     {
-                        pThis->FormAccounts->bShowPassword = false;
-                        pThis->FormAccounts->bShowPersonalInfo = true;
-                        ShowWindow(pThis->FormAccounts->hwnd, SW_SHOW);
-                        EnableWindow(pThis->hwndParent, FALSE);
+                        int itemId = SendMessage(pThis->ItemList->hwnd, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
+
+                        if(itemId != -1)
+                        {
+                            string strUsername = pThis->ItemList->GetItemText(1, itemId);
+                            SendMessage(pThis->FormAccounts->txtUsername->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strUsername.c_str()));
+
+                            string strFullname = pThis->ItemList->GetItemText(2, itemId);
+                            SendMessage(pThis->FormAccounts->txtFullname->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strFullname.c_str()));
+
+                            string strPhone = pThis->ItemList->GetItemText(3, itemId);
+                            SendMessage(pThis->FormAccounts->txtEmail->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strPhone.c_str()));
+
+                            string strEmail = pThis->ItemList->GetItemText(4, itemId);
+                            SendMessage(pThis->FormAccounts->txtPhone->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strEmail.c_str()));
+
+                            string strPerm = pThis->ItemList->GetItemText(5, itemId);
+                            SendMessage(pThis->FormAccounts->txtPermission->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strPerm.c_str()));
+                        
+                            pThis->FormAccounts->bShowPassword = false;
+                            pThis->FormAccounts->bShowPersonalInfo = true;
+                            ShowWindow(pThis->FormAccounts->hwnd, SW_SHOW);
+                            EnableWindow(pThis->hwndParent, FALSE);
+                        }
+                        else
+                        {
+                            MessageBox(NULL, "Please select an user to edit that user information", "Information", MB_OK | MB_ICONINFORMATION | MB_SYSTEMMODAL);
+                        }
                     }
                     break;
                 case FormObjects::CONTENT_ACCOUNTS_BTN_RESETPASSWORD:
@@ -186,8 +251,9 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
         {
             if(wParam)
             {
-                printf("[CONTENT][ACCOUNTS] Show\n");
+                SendMessage(pThis->SearchBar->hwnd, WM_SETTEXT, 0, (LPARAM)"");
                 pThis->ShowUserList();
+                printf("[CONTENT][ACCOUNTS] Show\n");
             }
         }
         break;
@@ -198,20 +264,19 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
 
 void content_accounts::ShowUserList()
 {
-    if(DataHandler != nullptr)
+    CurrentUserList.clear();
+
+    if((DataHandler != nullptr) && (ItemList != nullptr))
     {
-        ItemList->DeleteColumns(5);
-        ItemList->CreateColumn(0, "ID", 100);
-        ItemList->CreateColumn(1, "Username", 100);
-        ItemList->CreateColumn(2, "Phone", 100);
-        ItemList->CreateColumn(3, "Email", 100);
-        ItemList->CreateColumn(4, "Permission", 100);
+        ItemList->DeleteAllItems();
 
         if(DataHandler->returnUserData())
         {
             if(DataHandler->exeCheck())
             {
                 vector<User> UserList = DataHandler->returnUserVector();
+
+                CurrentUserList = UserList;
 
                 for(int i = 0; i < UserList.size(); i++)
                 {
@@ -222,8 +287,59 @@ void content_accounts::ShowUserList()
                     char* szUsername = new char[UserList[i].user.length() + 1];
                     strcpy(szUsername, UserList[i].user.c_str());
                     ItemList->Insert(1, i, szUsername);
+
+                    char* szFullname = new char[UserList[i].flname.length() + 1];
+                    strcpy(szFullname, UserList[i].flname.c_str());
+                    ItemList->Insert(2, i, szFullname);
+
+                    char* szPhone = new char[UserList[i].phone.length() + 1];
+                    strcpy(szPhone, UserList[i].phone.c_str());
+                    ItemList->Insert(3, i, szPhone);
+
+                    char* szEmail = new char[UserList[i].email.length() + 1];
+                    strcpy(szEmail, UserList[i].email.c_str());
+                    ItemList->Insert(4, i, szEmail);
+
+                    char* szPerm = new char[UserList[i].perm.length() + 1];
+                    strcpy(szPerm, UserList[i].perm.c_str());
+                    ItemList->Insert(5, i, szPerm);
                 }
             }
+        }
+    }
+}
+
+void content_accounts::ShowUserListVector(vector<User> UserList)
+{
+    if(ItemList != nullptr)
+    {
+        ItemList->DeleteAllItems();
+
+        for(int i = 0; i < UserList.size(); i++)
+        {
+            char* szID = new char[UserList[i].id.length() + 1];
+            strcpy(szID, UserList[i].id.c_str());
+            ItemList->Insert(0, i, szID);
+
+            char* szUsername = new char[UserList[i].user.length() + 1];
+            strcpy(szUsername, UserList[i].user.c_str());
+            ItemList->Insert(1, i, szUsername);
+
+            char* szFullname = new char[UserList[i].flname.length() + 1];
+            strcpy(szFullname, UserList[i].flname.c_str());
+            ItemList->Insert(2, i, szFullname);
+
+            char* szPhone = new char[UserList[i].phone.length() + 1];
+            strcpy(szPhone, UserList[i].phone.c_str());
+            ItemList->Insert(3, i, szPhone);
+
+            char* szEmail = new char[UserList[i].email.length() + 1];
+            strcpy(szEmail, UserList[i].email.c_str());
+            ItemList->Insert(4, i, szEmail);
+
+            char* szPerm = new char[UserList[i].perm.length() + 1];
+            strcpy(szPerm, UserList[i].perm.c_str());
+            ItemList->Insert(5, i, szPerm);
         }
     }
 }

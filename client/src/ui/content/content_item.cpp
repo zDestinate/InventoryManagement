@@ -10,7 +10,12 @@ content_item::content_item(HWND hwndParent, int lpParam, int x, int y, int width
         OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
         DEFAULT_PITCH | FF_MODERN, TEXT("Arial"));
 
+    //Pop up
+    FormItem = new popup_item(hwndParent);
+    FormItem->hwndContent = hwnd;
+    CreateThread(NULL, 0, FormItem->CreateThread, (void*)FormItem, 0, &dwThreadID_PopUp_Item);
 
+    
     RECT rectWindow;
     GetWindowRect(hwnd, &rectWindow);
 
@@ -137,6 +142,18 @@ LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wPara
                         nSearchBarLength = GetWindowText(pThis->SearchBar->hwnd, tszSearchBarText, nSearchBarLength);
                         string strSearchbarText;
                         strSearchbarText.assign(&tszSearchBarText[0], &tszSearchBarText[nSearchBarLength]);
+                    }
+                    break;
+                case FormObjects::CONTENT_ITEM_BTN_CREATE:
+                    {
+                        ShowWindow(pThis->FormItem->hwnd, SW_SHOW);
+                        EnableWindow(pThis->hwndParent, FALSE);
+                    }
+                    break;
+                case FormObjects::CONTENT_ITEM_BTN_EDIT:
+                    {
+                        ShowWindow(pThis->FormItem->hwnd, SW_SHOW);
+                        EnableWindow(pThis->hwndParent, FALSE);
                     }
                     break;
             }
