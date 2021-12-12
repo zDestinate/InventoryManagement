@@ -7,43 +7,50 @@
 using namespace std;
 using json = nlohmann::json;
 
-/*
-bool getallItems(json itemsArray)
+
+bool Sales::getItemsData(json itemsArray)
 {
     //'/inventory/create/:desc/:cost/:quant/:Upc'
-    string description,cost,quantity,upc;
+    string id,description,quantity,upc;
+    float cost;
 
     if(itemsArray.is_array())
     {
         for(int i = 0; i < itemsArray.size(); i++)
-        {
+        {   
+            if(itemsArray[i].contains("_id"))
+            {
+                id = itemsArray[i].at("_id").get<string>();
+            } 
+            
             if(itemsArray[i].contains("desc"))
             {
                 description = itemsArray[i].at("desc").get<string>();
             } 
 
-            if(itemsArray[i].contains("cost"))
+            if(itemsArray[i].contains("price"))
             {
-                cost = itemsArray[i].at("cost").get<string>();
+                cost = itemsArray[i].at("price").get<float>();
             } 
 
-            if(itemsArray[i].contains("quant"))
+            if(itemsArray[i].contains("quantity"))
             {
-                quantity = itemsArray[i].at("quant").get<string>();
+                quantity = itemsArray[i].at("quantity").get<string>();
             } 
 
             if(itemsArray[i].contains("upc"))
             {
                 upc = itemsArray[i].at("upc").get<string>();
             } 
-            itemObj item(description,cost,upc);
+            itemObj item(id,upc,description,quantity,cost);
+            vItems.push_back(item);
         }
     }    
 
     return false;
 }
 
-
+/*
 bool Sales::addToCart(json itemInfo)
 {
     string name,sku;
@@ -64,7 +71,7 @@ bool Sales::addToCart(json itemInfo)
 
     return false;
 }
-*/
+
 bool Sales::removeFromCart(std::string sku)
 {
     int position =0;
@@ -87,6 +94,7 @@ bool Sales::removeFromCart(std::string sku)
     }
     return false;
 }
+*/
 
 bool Sales::clearCart()
 {
@@ -101,10 +109,10 @@ void Sales::shoppingCartToString()
     for(int i  = 0; i < shoppingCart.size(); i++){
         if(i == shoppingCart.size()-1)
         {
-        sentence += shoppingCart[i].getName() +","+shoppingCart[i].getSku()+","+to_string(shoppingCart[i].getPrice());
+        sentence += shoppingCart[i].description +","+shoppingCart[i].upc+","+to_string(shoppingCart[i].price);
         break;
         }
-        sentence += shoppingCart[i].getName() +","+shoppingCart[i].getSku()+","+to_string(shoppingCart[i].getPrice())+",";
+        sentence += shoppingCart[i].description +","+shoppingCart[i].upc+","+to_string(shoppingCart[i].price)+",";
     }
     cartString = sentence;
 }

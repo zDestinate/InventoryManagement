@@ -7,44 +7,17 @@ using json = nlohmann::json;
 class itemObj
 {
     public:
-    std::string name,sku;
+    std::string itemId,description,upc,quantity;
     float price=0;
 
-    itemObj(std::string x, std::string y, float z)
-    {
-        name = x;
-        sku = y;
-        price =z;
+    itemObj(std::string itemId,std::string upc,std::string description, std::string quantity, float price)
+    {   
+        this->itemId = itemId;
+        this->upc = upc;
+        this->description = description;
+        this->quantity = quantity;
+        this->price =price;
     }
-    
-    std::string getName()
-    {
-        return name;
-    }
-    std::string getSku()
-    {
-        return sku;
-    }
-    float getPrice()
-    {
-        return price;
-    }
-    
-    void setName(std::string Name)
-    {
-        name = Name;
-    }
-    
-    void setSku(std::string SKU)
-    {
-        sku = SKU;
-    }
-    
-    void setPrice(float Price)
-    {
-        price = Price;
-    }
-    
 };
 
 class Sales {    
@@ -58,10 +31,12 @@ class Sales {
     float total;
     std::string cartString;
 
-   // bool getallItems(json dataSon);
+    bool getallItems(json dataSon);
     //bool addToCart(string sku);
-    bool removeFromCart(std::string SKU);
+    // bool removeFromCart(std::string SKU);
     bool clearCart();
     void shoppingCartToString();
+    bool getItemsData(json itemArray);
+    
 };
 
