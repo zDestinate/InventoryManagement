@@ -238,8 +238,6 @@ void content_item::ShowItemList()
     {
         ItemList->DeleteAllItems();
 
-        DataHandler->demoFillItems();
-
         vector<itemObj> vItemList = DataHandler->returnUpdatedDemo();
         CurrentItemList = vItemList;
 

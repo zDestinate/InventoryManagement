@@ -126,6 +126,7 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             ContentItem->ItemList->CreateColumn(2, "Quantity", 100);
             ContentItem->ItemList->CreateColumn(3, "Price", 100);
             ContentItem->ItemList->CreateColumn(4, "UPC", 130);
+            ContentItem->DataHandler->demoFillItems();
             ContentItem->ShowItemList();
 
             
