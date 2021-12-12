@@ -177,6 +177,44 @@ LRESULT popup_item::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
         {
             switch(LOWORD(wParam))
             {
+                case FormObjects::POPUP_ITEM_BTN_FIRST:
+                    {
+                        int nDescription = GetWindowTextLength(txtDescription->hwndTxtbox) + 1;
+                        TCHAR *tszDescription = new TCHAR[nDescription];
+                        nDescription = GetWindowText(txtDescription->hwndTxtbox, tszDescription, nDescription);
+                        string strDescription;
+                        strDescription.assign(&tszDescription[0], &strDescription[nDescription]);
+
+                        int nUPC = GetWindowTextLength(txtUPC->hwndTxtbox) + 1;
+                        TCHAR *tszUPC = new TCHAR[nUPC];
+                        nUPC = GetWindowText(txtUPC->hwndTxtbox, tszUPC, nUPC);
+                        string strUPC;
+                        strUPC.assign(&tszUPC[0], &strUPC[nUPC]);
+
+                        int nQuantity = GetWindowTextLength(txtQuantity->hwndTxtbox) + 1;
+                        TCHAR *tszQuantity = new TCHAR[nQuantity];
+                        nQuantity = GetWindowText(txtQuantity->hwndTxtbox, tszQuantity, nQuantity);
+                        string strQuantity;
+                        strQuantity.assign(&tszQuantity[0], &strQuantity[nQuantity]);
+
+                        int nPrice = GetWindowTextLength(txtPrice->hwndTxtbox) + 1;
+                        TCHAR *tszPrice = new TCHAR[nPrice];
+                        nPrice = GetWindowText(txtPrice->hwndTxtbox, tszPrice, nPrice);
+                        string strPrice;
+                        strPrice.assign(&tszPrice[0], &strPrice[nPrice]);
+
+                        bool bSuccessful = DataHandler->demoCreateItem(strUPC, strDescription, strQuantity, strPrice);
+                        if(bSuccessful)
+                        {
+                            EnableWindow(hwndMain, true);
+                            ShowWindow(hwnd, SW_HIDE);
+                            SendMessage(txtUPC->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                            SendMessage(txtDescription->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                            SendMessage(txtQuantity->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                            SendMessage(txtPrice->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                        }
+                    }
+                    break;
                 case FormObjects::POPUP_ITEM_BTN_CANCEL:
                     {
                         EnableWindow(hwndMain, true);

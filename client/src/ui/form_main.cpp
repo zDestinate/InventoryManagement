@@ -238,6 +238,7 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
         {
             if(wParam)
             {
+                SetFocusContent(FormObjects::CONTENT_DASHBOARD);
                 printf("[MAIN] Main Form show\n");
             }
             else
