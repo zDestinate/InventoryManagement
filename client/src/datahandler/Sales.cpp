@@ -11,8 +11,7 @@ using json = nlohmann::json;
 bool Sales::getItemsData(json itemsArray)
 {
     //'/inventory/create/:desc/:cost/:quant/:Upc'
-    string id,description,quantity,upc;
-    float cost;
+    string id,description,quantity,upc,cost;
 
     if(itemsArray.is_array())
     {
@@ -30,7 +29,7 @@ bool Sales::getItemsData(json itemsArray)
 
             if(itemsArray[i].contains("price"))
             {
-                cost = itemsArray[i].at("price").get<float>();
+                cost = itemsArray[i].at("price").get<string>();
             } 
 
             if(itemsArray[i].contains("quantity"))
@@ -52,28 +51,27 @@ bool Sales::getItemsData(json itemsArray)
 
 void Sales::demoItems()
 {
-    string itemId,description,upc,quantity;
-    float price;
+    string itemId,description,upc,quantity,price;
 
-    itemObj product("0","31512", "Black Crewneck T-shirt", "10",6.98);
+    itemObj product("0","31512", "Black Crewneck T-shirt", "10","6.98");
     vItems.push_back(product);
 
-    itemObj product1("1","91414", "White Crewneck T-shirt", "15",6.98);
+    itemObj product1("1","91414", "White Crewneck T-shirt", "15","6.98");
     vItems.push_back(product);
 
-    itemObj product2("2","41051", "32x30 Mens Black Ripped Jeans","2", 29.99);
+    itemObj product2("2","41051", "32x30 Mens Black Ripped Jeans","2", "29.99");
     vItems.push_back(product);
 
-    itemObj product3("3","51251", "28x30 Mens Skinny Jeans", "1",35.00);
+    itemObj product3("3","51251", "28x30 Mens Skinny Jeans", "1","35.00");
     vItems.push_back(product);
 
-    itemObj product4("4","92151", "M SUPREME x Bape Hoodie", "17",99.99);
+    itemObj product4("4","92151", "M SUPREME x Bape Hoodie", "17","99.99");
     vItems.push_back(product);
 
-    itemObj product5("5","91527", "PUMA Joggers", "15",18.99);
+    itemObj product5("5","91527", "PUMA Joggers", "15","18.99");
     vItems.push_back(product);
 
-    itemObj product6("6","51285", "Nike Sneakers", "5",149.99);
+    itemObj product6("6","51285", "Nike Sneakers", "5","149.99");
     vItems.push_back(product);
 }
 
@@ -90,13 +88,8 @@ bool Sales::addItemToCart(std::string upc)
     return false;
 }
 
-bool Sales::createDemoItem(string itemId,string upc,string description,string quantity,float price)
+bool Sales::createDemoItem(string itemId,string upc,string description,string quantity,string price)
 {   
-    if(itemId.empty()|| upc.empty()||description.empty()|| quantity == "0" ||quantity == "" ||price == 0)
-    {
-        return false;
-    }
-
     itemObj product(itemId, upc, description, quantity, price);
     return true;
 }
@@ -137,10 +130,10 @@ void Sales::shoppingCartToString()
     for(int i  = 0; i < shoppingCart.size(); i++){
         if(i == shoppingCart.size()-1)
         {
-        sentence += shoppingCart[i].description +","+shoppingCart[i].upc+","+to_string(shoppingCart[i].price);
+        sentence += shoppingCart[i].description +","+shoppingCart[i].upc+","+shoppingCart[i].price;
         break;
         }
-        sentence += shoppingCart[i].description +","+shoppingCart[i].upc+","+to_string(shoppingCart[i].price)+",";
+        sentence += shoppingCart[i].description +","+shoppingCart[i].upc+","+shoppingCart[i].price +",";
     }
     cartString = sentence;
 }

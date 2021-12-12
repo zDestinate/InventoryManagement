@@ -188,7 +188,7 @@ bool mainClass::addToCart(std::string productUPC)
     return false;
 }
 
-bool mainClass::demoCreateItem(std::string itemId,std::string upc,std::string description, std::string quantity, float price)
+bool mainClass::demoCreateItem(std::string itemId,std::string upc,std::string description, std::string quantity, std::string price)
 {   
     bool check = Cart->createDemoItem(itemId,upc,description,quantity,price);
         if(check)

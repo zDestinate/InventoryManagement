@@ -7,10 +7,9 @@ using json = nlohmann::json;
 class itemObj
 {
     public:
-    std::string itemId,description,upc,quantity;
-    float price=0;
+    std::string itemId,description,upc,quantity,price;
 
-    itemObj(std::string itemId,std::string upc,std::string description, std::string quantity, float price)
+    itemObj(std::string itemId,std::string upc,std::string description, std::string quantity, std::string price)
     {   
         this->itemId = itemId;
         this->upc = upc;
@@ -38,8 +37,8 @@ class Sales {
     bool clearCart();
     
     void demoItems();
-    bool createDemoItem(std::string itemId,std::string upc,std::string description,std::string quantity,float price);
-
+    bool createDemoItem(std::string itemId,std::string upc,std::string description,std::string quantity,std::string price);
+    
     void shoppingCartToString();
     bool getItemsData(json itemArray);
     
