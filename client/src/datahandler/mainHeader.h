@@ -26,7 +26,9 @@ class mainClass {
     void logOut();
     bool exeCheck();
     
+
     void demoFillItems();
+    bool demoDeleteItem(std::string upc);
     bool demoCreateItem(std::string upc,std::string description, std::string quantity, std::string price);
     std::vector<itemObj> returnUpdatedDemo();
     std::vector<itemObj> returnUpdatedCart();
