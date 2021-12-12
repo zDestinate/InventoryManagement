@@ -252,9 +252,10 @@ bool mainClass::editUserInfo(int vectorId,std::string userName,std::string fullN
     bool checkPhone;
     */
     string oldUser = manageAcc->vUser[vectorId].user;
-    
+
     //'/user/edit/:username/:nusername/:nname/:nnum/:nemail/:nperm'
     string strResult = DataGrabber->ConnectTo("/user/edit/" + oldUser + "/" + userName + "/" + fullName + "/" + phoneNumber + "/" + email + "/" + permission);
+    /*
     json datajson = json::parse(strResult);
     
     if(!DataGrabber->bSuccessfullyConnected)
@@ -265,8 +266,9 @@ bool mainClass::editUserInfo(int vectorId,std::string userName,std::string fullN
     {
         severStatus = true;
     }
+    */
         returnUserData();
-       
+    
     return true;
 }
 
