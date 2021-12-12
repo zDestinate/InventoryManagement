@@ -167,11 +167,15 @@ void mainClass::demoFillItems()
 
 vector<itemObj> mainClass::returnUpdatedDemo()
 {
+    for(int i = 0; i < Cart->vItems.size(); i++)
+    {
+        cout << Cart->vItems[i].description << endl;
+    }
     return Cart->vItems;
 }
 
 vector<itemObj> mainClass::returnUpdatedCart()
-{
+{   
     return Cart->shoppingCart;
 }
 
@@ -188,9 +192,9 @@ bool mainClass::addToCart(std::string productUPC)
     return false;
 }
 
-bool mainClass::demoCreateItem(std::string itemId,std::string upc,std::string description, std::string quantity, std::string price)
+bool mainClass::demoCreateItem(std::string upc,std::string description, std::string quantity, std::string price)
 {   
-    bool check = Cart->createDemoItem(itemId,upc,description,quantity,price);
+    bool check = Cart->createDemoItem(upc,description,quantity,price);
         if(check)
         { 
             returnUpdatedCart();
