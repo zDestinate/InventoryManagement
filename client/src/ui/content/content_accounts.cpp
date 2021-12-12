@@ -216,11 +216,11 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
                             string strFullname = pThis->ItemList->GetItemText(2, itemId);
                             SendMessage(pThis->FormAccounts->txtFullname->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strFullname.c_str()));
 
-                            string strPhone = pThis->ItemList->GetItemText(3, itemId);
-                            SendMessage(pThis->FormAccounts->txtEmail->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strPhone.c_str()));
+                            string strEmail = pThis->ItemList->GetItemText(3, itemId);
+                            SendMessage(pThis->FormAccounts->txtEmail->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strEmail.c_str()));
 
-                            string strEmail = pThis->ItemList->GetItemText(4, itemId);
-                            SendMessage(pThis->FormAccounts->txtPhone->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strEmail.c_str()));
+                            string strPhone = pThis->ItemList->GetItemText(4, itemId);
+                            SendMessage(pThis->FormAccounts->txtPhone->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strPhone.c_str()));
 
                             string strPerm = pThis->ItemList->GetItemText(5, itemId);
                             SendMessage(pThis->FormAccounts->txtPermission->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strPerm.c_str()));
