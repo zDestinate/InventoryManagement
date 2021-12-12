@@ -123,7 +123,7 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
             
             //Account
             ContentAccounts = new content_accounts(hwnd, FormObjects::CONTENT_ACCOUNTS, ItemMinWidth, MenuTopHeight, nMainWidth - ItemMinWidth, nMainHeight - MenuTopHeight - 40);
-            ContentAccounts->DataHandler = DataHandler;
+            ContentAccounts->SetDatahandler(DataHandler);
             ContentAccounts->ItemList->CreateColumn(0, "ID", 50);
             ContentAccounts->ItemList->CreateColumn(1, "Username", 100);
             ContentAccounts->ItemList->CreateColumn(2, "Fullname", 100);

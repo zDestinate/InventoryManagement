@@ -224,7 +224,9 @@ LRESULT CALLBACK content_accounts::ContentProc(HWND hwnd, UINT message, WPARAM w
 
                             string strPerm = pThis->ItemList->GetItemText(5, itemId);
                             SendMessage(pThis->FormAccounts->txtPermission->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)((LPCTSTR)strPerm.c_str()));
-                        
+
+                            pThis->FormAccounts->nEditVectorID = itemId;
+
                             pThis->FormAccounts->bShowPassword = false;
                             pThis->FormAccounts->bShowPersonalInfo = true;
                             ShowWindow(pThis->FormAccounts->hwnd, SW_SHOW);
@@ -342,4 +344,10 @@ void content_accounts::ShowUserListVector(vector<User> UserList)
             ItemList->Insert(5, i, szPerm);
         }
     }
+}
+
+void content_accounts::SetDatahandler(mainClass* DataHandler)
+{
+    this->DataHandler = DataHandler;
+    FormAccounts->DataHandler = DataHandler;
 }

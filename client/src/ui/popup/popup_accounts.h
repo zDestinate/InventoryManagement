@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include "ui/form_underlinetxtbox.h"
 #include "ui/form_button.h"
+#include "datahandler/mainHeader.h"
 
 class popup_accounts
 {
@@ -26,6 +27,9 @@ class popup_accounts
         HWND hwnd;
         HWND hwndContent;
         form_underlinetxtbox* txtUsername, *txtPassword, *txtFullname, *txtPhone, *txtEmail, *txtPermission;
+        int nEditVectorID;
+
+        mainClass* DataHandler = nullptr;
 
         popup_accounts(HWND hwndMain);
         int CreateFormMain();

@@ -195,6 +195,58 @@ LRESULT popup_accounts::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
         {
             switch(LOWORD(wParam))
             {
+                case FormObjects::POPUP_ACCOUNTS_BTN_FIRST:
+                    {
+                        if(bShowPersonalInfo)
+                        {
+                            if(DataHandler != nullptr)
+                            {
+                                int nUsernameLength = GetWindowTextLength(txtUsername->hwndTxtbox) + 1;
+                                TCHAR *tszUsername = new TCHAR[nUsernameLength];
+                                nUsernameLength = GetWindowText(txtUsername->hwndTxtbox, tszUsername, nUsernameLength);
+                                string strUsername;
+                                strUsername.assign(&tszUsername[0], &tszUsername[nUsernameLength]);
+
+                                int nFullnameLength = GetWindowTextLength(txtFullname->hwndTxtbox) + 1;
+                                TCHAR *tszFullname = new TCHAR[nFullnameLength];
+                                nFullnameLength = GetWindowText(txtFullname->hwndTxtbox, tszFullname, nFullnameLength);
+                                string strFullname;
+                                strFullname.assign(&tszFullname[0], &tszFullname[nFullnameLength]);
+
+                                int nPhoneLength = GetWindowTextLength(txtPhone->hwndTxtbox) + 1;
+                                TCHAR *tszPhone = new TCHAR[nPhoneLength];
+                                nPhoneLength = GetWindowText(txtPhone->hwndTxtbox, tszFullname, nPhoneLength);
+                                string strPhone;
+                                strPhone.assign(&tszPhone[0], &tszPhone[nPhoneLength]);
+
+                                int nEmailLength = GetWindowTextLength(txtEmail->hwndTxtbox) + 1;
+                                TCHAR *tszEmail = new TCHAR[nEmailLength];
+                                nEmailLength = GetWindowText(txtEmail->hwndTxtbox, tszEmail, nEmailLength);
+                                string strEmail;
+                                strEmail.assign(&tszEmail[0], &tszEmail[nEmailLength]);
+
+                                int nPermissionLength = GetWindowTextLength(txtPermission->hwndTxtbox) + 1;
+                                TCHAR *tszPermission = new TCHAR[nPermissionLength];
+                                nPermissionLength = GetWindowText(txtEmail->hwndTxtbox, tszEmail, nPermissionLength);
+                                string strPermission;
+                                strPermission.assign(&tszPermission[0], &tszPermission[nPermissionLength]);
+
+                                bool bSuccessfullyEdit = DataHandler->editUserInfo(nEditVectorID, strUsername, strFullname, strEmail, strPhone, strPermission);
+                                if(bSuccessfullyEdit)
+                                {
+                                    EnableWindow(hwndMain, true);
+                                    ShowWindow(hwnd, SW_HIDE);
+                                    SendMessage(txtUsername->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                                    SendMessage(txtPassword->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                                    SendMessage(txtFullname->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                                    SendMessage(txtEmail->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                                    SendMessage(txtPhone->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                                    SendMessage(txtPermission->hwndTxtbox, WM_SETTEXT, 0, (LPARAM)"");
+                                }
+                            }
+                        }
+                    }
+                    break;
                 case FormObjects::POPUP_ACCOUNTS_BTN_CANCEL:
                     {
                         EnableWindow(hwndMain, true);

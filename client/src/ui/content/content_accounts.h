@@ -39,6 +39,7 @@ class content_accounts : public content
         mainClass* DataHandler = nullptr;
         content_item_list* ItemList = nullptr;
 
+        void SetDatahandler(mainClass* DataHandler);
         void ShowUserList();
         void ShowUserListVector(vector<User> UserList);
 };
