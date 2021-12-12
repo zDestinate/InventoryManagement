@@ -165,13 +165,11 @@ LRESULT Form::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_COMMAND:
         {
-            /*
             if(IsDebuggerPresent())
             {
                 MessageBox(NULL, "Security risk detected!\nProgram will now exit due to security reason", "WARNING", MB_OK | MB_ICONWARNING | MB_SYSTEMMODAL);
                 exit(1000);
             }
-            */
 
             switch(LOWORD(wParam))
             {

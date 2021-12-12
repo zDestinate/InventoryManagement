@@ -203,13 +203,11 @@ LRESULT form_main::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
         break;
     case WM_COMMAND:
         {
-            /*
             if(IsDebuggerPresent())
             {
                 MessageBox(NULL, "Security risk detected!\nProgram will now exit due to security reason", "WARNING", MB_OK | MB_ICONWARNING | MB_SYSTEMMODAL);
                 exit(1000);
             }
-            */
             
             SetFocusContent(LOWORD(wParam));
             printf("[MAIN] Item 0x%0X clicked\n", LOWORD(wParam));
