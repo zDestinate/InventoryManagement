@@ -230,6 +230,14 @@ LRESULT popup_item::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
         break;
     case WM_SHOWWINDOW:
         {
+            if(bEdit)
+            {
+                btnFirstButton->ButtonText = "Edit";
+            }
+            else
+            {
+                btnFirstButton->ButtonText = "Create";
+            }
             CenterWindow(hwnd);
         }
         break;

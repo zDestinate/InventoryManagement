@@ -178,15 +178,13 @@ LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wPara
                     break;
                 case FormObjects::CONTENT_ITEM_BTN_CREATE:
                     {
+                        pThis->FormItem->bEdit = false;
                         ShowWindow(pThis->FormItem->hwnd, SW_SHOW);
                         EnableWindow(pThis->hwndParent, FALSE);
                     }
                     break;
                 case FormObjects::CONTENT_ITEM_BTN_EDIT:
                     {
-                        ShowWindow(pThis->FormItem->hwnd, SW_SHOW);
-                        EnableWindow(pThis->hwndParent, FALSE);
-
                         int itemId = SendMessage(pThis->ItemList->hwnd, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
 
                         if(itemId != -1)
@@ -205,12 +203,13 @@ LRESULT CALLBACK content_item::ContentProc(HWND hwnd, UINT message, WPARAM wPara
 
                             pThis->FormItem->nEditVectorID = itemId;
 
+                            pThis->FormItem->bEdit = true;
                             ShowWindow(pThis->FormItem->hwnd, SW_SHOW);
                             EnableWindow(pThis->hwndParent, FALSE);
                         }
                         else
                         {
-                            MessageBox(NULL, "Please select an user to edit that user information", "Information", MB_OK | MB_ICONINFORMATION | MB_SYSTEMMODAL);
+                            MessageBox(NULL, "Please select an item to edit that item information", "Information", MB_OK | MB_ICONINFORMATION | MB_SYSTEMMODAL);
                         }
                     }
                     break;
