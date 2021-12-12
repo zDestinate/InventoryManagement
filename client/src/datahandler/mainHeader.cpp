@@ -167,10 +167,6 @@ void mainClass::demoFillItems()
 
 vector<itemObj> mainClass::returnUpdatedDemo()
 {
-    for(int i = 0; i < Cart->vItems.size(); i++)
-    {
-        cout << Cart->vItems[i].description << endl;
-    }
     return Cart->vItems;
 }
 
