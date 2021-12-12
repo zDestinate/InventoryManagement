@@ -50,29 +50,58 @@ bool Sales::getItemsData(json itemsArray)
     return false;
 }
 
-/*
-bool Sales::addToCart(json itemInfo)
+void Sales::demoItems()
 {
-    string name,sku;
+    string itemId,description,upc,quantity;
     float price;
-    
-    if(itemInfo.is_array()){
-        name = itemInfo[0].at("code").get<string>();
-        sku = itemInfo[1].at("code").get<string>();
-        price = stof(itemInfo[2].at("code").get<string>());
-        
-        total += price;
 
-        itemObj newItem(name, sku, price);
-        shoppingCart.push_back(newItem);
+    itemObj product("0","31512", "Black Crewneck T-shirt", "10",6.98);
+    vItems.push_back(product);
 
-        return true;
+    itemObj product1("1","91414", "White Crewneck T-shirt", "15",6.98);
+    vItems.push_back(product);
+
+    itemObj product2("2","41051", "32x30 Mens Black Ripped Jeans","2", 29.99);
+    vItems.push_back(product);
+
+    itemObj product3("3","51251", "28x30 Mens Skinny Jeans", "1",35.00);
+    vItems.push_back(product);
+
+    itemObj product4("4","92151", "M SUPREME x Bape Hoodie", "17",99.99);
+    vItems.push_back(product);
+
+    itemObj product5("5","91527", "PUMA Joggers", "15",18.99);
+    vItems.push_back(product);
+
+    itemObj product6("6","51285", "Nike Sneakers", "5",149.99);
+    vItems.push_back(product);
+}
+
+bool Sales::addItemToCart(std::string upc)
+{
+    for(int i = 0; i < vItems.size(); i++)
+    {
+        if(vItems[i].upc == upc)
+        {
+            shoppingCart.push_back(vItems[i]);
+            return true;
+        }
     }
-
     return false;
 }
 
-bool Sales::removeFromCart(std::string sku)
+bool Sales::createDemoItem(string itemId,string upc,string description,string quantity,float price)
+{   
+    if(itemId.empty()|| upc.empty()||description.empty()|| quantity == "0" ||quantity == "" ||price == 0)
+    {
+        return false;
+    }
+
+    itemObj product(itemId, upc, description, quantity, price);
+    return true;
+}
+
+bool Sales::removeFromCart(std::string upc)
 {
     int position =0;
 
@@ -83,18 +112,17 @@ bool Sales::removeFromCart(std::string sku)
 
     for(int i = 0; i < shoppingCart.size(); i++)
     {
-        if(shoppingCart[i].getSku() == sku)
+        if(shoppingCart[i].upc == upc)
         {
             position = i;
 
-            total -= shoppingCart[i].getPrice();
             shoppingCart.erase(shoppingCart.begin()+position);
             return true;
         }
     }
     return false;
 }
-*/
+
 
 bool Sales::clearCart()
 {

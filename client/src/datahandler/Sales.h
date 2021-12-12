@@ -32,9 +32,14 @@ class Sales {
     std::string cartString;
 
     bool getallItems(json dataSon);
-    //bool addToCart(string sku);
-    // bool removeFromCart(std::string SKU);
+    
+    bool addItemToCart(std::string sku);
+    bool removeFromCart(std::string SKU);
     bool clearCart();
+    
+    void demoItems();
+    bool createDemoItem(std::string itemId,std::string upc,std::string description,std::string quantity,float price);
+
     void shoppingCartToString();
     bool getItemsData(json itemArray);
     

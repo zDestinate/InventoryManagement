@@ -26,12 +26,17 @@ class mainClass {
     void logOut();
     bool exeCheck();
     
-    bool getDBItems();
+    void demoFillItems();
+    bool demoCreateItem(std::string itemId,std::string upc,std::string description, std::string quantity, float price);
+    std::vector<itemObj> returnUpdatedDemo();
+    std::vector<itemObj> returnUpdatedCart();
+
+
+  //bool getDBItems();
     bool removeFromCart(std::string productSku);
-  //  bool addToCart(std::string productSku);
+    bool addToCart(std::string productSku);
     bool addItemToDB(std::string name, std::string sku, std::string price);
     void checkout();
-
     
     bool returnUserData();
     std::vector<User> returnUserVector();

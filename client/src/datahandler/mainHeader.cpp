@@ -133,7 +133,7 @@ vector<custAcc> mainClass::returnCusVector()
     return manageAcc->vectCust;
 }
 
-
+/*
 bool mainClass::getDBItems()
 {
     string strResult = DataGrabber->ConnectTo("/item");
@@ -159,28 +159,54 @@ bool mainClass::getDBItems()
         }
     return false;
 }
-/*
-bool mainClass::addToCart(std::string productSku)
+*/
+void mainClass::demoFillItems()
+{
+    Cart->demoItems();
+}
+
+vector<itemObj> mainClass::returnUpdatedDemo()
+{
+    return Cart->vItems;
+}
+
+vector<itemObj> mainClass::returnUpdatedCart()
+{
+    return Cart->shoppingCart;
+}
+
+bool mainClass::addToCart(std::string productUPC)
 {   
-    bool add = Cart->addToCart(productSku);
+    bool add = Cart->addItemToCart(productUPC);
 
         if(add)
         {
+            returnUpdatedCart();
             return true;
         }
 
     return false;
 }
-*/
 
-bool mainClass::removeFromCart(std::string productSku)
+bool mainClass::demoCreateItem(std::string itemId,std::string upc,std::string description, std::string quantity, float price)
+{   
+    bool check = Cart->createDemoItem(itemId,upc,description,quantity,price);
+        if(check)
+        { 
+            returnUpdatedCart();
+            return true;
+        }
+    return false;
+}
+
+bool mainClass::removeFromCart(std::string productUPC)
 {
-    /*
-    bool remove = Cart->removeFromCart(productSku);
+    bool remove = Cart->removeFromCart(productUPC);
     
     if(remove){
+        returnUpdatedCart();
         return true;
-    }*/
+    }
     return false;
 }
 
@@ -204,7 +230,7 @@ void mainClass::checkout()
 bool mainClass::addItemToDB(std::string name, std::string sku, std::string price)
 {
 
-   string strResult = DataGrabber->ConnectTo("/user/logout");
+   string strResult = DataGrabber->ConnectTo("");
    if(!DataGrabber->bSuccessfullyConnected)
         {
             severStatus = false;
@@ -252,7 +278,7 @@ bool mainClass::editUserInfo(int vectorId,std::string userName,std::string fullN
     bool checkPhone;
     */
     string oldUser = manageAcc->vUser[vectorId].user;
-
+    
     //'/user/edit/:username/:nusername/:nname/:nnum/:nemail/:nperm'
     string strResult = DataGrabber->ConnectTo("/user/edit/" + oldUser + "/" + userName + "/" + fullName + "/" + phoneNumber + "/" + email + "/" + permission);
     /*
