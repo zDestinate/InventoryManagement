@@ -183,25 +183,25 @@ LRESULT popup_item::RealWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
                         TCHAR *tszDescription = new TCHAR[nDescription];
                         nDescription = GetWindowText(txtDescription->hwndTxtbox, tszDescription, nDescription);
                         string strDescription;
-                        strDescription.assign(&tszDescription[0], &strDescription[nDescription]);
+                        strDescription.assign(&tszDescription[0], &tszDescription[nDescription]);
 
                         int nUPC = GetWindowTextLength(txtUPC->hwndTxtbox) + 1;
                         TCHAR *tszUPC = new TCHAR[nUPC];
                         nUPC = GetWindowText(txtUPC->hwndTxtbox, tszUPC, nUPC);
                         string strUPC;
-                        strUPC.assign(&tszUPC[0], &strUPC[nUPC]);
+                        strUPC.assign(&tszUPC[0], &tszUPC[nUPC]);
 
                         int nQuantity = GetWindowTextLength(txtQuantity->hwndTxtbox) + 1;
                         TCHAR *tszQuantity = new TCHAR[nQuantity];
                         nQuantity = GetWindowText(txtQuantity->hwndTxtbox, tszQuantity, nQuantity);
                         string strQuantity;
-                        strQuantity.assign(&tszQuantity[0], &strQuantity[nQuantity]);
+                        strQuantity.assign(&tszQuantity[0], &tszQuantity[nQuantity]);
 
                         int nPrice = GetWindowTextLength(txtPrice->hwndTxtbox) + 1;
                         TCHAR *tszPrice = new TCHAR[nPrice];
                         nPrice = GetWindowText(txtPrice->hwndTxtbox, tszPrice, nPrice);
                         string strPrice;
-                        strPrice.assign(&tszPrice[0], &strPrice[nPrice]);
+                        strPrice.assign(&tszPrice[0], &tszPrice[nPrice]);
 
                         bool bSuccessful = DataHandler->demoCreateItem(strUPC, strDescription, strQuantity, strPrice);
                         if(bSuccessful)
