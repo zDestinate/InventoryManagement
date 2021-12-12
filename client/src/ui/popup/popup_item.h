@@ -37,4 +37,5 @@ class popup_item
         DWORD ThreadStart(void);
 
         void SetFont(HFONT hFont);
+        bool bEdit = false;
 };
