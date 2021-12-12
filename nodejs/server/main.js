@@ -123,7 +123,8 @@ MongoClient.connect(config.Mongo.url, {useNewUrlParser: true, useUnifiedTopology
 			});
 		}
 	}); 
-	
+
+	//create inventory
 	db.listCollections({name: 'inventory'}).next(function(err, collinfo){
 		if(collinfo == null)
 		{
@@ -158,6 +159,26 @@ MongoClient.connect(config.Mongo.url, {useNewUrlParser: true, useUnifiedTopology
 			});
 		}
 	}); 
+
+	db.listCollections({name: 'sales'}).next(function(err, collinfo){
+		if(collinfo == null)
+		{
+			console.log("Unable to find collection name sales");
+			db.createCollection("sales", function(cerr, res)
+			{
+				if(cerr)
+				{
+					console.log("Failed to create collection name sales");
+					throw cerr;
+				}
+				else
+				{console.log("Created item sales");
+				}
+			});
+		}
+	}); 
+
+	//
 	//Pages
 	require('./pages')(app, express, db);
 });
