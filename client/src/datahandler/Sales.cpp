@@ -89,11 +89,34 @@ bool Sales::addItemToCart(std::string upc)
 }
 
 bool Sales::createDemoItem(string upc,string description,string quantity,string price)
-{   
+{  
     string strItemID = to_string(vItems.size());
+
     itemObj product(strItemID, upc, description, quantity, price);
     vItems.push_back(product);
     return true;
+}
+
+bool Sales::deleteDemoItem(std::string upc)
+{   
+    int position =0;
+
+    if(vItems.size() == 0)
+    {
+        return false;
+    }
+
+    for(int i = 0; i < vItems.size(); i++)
+    {
+        if(vItems[i].upc == upc)
+        {
+            position = i;
+
+            vItems.erase(vItems.begin()+position);
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Sales::removeFromCart(std::string upc)

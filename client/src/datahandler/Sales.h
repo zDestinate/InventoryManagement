@@ -38,7 +38,8 @@ class Sales {
     
     void demoItems();
     bool createDemoItem(std::string upc,std::string description,std::string quantity,std::string price);
-    
+    bool deleteDemoItem(std::string upc);
+
     void shoppingCartToString();
     bool getItemsData(json itemArray);
     

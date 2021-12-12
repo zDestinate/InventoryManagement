@@ -191,9 +191,21 @@ bool mainClass::addToCart(std::string productUPC)
 bool mainClass::demoCreateItem(std::string upc,std::string description, std::string quantity, std::string price)
 {   
     bool check = Cart->createDemoItem(upc,description,quantity,price);
+    
         if(check)
         { 
             returnUpdatedCart();
+            return true;
+        }
+    return false;
+}
+bool mainClass::demoDeleteItem(std::string upc)
+{
+    bool remove = Cart->deleteDemoItem(upc);
+
+        if(remove)
+        {
+            returnUpdatedDemo();
             return true;
         }
     return false;
